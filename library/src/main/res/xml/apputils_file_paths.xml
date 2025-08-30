@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- للوصول إلى الملفات الداخلية -->
+    <files-path
+        name="internal_files"
+        path="." />
+        
+    <!-- للوصول إلى ملفات الذاكرة المؤقتة -->
+    <cache-path
+        name="internal_cache"
+        path="." />
+        
+    <!-- للوصول إلى الملفات الخارجية -->
+    <external-path
+        name="external_files"
+        path="." />
+        
+    <!-- للوصول إلى الذاكرة الخارجية -->
+    <external-files-path
+        name="external_storage"
+        path="." />
+        
+    <!-- للوصول إلى ذاكرة التطبيقات -->
+    <external-cache-path
+        name="external_cache"
+        path="." />
+</paths>

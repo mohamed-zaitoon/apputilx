@@ -1,0 +1,8 @@
+<!-- res/values/dimens.xml -->
+<resources>
+
+    <dimen name="snackbar_corner">16dp</dimen>
+    <dimen name="snackbar_stroke">2dp</dimen>
+    <dimen name="snackbar_elevation">8dp</dimen>
+
+</resources>

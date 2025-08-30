@@ -1,0 +1,7 @@
+<resources>
+    <!-- تعريف السمة -->
+    <!-- الثيم الرئيسي -->
+    <style name="AppTheme" parent="MzTheme.DarkActionBar">
+    </style>
+
+</resources>

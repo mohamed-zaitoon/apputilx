@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AppUtils Documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive -->
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; background: #f4f6f9; color: #333; }
+    h1, h2, h3 { color: #222; }
+    .section { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+    pre { background: #272822; color: #f8f8f2; padding: 10px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
+    code { font-family: Consolas, monospace; }
+    .lang { font-weight: bold; color: #ff9800; display: inline-block; margin-bottom: 6px; }
+    @media (max-width: 600px) {
+      body { margin: 10px; font-size: 15px; }
+      pre { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📘 AppUtils Documentation</h1>
+  <p>A complete guide on how to use <b>AppUtils</b> in Android projects (Java / Kotlin).</p>
+
+  <!-- Initialization -->
+  <div class="section">
+    <h2>🔹 Initialization</h2>
+    <p>Call <code>initialize()</code> once inside <b>onCreate()</b>.</p>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.initialize(this);</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.initialize(this)</code></pre>
+  </div>
+
+  <!-- Toast -->
+  <div class="section">
+    <h2>🔹 Toast</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.showToast("Hello World");
+AppUtils.showToast("Long Toast", true);</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.showToast("Hello World")
+AppUtils.showToast("Long Toast", long = true)</code></pre>
+  </div>
+
+  <!-- Snackbar -->
+  <div class="section">
+    <h2>🔹 Snackbar</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.showSnackbar(view, "Message", null, "OK", v -> {
+    AppUtils.showToast("Clicked!");
+});</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.showSnackbar(rootView, "Message", null, "OK") {
+    AppUtils.showToast("Clicked!")
+}</code></pre>
+  </div>
+
+  <!-- Connectivity -->
+  <div class="section">
+    <h2>🔹 Connectivity</h2>
+    <span class="lang">Java</span>
+    <pre><code>boolean connected = AppUtils.isConnected();
+AppUtils.addConnectionListener(isOnline -> {
+    AppUtils.showToast("Network changed: " + isOnline);
+});</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>val connected = AppUtils.isConnected
+AppUtils.addConnectionListener { isOnline ->
+    AppUtils.showToast("Network changed: $isOnline")
+}</code></pre>
+  </div>
+
+  <!-- Clipboard -->
+  <div class="section">
+    <h2>🔹 Clipboard</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.copyToClipboard("Copied text");
+String copied = AppUtils.getCopiedText();</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.copyToClipboard("Copied text")
+val copied = AppUtils.getCopiedText()</code></pre>
+  </div>
+
+  <!-- Device Info -->
+  <div class="section">
+    <h2>🔹 Device Info</h2>
+    <span class="lang">Java</span>
+    <pre><code>String model = AppUtils.getDeviceModel();
+String version = AppUtils.getAndroidVersion();</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>val model = AppUtils.getDeviceModel()
+val version = AppUtils.getAndroidVersion()</code></pre>
+  </div>
+
+  <!-- Logging -->
+  <div class="section">
+    <h2>🔹 Logging</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.log("DEBUG", "This is a log message");</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.log("DEBUG", "This is a log message")</code></pre>
+  </div>
+
+  <!-- Dialog -->
+  <div class="section">
+    <h2>🔹 Dialog</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.showDialog(this, "Title", "Message");</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.showDialog(this, "Title", "Message")</code></pre>
+  </div>
+
+  <!-- Permissions -->
+  <div class="section">
+    <h2>🔹 Permissions</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.requestPermission(this, Manifest.permission.CAMERA, 1001);</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.requestPermission(this, Manifest.permission.CAMERA, 1001)</code></pre>
+  </div>
+
+  <!-- Keyboard -->
+  <div class="section">
+    <h2>🔹 Keyboard</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.hideKeyboard(this);</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.hideKeyboard(this)</code></pre>
+  </div>
+
+  <!-- Sharing -->
+  <div class="section">
+    <h2>🔹 Sharing</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.shareText(this, "Hello from AppUtils!");</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.shareText(this, "Hello from AppUtils!")</code></pre>
+  </div>
+
+  <!-- Vibration -->
+  <div class="section">
+    <h2>🔹 Vibration</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.vibrate(300);
+AppUtils.vibratePattern(new long[]{0,200,100,300}, -1);</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.vibrate(300)
+AppUtils.vibratePattern(longArrayOf(0,200,100,300), -1)</code></pre>
+  </div>
+
+  <!-- File -->
+  <div class="section">
+    <h2>🔹 File Utils</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.writeFile("test.txt", "Hello File!");
+String content = AppUtils.readFile("test.txt");
+boolean deleted = AppUtils.deleteFile("test.txt");</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.writeFile("test.txt", "Hello File!")
+val content = AppUtils.readFile("test.txt")
+val deleted = AppUtils.deleteFile("test.txt")</code></pre>
+  </div>
+
+  <!-- Open URL -->
+  <div class="section">
+    <h2>🔹 Open URL</h2>
+    <span class="lang">Java</span>
+    <pre><code>AppUtils.openUrl(this, "https://google.com");</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>AppUtils.openUrl(this, "https://google.com")</code></pre>
+  </div>
+
+</body>
+</html>
