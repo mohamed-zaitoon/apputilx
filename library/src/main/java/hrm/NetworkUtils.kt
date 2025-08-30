@@ -1,4 +1,4 @@
-package mz
+package hrm
 
 import android.app.Activity
 import android.net.ConnectivityManager

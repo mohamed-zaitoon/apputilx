@@ -1,7 +1,7 @@
 package mz.example
 
 import android.app.Application
-import mz.MzUtil
+
 class ExampleApplication : Application() {
 
     override fun onCreate() {

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import mz.AppUtils
+import hrm.AppUtils
 import mz.example.R
 
 class ExampleActivity : AppCompatActivity() {

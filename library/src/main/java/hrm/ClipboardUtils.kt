@@ -1,4 +1,4 @@
-package mz
+package hrm
 
 import android.content.ClipData
 import android.content.ClipboardManager
