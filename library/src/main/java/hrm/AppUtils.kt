@@ -2,20 +2,79 @@ package hrm
 
 import android.app.Activity
 import android.app.PendingIntent
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.os.Build
 import android.view.View
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatDelegate
+import java.util.Locale
 
 object AppUtils {
+
     private lateinit var appActivity: Activity
 
     fun initialize(activity: Activity) {
         appActivity = activity
-        NetworkUtils.initialize(activity)
     }
 
     fun getActivity(): Activity {
-        if (!::appActivity.isInitialized) throw IllegalStateException("Call AppUtils.initialize(activity) first")
+        if (!::appActivity.isInitialized)
+            throw IllegalStateException("Call AppUtils.initialize(activity) first")
         return appActivity
+    }
+
+    // ---------------- Locale / Language ----------------
+    private const val PREF = "locale_prefs"
+    private const val KEY_LANG = "lang"
+
+    private fun prefs(context: Context): SharedPreferences =
+        context.getSharedPreferences(PREF, Context.MODE_PRIVATE)
+
+    fun saveLanguage(context: Context, lang: String) {
+        prefs(context).edit().putString(KEY_LANG, lang).apply()
+        if (Build.VERSION.SDK_INT >= 33) {
+            val localeList = androidx.core.os.LocaleListCompat.forLanguageTags(lang)
+            AppCompatDelegate.setApplicationLocales(localeList)
+        }
+    }
+
+    fun loadLanguage(context: Context): String? =
+        prefs(context).getString(KEY_LANG, null)
+
+    fun attachBaseContext(base: Context): ContextWrapper {
+        val lang = loadLanguage(base) ?: return ContextWrapper(base)
+
+        if (Build.VERSION.SDK_INT >= 33) {
+            val localeList = androidx.core.os.LocaleListCompat.forLanguageTags(lang)
+            AppCompatDelegate.setApplicationLocales(localeList)
+        } else {
+            val locale = Locale(lang)
+            Locale.setDefault(locale)
+            val config = base.resources.configuration
+            config.setLocale(locale)
+            val ctx = base.createConfigurationContext(config)
+            return ContextWrapper(ctx)
+        }
+        return ContextWrapper(base)
+    }
+
+    fun setLanguage(lang: String) {
+        val activity = getActivity()
+        saveLanguage(activity, lang)
+
+        if (Build.VERSION.SDK_INT < 33) {
+            val locale = Locale(lang)
+            Locale.setDefault(locale)
+            val config = activity.resources.configuration
+            config.setLocale(locale)
+            activity.applyOverrideConfiguration(config)
+        } else {
+            val localeList = androidx.core.os.LocaleListCompat.forLanguageTags(lang)
+            AppCompatDelegate.setApplicationLocales(localeList)
+        }
     }
 
     // ---------------- Network ----------------
@@ -27,24 +86,25 @@ object AppUtils {
 
     // ---------------- Snackbar ----------------
     fun showSnackbar(
-    parentView: View,
-    message: String,
-    iconRes: Int? = null,
-    actionText: String? = null,
-    actionListener: View.OnClickListener? = null,
-    length: Int = SnackbarUtils.LENGTH_SHORT,
-    position: SnackbarUtils.SnackbarPosition = SnackbarUtils.SnackbarPosition.BOTTOM
-) {
-    SnackbarUtils.showSnackbar(
-        parentView = parentView,
-        message = message,
-        iconRes = iconRes ?: 0,
-        actionText = actionText ?: "",
-        actionListener = actionListener ?: View.OnClickListener { },
-        length = length,
-        position = position
-    )
-}
+        parentView: View,
+        message: String,
+        iconRes: Int? = null,
+        actionText: String? = null,
+        actionListener: View.OnClickListener? = null,
+        length: Int = SnackbarUtils.LENGTH_SHORT,
+        position: SnackbarUtils.SnackbarPosition = SnackbarUtils.SnackbarPosition.BOTTOM
+    ) {
+        SnackbarUtils.showSnackbar(
+            parentView = parentView,
+            message = message,
+            iconRes = iconRes ?: 0,
+            actionText = actionText ?: "",
+            actionListener = actionListener ?: View.OnClickListener { },
+            length = length,
+            position = position
+        )
+    }
+
     // ---------------- Vibration ----------------
     fun vibrate(milliseconds: Long) =
         VibrationUtils.vibrate(getActivity(), milliseconds)

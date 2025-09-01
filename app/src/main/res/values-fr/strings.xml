@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<resources> 
+ 
+    <string name="app_name">Application de test</string> 
+    <string name="hello_world">Bonjour le monde!</string> 
+	<string name="no_internet">Pas de connexion Internet</string> 
+	<string name="btn_rtry">Essayer à nouveau</string> 
+	 
+</resources> 
+

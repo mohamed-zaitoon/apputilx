@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>AppUtils Documentation</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; background: #f4f6f9; color: #333; }
     h1, h2, h3 { color: #222; }
@@ -11,10 +11,10 @@
     pre { background: #272822; color: #f8f8f2; padding: 10px; border-radius: 6px; overflow-x: auto; font-size: 14px; }
     code { font-family: Consolas, monospace; }
     .lang { font-weight: bold; color: #ff9800; display: inline-block; margin-bottom: 6px; }
-    @media (max-width: 600px) {
-      body { margin: 10px; font-size: 15px; }
-      pre { font-size: 13px; }
-    }
+    a { color: #2196f3; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { display: block; margin-bottom: 20px; }
+    @media (max-width: 600px) { body { margin: 10px; font-size: 15px; } pre { font-size: 13px; } }
   </style>
 </head>
 <body>
@@ -22,6 +22,51 @@
   <h1>📘 AppUtils Documentation</h1>
   <p>A complete guide on how to use <b>AppUtils</b> in Android projects (Java / Kotlin).</p>
 
+  <!-- JitPack Badge -->
+  <a href="https://jitpack.io/#mohamed-zaitoon/apputils">
+    <img src="https://jitpack.io/v/mohamed-zaitoon/apputils.svg" alt="JitPack version">
+  </a>
+
+
+  <!-- Download / JitPack -->
+  <div class="section">
+    <h2>🔹 Download & Setup</h2>
+    <p>Add JitPack repository and dependency in your <code>build.gradle</code>:</p>
+    <pre><code>repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.mohamed-zaitoon:apputils:1.1.1'
+}</code></pre>
+    <p>Ensure Java 21 compatibility:</p>
+    <pre><code>android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+}</code></pre>
+    <p>For Kotlin DSL:</p>
+    <pre><code>plugins {
+    id("com.android.application") version "8.12.0" apply false
+    id("org.jetbrains.kotlin.android") version "2.2.10" apply false
+}
+
+android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+}
+
+repositories {
+    maven { url = uri("https://jitpack.io") }
+}
+
+dependencies {
+    implementation("com.github.mohamed-zaitoon:apputils:1.1.1")
+}</code></pre>
+  </div>
   <!-- Initialization -->
   <div class="section">
     <h2>🔹 Initialization</h2>
@@ -169,6 +214,56 @@ val deleted = AppUtils.deleteFile("test.txt")</code></pre>
     <pre><code>AppUtils.openUrl(this, "https://google.com");</code></pre>
     <span class="lang">Kotlin</span>
     <pre><code>AppUtils.openUrl(this, "https://google.com")</code></pre>
+  </div>
+
+  <!-- Set Locale / Language -->
+  <div class="section">
+    <h2>🔹 Set Locale / Language</h2>
+    <p>Change the app language at runtime or on startup.</p>
+    <span class="lang">Java</span>
+    <pre><code>// Set language at runtime
+AppUtils.setLanguage("ar"); // e.g., "ar" for Arabic, "en" for English
+// Optionally recreate activity to apply changes
+recreate();</code></pre>
+    <span class="lang">Kotlin</span>
+    <pre><code>// Set language at runtime
+AppUtils.setLanguage("ar") // e.g., "ar" for Arabic, "en" for English
+// Optionally recreate activity to apply changes
+recreate()</code></pre>
+    <p>To apply the saved language automatically when the activity starts:</p>
+    <span class="lang">Kotlin / Java</span>
+    <pre><code>@Override
+protected void attachBaseContext(Context newBase) {
+    super.attachBaseContext(AppUtils.attachBaseContext(newBase));
+}</code></pre>
+  </div>
+
+  <!-- License -->
+  <div class="section">
+    <h2>🔹 License</h2>
+    <pre><code>
+MIT License
+
+Copyright (c) 2025 Mohamed Zaitoon
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+    </code></pre>
   </div>
 
 </body>
