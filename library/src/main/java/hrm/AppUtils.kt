@@ -18,6 +18,7 @@ object AppUtils {
 
     fun initialize(activity: Activity) {
         appActivity = activity
+        NetworkUtils.initialize(activity)
     }
 
     fun getActivity(): Activity {
