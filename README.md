@@ -47,8 +47,9 @@ dependencies {
 }
 
 ```
-```
 ## Tutorial
+
+```html
  For Tutorial or Example Visit:
  https://mohamed-zaitoon.github.io/apputils/
  
