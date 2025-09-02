@@ -2,7 +2,7 @@
 
 An Android library that provides most of used in one Class.
 
-https://mohamed-zaitoon.github.io/apputils/
+https://apputils.mohamed-zaitoon.com
 
 ## Download
 
