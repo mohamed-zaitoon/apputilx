@@ -1,9 +1,10 @@
 package hrm
 
 import android.app.Activity
-import androidx.appcompat.app.AlertDialog
+import android.app.AlertDialog
 
 internal object DialogUtils {
+
     fun showDialog(
         activity: Activity,
         title: String,
@@ -11,10 +12,12 @@ internal object DialogUtils {
         positiveButton: String,
         onPositiveClick: (() -> Unit)? = null
     ) {
-        AlertDialog.Builder(activity)
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton(positiveButton) { _, _ -> onPositiveClick?.invoke() }
-            .show()
+        if (!activity.isFinishing) {
+            AlertDialog.Builder(activity)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(positiveButton) { _, _ -> onPositiveClick?.invoke() }
+                .show()
+        }
     }
 }

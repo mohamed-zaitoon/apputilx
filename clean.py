@@ -29,6 +29,7 @@ def main():
     remove_dir('build')
     remove_dir('app/.cxx')
     remove_dir('app/build')
+    remove_dir('library/build')
     remove_file('local.properties')
     remove_file('versioncode.properties')
     remove_dir('.idea')

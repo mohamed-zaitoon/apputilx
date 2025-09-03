@@ -1,40 +1,54 @@
 package hrm
 
-import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import android.util.Log
 
 internal object NotificationUtils {
+
     fun showNotification(
-        activity: Activity,
+        context: Context,
         channelId: String,
         title: String,
         text: String,
         @DrawableRes iconResId: Int,
         intent: PendingIntent? = null
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, "App Channel", NotificationManager.IMPORTANCE_DEFAULT)
-            val manager = activity.getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
-        }
+        try {
+            val notifManager = NotificationManagerCompat.from(context)
 
-        val builder = NotificationCompat.Builder(activity, channelId)
-            .setSmallIcon(iconResId)
-            .setContentTitle(title)
-            .setContentText(text)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
+            // إنشاء قناة للإصدار 26+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    channelId,
+                    "AppUtils Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+                notifManager.createNotificationChannel(channel)
+            }
 
-        intent?.let { builder.setContentIntent(it) }
+            val builder = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(iconResId)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        with(NotificationManagerCompat.from(activity)) {
-            notify(System.currentTimeMillis().toInt(), builder.build())
+            intent?.let { builder.setContentIntent(it) }
+
+            // سجل قبل الظهور
+            Log.d("NotificationUtils", "Showing notification: $title / $text")
+
+            notifManager.notify(System.currentTimeMillis().toInt(), builder.build())
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("NotificationUtils", "Failed to show notification: ${e.message}")
         }
     }
 }

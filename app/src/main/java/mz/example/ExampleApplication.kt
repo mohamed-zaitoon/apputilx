@@ -1,13 +1,20 @@
 package mz.example
 
 import android.app.Application
+import android.content.Context
+import hrm.*
 
 class ExampleApplication : Application() {
 
+
+override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(AppUtils.attachBaseContext(newBase))
+    }
+    
     override fun onCreate() {
         super.onCreate()
-	//	MzUtil.initialize(this)
-		
-        // Reassign the static instance to this subclass
+        AppUtils.initialize(this)
+        registerActivityLifecycleCallbacks(AppUtils.activityTracker)
+        
     }
 }
