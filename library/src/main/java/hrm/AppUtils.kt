@@ -9,11 +9,21 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import java.util.Locale
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 
 object AppUtils {
 
+
+
+enum class SnackbarPosition {
+        TOP, BOTTOM
+    }
+
+    
     private lateinit var appContext: Context
     private var currentActivity: Activity? = null
+    
 
     /**
      * Initialize AppUtils with application context.
@@ -85,6 +95,22 @@ object AppUtils {
         LocaleUtils.setLanguage(getContext(), lang)
     }
 
+
+    // ---------------- Snackbar ----------------
+    fun showSnackbar(
+    message: String,
+    parentView: View? = null,
+    iconRes: Int? = null,
+    actionText: String? = null,
+    actionListener: View.OnClickListener? = null,
+    length: Int = Snackbar.LENGTH_SHORT,
+    position: SnackbarPosition = SnackbarPosition.BOTTOM
+) {
+    val view = parentView ?: AppUtils.currentActivity?.findViewById(android.R.id.content) ?: return
+    SnackbarUtils.showSnackbar(view, message, iconRes ?: 0, actionText ?: "", actionListener ?: View.OnClickListener {}, length, position)
+}
+    
+    
     // ---------------- Network (context-based) ----------------
     val isConnected: Boolean
         get() = NetworkUtils.isConnected

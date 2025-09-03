@@ -132,7 +132,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputils:1.2.2")
+    implementation("com.github.mohamed-zaitoon:apputils:1.3.0")
 }
 </code>
         </pre>
@@ -148,7 +148,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.mohamed-zaitoon:apputils:1.2.2'
+    implementation 'com.github.mohamed-zaitoon:apputils:1.3.0'
 }
 </code>
         </pre>
@@ -184,6 +184,25 @@ class MyApplication : Application() {
 <code>
 AppUtils.showToast("Hello World")
 AppUtils.showToast("Long Toast", long = true)
+</code>
+      </pre>
+    </section>
+    
+<!-- SnackBar -->
+    <section class="section" id="toast">
+      <h2>🔹 SnackBar (Kotlin)</h2>
+      <pre>
+<button class="copy-btn" aria-label="Copy Toast block" onclick="copyCode(this)">Copy</button>
+<code>
+    AppUtils.showSnackbar(
+    message = "Message",
+    iconRes = R.drawable.ic_launcher,
+    actionText = "Cancel",
+    actionListener = View.OnClickListener { },
+    length = Snackbar.LENGTH_INDEFINITE,
+    position = AppUtils.SnackbarPosition.TOP
+)
+
 </code>
       </pre>
     </section>

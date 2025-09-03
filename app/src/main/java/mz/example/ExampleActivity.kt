@@ -9,6 +9,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import android.app.PendingIntent
 import android.content.Intent
+import android.view.View
+import com.google.android.material.snackbar.Snackbar
 
 class ExampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,6 +105,32 @@ AppUtils.showNotification(
     iconResId = R.drawable.ic_launcher,
     intent = pendingIntent
 )      
+
+// 1. Simple message
+//AppUtils.showSnackbar("Operation successful")
+
+// 2. Message with icon
+/* AppUtils.showSnackbar(
+    message = "Operation successful",
+    iconRes = R.drawable.ic_launcher
+)*/
+/*
+// 3. Message with action button
+AppUtils.showSnackbar(
+    message = "Connection failed",
+    actionText = "Retry",
+    actionListener = View.OnClickListener { recreate() }
+)
+*/
+// 4. Full customization
+AppUtils.showSnackbar(
+    message = "Update completed",
+    iconRes = R.drawable.ic_launcher,
+    actionText = "Cancel",
+    actionListener = View.OnClickListener { recreate() },
+    length = Snackbar.LENGTH_INDEFINITE,
+    position = AppUtils.SnackbarPosition.TOP
+)
 
         }
 
