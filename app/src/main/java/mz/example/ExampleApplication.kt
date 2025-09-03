@@ -15,6 +15,7 @@ override fun attachBaseContext(newBase: Context) {
         super.onCreate()
         AppUtils.initialize(this)
         registerActivityLifecycleCallbacks(AppUtils.activityTracker)
+        AppUtils.setLanguage("fr")
         
     }
 }

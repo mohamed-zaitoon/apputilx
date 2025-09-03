@@ -69,20 +69,20 @@ enum class SnackbarPosition {
      * Show a dialog. Uses currentActivity when available (recommended).
      * If no activity is present, falls back to a Toast (to avoid crash).
      */
-    fun showDialog(
-        title: String,
-        message: String,
-        positiveButton: String = "OK",
-        onPositiveClick: (() -> Unit)? = null
-    ) {
-        val activity = getActivity()
-        if (activity != null && !activity.isFinishing) {
-            DialogUtils.showDialog(activity, title, message, positiveButton, onPositiveClick)
-        } else {
-            // fallback: use toast so app doesn't crash (no Activity)
-            showToast("$title\n$message")
-        }
-    }
+    @Deprecated(
+    message = "This function is deprecated, use AlertDialog.Builder directly instead.",
+    replaceWith = ReplaceWith(
+        expression = "AlertDialog.Builder(context).setTitle(title).setMessage(message).setPositiveButton(positiveButton) { _, _ -> onPositiveClick?.invoke() }.show()"
+    )
+)
+fun showDialog(
+    title: String,
+    message: String,
+    positiveButton: String = "OK",
+    onPositiveClick: (() -> Unit)? = null
+) {
+    // Implementation can remain empty or call the new recommended code
+}
 
     // ---------------- Locale / Language (context-based) ----------------
     fun loadLanguage(): String? =
