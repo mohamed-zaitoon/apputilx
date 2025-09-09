@@ -2,7 +2,7 @@ package mz.example
 
 import android.app.Application
 import android.content.Context
-import hrm.*
+import hrm.utils.*
 
 class ExampleApplication : Application() {
 

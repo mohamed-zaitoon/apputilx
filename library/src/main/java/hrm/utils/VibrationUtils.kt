@@ -1,4 +1,4 @@
-package hrm
+package hrm.utils
 
 import android.content.Context
 import android.os.Build

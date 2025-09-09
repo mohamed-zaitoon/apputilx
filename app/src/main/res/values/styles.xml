@@ -1,7 +1,7 @@
 <resources>
     <!-- تعريف السمة -->
     <!-- الثيم الرئيسي -->
-    <style name="AppTheme" parent="Theme.AppUtils.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
     </style>
 
 </resources>

@@ -11,8 +11,8 @@ android {
         applicationId = "mz.example"
         minSdk = 29
         targetSdk = 36
-        versionCode = 8122
-        versionName = "8.12.2"
+        versionCode = 8123
+        versionName = "8.12.3"
         multiDexEnabled = false
     }
 

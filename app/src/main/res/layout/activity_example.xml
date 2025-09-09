@@ -1,133 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <!-- استخدم SwipeRefreshLayout من باكيج hrm.widget -->
+    <hrm.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <!-- WebView يغطي المحتوى -->
+        <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:layout_height="match_parent" />
 
-            <!-- Language -->
-            <Button android:id="@+id/btnLanguage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Set Language" />
-
-            <!-- Network -->
-            <Button android:id="@+id/btnNetwork"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Check Network" />
-
-            <!-- Device Info -->
-            <Button android:id="@+id/btnDeviceInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Show Device Info" />
-
-            <!-- Toast -->
-            <Button android:id="@+id/btnToast"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Show Toast" />
-
-            <!-- Log -->
-            <Button android:id="@+id/btnLog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Log Message" />
-
-            <!-- Permission -->
-            <Button android:id="@+id/btnPermission"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Request Permission" />
-
-            <!-- Hide Keyboard -->
-            <Button android:id="@+id/btnHideKeyboard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Hide Keyboard" />
-
-            <!-- Share Text -->
-            <Button android:id="@+id/btnShare"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Share Text" />
-
-            <!-- Vibration -->
-            <Button android:id="@+id/btnVibrate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Vibrate" />
-
-
-            <!-- Open URL -->
-            <Button android:id="@+id/btnOpenUrl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Open URL" />
-
-            <!-- Screen Capture -->
-            <Button android:id="@+id/btnBlockCapture"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Block Screen Capture" />
-
-            <Button android:id="@+id/btnUnblockCapture"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Unblock Screen Capture" />
-
-            <!-- Notification -->
-            <Button android:id="@+id/btnNotification"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Show Notification" />
-
-            <!-- Signature -->
-            <Button android:id="@+id/btnGetSignatures"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Get App Signatures" />
-
-            <Button android:id="@+id/btnValidateSignature"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Validate App Signature" />
-
-            <!-- Clipboard -->
-            <Button
-                android:id="@+id/btnClipboard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Copy &amp; Get Text" />
-
-        </LinearLayout>
-    </ScrollView>
+    </hrm.widget.SwipeRefreshLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

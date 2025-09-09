@@ -1,4 +1,4 @@
-package hrm
+package hrm.utils
 
 import android.app.Activity
 import android.app.Application
@@ -14,13 +14,6 @@ import com.google.android.material.snackbar.Snackbar
 
 object AppUtils {
 
-
-
-enum class SnackbarPosition {
-        TOP, BOTTOM
-    }
-
-    
     private lateinit var appContext: Context
     private var currentActivity: Activity? = null
     
@@ -60,29 +53,10 @@ enum class SnackbarPosition {
 
     private fun getContext(): Context {
         if (!::appContext.isInitialized)
-            throw IllegalStateException("Call AppUtils.initialize(this) first in Application.onCreate().")
+            throw IllegalStateException("Call hrm.utils.AppUtils.initialize(this) first")
         return appContext
     }
 
-    // ---------------- Dialog (requires Activity) ----------------
-    /**
-     * Show a dialog. Uses currentActivity when available (recommended).
-     * If no activity is present, falls back to a Toast (to avoid crash).
-     */
-    @Deprecated(
-    message = "This function is deprecated, use AlertDialog.Builder directly instead.",
-    replaceWith = ReplaceWith(
-        expression = "AlertDialog.Builder(context).setTitle(title).setMessage(message).setPositiveButton(positiveButton) { _, _ -> onPositiveClick?.invoke() }.show()"
-    )
-)
-fun showDialog(
-    title: String,
-    message: String,
-    positiveButton: String = "OK",
-    onPositiveClick: (() -> Unit)? = null
-) {
-    // Implementation can remain empty or call the new recommended code
-}
 
     // ---------------- Locale / Language (context-based) ----------------
     fun loadLanguage(): String? =
@@ -96,21 +70,25 @@ fun showDialog(
     }
 
 
-    // ---------------- Snackbar ----------------
-    fun showSnackbar(
+    // علّم الدالة بأنها مهجورة (deprecated)
+@Deprecated(
+    message = "This function is deprecated. Please use Google's Material Snackbar (com.google.android.material.snackbar.Snackbar) instead.",
+    replaceWith = ReplaceWith(
+        expression = "Snackbar.make(parentView, message, length).show()",
+        imports = ["com.google.android.material.snackbar.Snackbar"]
+    )
+)
+fun showSnackbar(
     message: String,
     parentView: View? = null,
     iconRes: Int? = null,
     actionText: String? = null,
     actionListener: View.OnClickListener? = null,
-    length: Int = Snackbar.LENGTH_SHORT,
-    position: SnackbarPosition = SnackbarPosition.BOTTOM
+    length: Int? = null,
+    position: Int? = null
 ) {
-    val view = parentView ?: AppUtils.currentActivity?.findViewById(android.R.id.content) ?: return
-    SnackbarUtils.showSnackbar(view, message, iconRes ?: 0, actionText ?: "", actionListener ?: View.OnClickListener {}, length, position)
+    
 }
-    
-    
     // ---------------- Network (context-based) ----------------
     val isConnected: Boolean
         get() = NetworkUtils.isConnected
