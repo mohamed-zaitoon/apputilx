@@ -45,7 +45,7 @@ class ExampleActivity : AppCompatActivity() {
                     webView.reload()
                 } else {
                     // تأكد من إيقافه في حال وجود خطأ نادر
-                    try { swipeRefresh.setRefreshing(false) } catch (ignored: Exception) {}
+                    try { swipeRefresh.isRefreshing = false } catch (ignored: Exception) {}
                 }
             }
         })
@@ -61,7 +61,7 @@ class ExampleActivity : AppCompatActivity() {
                 super.onPageStarted(view, url, favicon)
                 // بدء الـ spinner عند بداية تحميل الصفحة
                 try {
-                    swipeRefresh.setRefreshing(true)
+                    swipeRefresh.isRefreshing = true
                 } catch (e: Exception) {
                     // تجاهل أي استثناء (حماية)
                 }
@@ -71,7 +71,7 @@ class ExampleActivity : AppCompatActivity() {
                 super.onPageFinished(view, url)
                 // إيقاف الـ spinner عند اكتمال التحميل
                 try {
-                    swipeRefresh.setRefreshing(false)
+                    swipeRefresh.isRefreshing = false
                 } catch (e: Exception) {
                     // تجاهل
                 }
@@ -85,10 +85,10 @@ class ExampleActivity : AppCompatActivity() {
                 try {
                     if (newProgress >= 100) {
                         // تحميل تام -> إيقاف spinner
-                        swipeRefresh.setRefreshing(false)
+                        swipeRefresh.isRefreshing = false
                     } else {
                         // أثناء التحميل -> اجعل spinner ظاهراً
-                        swipeRefresh.setRefreshing(true)
+                        swipeRefresh.isRefreshing = true
                     }
                 } catch (e: Exception) {
                     // تجاهل
@@ -99,7 +99,7 @@ class ExampleActivity : AppCompatActivity() {
         // تحميل URL افتراضي (أرفع الـ spinner قبل التحميل الأولي)
         val startUrl = intent?.dataString ?: "https://www.google.com"
         try {
-            swipeRefresh.setRefreshing(true)
+            swipeRefresh.isRefreshing = true
         } catch (e: Exception) {
             // تجاهل
         }

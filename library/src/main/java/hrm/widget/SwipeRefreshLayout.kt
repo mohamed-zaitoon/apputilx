@@ -33,9 +33,10 @@ import kotlin.math.min
  *
  * Place in: library/src/main/java/hrm/widget/SwipeRefreshLayout.kt
  *
- * NOTE:
- * - Keeps classic API setOnRefreshListener(OnRefreshListener).
- * - Provides Kotlin-friendly extension `onRefresh { ... }` to avoid overload ambiguity.
+ * Compatibility notes:
+ * - Exposes `var isRefreshing` (property) so Kotlin code can use `swipe.isRefreshing = true`
+ * - Exposes setOnRefreshListener(listener: OnRefreshListener?) where OnRefreshListener is a `fun interface`,
+ *   so you can pass a lambda: swipe.setOnRefreshListener { /* refresh */ }
  */
 class SwipeRefreshLayout @JvmOverloads constructor(
     context: Context,
@@ -130,11 +131,10 @@ class SwipeRefreshLayout @JvmOverloads constructor(
 
     private var mChildScrollUpCallback: OnChildScrollUpCallback? = null
 
-    // NOTE: mRefreshListener is initialized after all helper methods are defined,
-    // to avoid forward-reference problems during compilation (release build).
+    // NOTE: mRefreshListener is initialized after helper methods are defined
     private lateinit var mRefreshListener: Animation.AnimationListener
 
-    // ---------- helper methods (define BEFORE init's usage of listener) ----------
+    // ---------- helper methods ----------
 
     private fun setColorViewAlpha(targetAlpha: Int) {
         mCircleView.background?.alpha = targetAlpha
@@ -142,16 +142,42 @@ class SwipeRefreshLayout @JvmOverloads constructor(
     }
 
     /**
-     * Classic Android-style setter that accepts the OnRefreshListener interface.
+     * Java-style listener interface but declared as `fun interface` so Kotlin lambda works.
+     */
+    fun interface OnRefreshListener {
+        fun onRefresh()
+    }
+
+    /**
+     * Set listener (accepts null). Because OnRefreshListener is a `fun interface` you can pass a lambda:
+     * swipe.setOnRefreshListener { ... }
      */
     fun setOnRefreshListener(listener: OnRefreshListener?) {
         mListener = listener
     }
 
     /**
-     * Legacy/compat method: return current refreshing state.
+     * Expose property `isRefreshing` so Kotlin callers can read/write as property:
+     * swipe.isRefreshing = true
      */
-    fun isRefreshing(): Boolean = mRefreshing
+    var isRefreshing: Boolean
+        get() = mRefreshing
+        set(value) {
+            // behaviour matches classic SwipeRefreshLayout.setRefreshing(boolean)
+            if (value && mRefreshing != value) {
+                mRefreshing = value
+                val endTarget = if (!mUsingCustomStart) {
+                    mSpinnerOffsetEnd + mOriginalOffsetTop
+                } else {
+                    mSpinnerOffsetEnd
+                }
+                setTargetOffsetTopAndBottom(endTarget - mCurrentTargetOffsetTop)
+                mNotify = false
+                startScaleUpAnimation(mRefreshListener)
+            } else {
+                setRefreshingInternal(value, false)
+            }
+        }
 
     fun setDistanceToTriggerSync(distance: Int) {
         mTotalDragDistance = distance.toFloat()
@@ -232,7 +258,7 @@ class SwipeRefreshLayout @JvmOverloads constructor(
         mProgress = CircularProgressDrawable(context)
         mProgress.setStyle(CircularProgressDrawable.DEFAULT)
 
-        // default color scheme (you can override later via setColorSchemeColors or setColorSchemeResources)
+        // default color scheme (three colors requested)
         mProgress.setColorSchemeColors(
             Color.parseColor("#FE2C55"),
             Color.parseColor("#69C9D0"),
@@ -281,23 +307,8 @@ class SwipeRefreshLayout @JvmOverloads constructor(
 
     // ---------- public/interaction methods ----------
 
-    fun setRefreshing(refreshing: Boolean) {
-        if (refreshing && mRefreshing != refreshing) {
-            mRefreshing = refreshing
-            val endTarget = if (!mUsingCustomStart) {
-                mSpinnerOffsetEnd + mOriginalOffsetTop
-            } else {
-                mSpinnerOffsetEnd
-            }
-            setTargetOffsetTopAndBottom(endTarget - mCurrentTargetOffsetTop)
-            mNotify = false
-            startScaleUpAnimation(mRefreshListener)
-        } else {
-            setRefreshing(refreshing, false)
-        }
-    }
-
-    private fun setRefreshing(refreshing: Boolean, notify: Boolean) {
+    // internal renamed to avoid JVM signature clashes with property
+    private fun setRefreshingInternal(refreshing: Boolean, notify: Boolean) {
         if (mRefreshing != refreshing) {
             mNotify = notify
             ensureTarget()
@@ -588,7 +599,6 @@ class SwipeRefreshLayout @JvmOverloads constructor(
             0f,
             min(extraOS, slingshotDist * 2) / slingshotDist
         )
-        // simplified tension percent: q - q^2 where q = tensionSlingshotPercent/4
         val q = tensionSlingshotPercent / 4f
         val tensionPercent = (q - q * q) * 2f
 
@@ -626,7 +636,8 @@ class SwipeRefreshLayout @JvmOverloads constructor(
 
     private fun finishSpinner(overscrollTop: Float) {
         if (overscrollTop > mTotalDragDistance) {
-            setRefreshing(true, true)
+            // when user pulled enough -> set refreshing and notify
+            setRefreshingInternal(true, true)
         } else {
             mRefreshing = false
             mProgress.setStartEndTrim(0f, 0f)
@@ -873,22 +884,7 @@ class SwipeRefreshLayout @JvmOverloads constructor(
         reset()
     }
 
-    interface OnRefreshListener {
-        fun onRefresh()
-    }
-
     interface OnChildScrollUpCallback {
         fun canChildScrollUp(parent: SwipeRefreshLayout, child: View?): Boolean
     }
-}
-
-/**
- * Kotlin-friendly extension to set a refresh action with a lambda.
- * Use as: swipeRefreshLayout.onRefresh { /* reload */ }
- * This avoids overload ambiguity while keeping a clean Kotlin API.
- */
-fun SwipeRefreshLayout.onRefresh(action: () -> Unit) {
-    this.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
-        override fun onRefresh() = action()
-    })
 }
