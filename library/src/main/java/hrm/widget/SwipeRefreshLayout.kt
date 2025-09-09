@@ -27,14 +27,15 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.random.Random
 
 /**
- * SwipeRefreshLayout (Kotlin, adapted to use three colors randomly for progress and inverted background).
- *
- * Colors used (only these three, no black/white): #FE2C55, #69C9D0, #EE1D52
+ * SwipeRefreshLayout (Kotlin, adapted).
  *
  * Place in: library/src/main/java/hrm/widget/SwipeRefreshLayout.kt
+ *
+ * NOTE:
+ * - Keeps classic API setOnRefreshListener(OnRefreshListener).
+ * - Provides Kotlin-friendly extension `onRefresh { ... }` to avoid overload ambiguity.
  */
 class SwipeRefreshLayout @JvmOverloads constructor(
     context: Context,
@@ -71,7 +72,7 @@ class SwipeRefreshLayout @JvmOverloads constructor(
 
         private const val ANIMATE_TO_START_DURATION = 200
 
-        // Default offset in dips from the top of the view to where the progress spinner should stop
+        private const val CIRCLE_BG_LIGHT = 0xFFFAFAFA.toInt()
         private const val DEFAULT_CIRCLE_TARGET = 64
 
         private val LAYOUT_ATTRS = intArrayOf(android.R.attr.enabled)
@@ -129,26 +130,27 @@ class SwipeRefreshLayout @JvmOverloads constructor(
 
     private var mChildScrollUpCallback: OnChildScrollUpCallback? = null
 
-    // Only these three colors (no white/black)
-    private val schemeColors = intArrayOf(
-        Color.parseColor("#FE2C55"), // FE2C55
-        Color.parseColor("#69C9D0"), // 69C9D0
-        Color.parseColor("#EE1D52")  // EE1D52
-    )
-
-    // refresh listener assigned later in init
+    // NOTE: mRefreshListener is initialized after all helper methods are defined,
+    // to avoid forward-reference problems during compilation (release build).
     private lateinit var mRefreshListener: Animation.AnimationListener
 
     // ---------- helper methods (define BEFORE init's usage of listener) ----------
+
     private fun setColorViewAlpha(targetAlpha: Int) {
         mCircleView.background?.alpha = targetAlpha
         mProgress.alpha = targetAlpha
     }
 
+    /**
+     * Classic Android-style setter that accepts the OnRefreshListener interface.
+     */
     fun setOnRefreshListener(listener: OnRefreshListener?) {
         mListener = listener
     }
 
+    /**
+     * Legacy/compat method: return current refreshing state.
+     */
     fun isRefreshing(): Boolean = mRefreshing
 
     fun setDistanceToTriggerSync(distance: Int) {
@@ -213,27 +215,9 @@ class SwipeRefreshLayout @JvmOverloads constructor(
             setTargetOffsetTopAndBottom(mOriginalOffsetTop - mCurrentTargetOffsetTop)
         }
         mCurrentTargetOffsetTop = mCircleView.top
-        // when not refreshing ensure background is inverted of a random scheme color (so not black/white)
-        val c = schemeColors[Random.nextInt(schemeColors.size)]
-        mCircleView.setBackgroundColor(invertColor(c))
     }
 
-    // invert RGB keeping alpha
-    private fun invertColor(@ColorInt color: Int): Int {
-        val a = Color.alpha(color)
-        val r = 255 - Color.red(color)
-        val g = 255 - Color.green(color)
-        val b = 255 - Color.blue(color)
-        return Color.argb(a, r, g, b)
-    }
-
-    // apply a random color from scheme to progress and inverted background
-    private fun applyRandomSchemeColorOnce() {
-        val idx = Random.nextInt(schemeColors.size)
-        val color = schemeColors[idx]
-        mProgress.setColorSchemeColors(color)
-        mCircleView.setBackgroundColor(invertColor(color))
-    }
+    // ---------- end helper methods ----------
 
     // ---------- constructor init ----------
     init {
@@ -243,17 +227,17 @@ class SwipeRefreshLayout @JvmOverloads constructor(
         val metrics: DisplayMetrics = resources.displayMetrics
         mCircleDiameter = (CIRCLE_DIAMETER * metrics.density).toInt()
 
-        // pick an initial random color
-        val initialColor = schemeColors[Random.nextInt(schemeColors.size)]
-
         // create circle view + progress
-        // pass inverted initial color as the CircleImageView background color param
-        mCircleView = CircleImageView(context, invertColor(initialColor))
+        mCircleView = CircleImageView(context, CIRCLE_BG_LIGHT)
         mProgress = CircularProgressDrawable(context)
         mProgress.setStyle(CircularProgressDrawable.DEFAULT)
 
-        // use only the three colors; initial progress uses the initialColor
-        mProgress.setColorSchemeColors(initialColor)
+        // default color scheme (you can override later via setColorSchemeColors or setColorSchemeResources)
+        mProgress.setColorSchemeColors(
+            Color.parseColor("#FE2C55"),
+            Color.parseColor("#69C9D0"),
+            Color.parseColor("#EE1D52")
+        )
 
         mCircleView.setImageDrawable(mProgress)
         mCircleView.visibility = View.GONE
@@ -279,17 +263,15 @@ class SwipeRefreshLayout @JvmOverloads constructor(
             override fun onAnimationStart(animation: Animation?) {}
             override fun onAnimationRepeat(animation: Animation?) {}
             override fun onAnimationEnd(animation: Animation?) {
+                // animation may be null — handle safely
                 if (mRefreshing) {
                     mProgress.alpha = MAX_ALPHA
                     mProgress.start()
-                    // apply a fresh random color when the spinner becomes active
-                    applyRandomSchemeColorOnce()
                     if (mNotify) {
                         mListener?.onRefresh()
                     }
                     mCurrentTargetOffsetTop = mCircleView.top
                 } else {
-                    // stop and reset visuals
                     reset()
                 }
             }
@@ -298,6 +280,7 @@ class SwipeRefreshLayout @JvmOverloads constructor(
     // ---------- end init ----------
 
     // ---------- public/interaction methods ----------
+
     fun setRefreshing(refreshing: Boolean) {
         if (refreshing && mRefreshing != refreshing) {
             mRefreshing = refreshing
@@ -322,7 +305,6 @@ class SwipeRefreshLayout @JvmOverloads constructor(
             if (mRefreshing) {
                 animateOffsetToCorrectPosition(mCurrentTargetOffsetTop, mRefreshListener)
             } else {
-                // stop and retract
                 startScaleDownAnimation(mRefreshListener)
             }
         }
@@ -416,6 +398,7 @@ class SwipeRefreshLayout @JvmOverloads constructor(
     }
 
     // ---------- touch / nested scrolling / spinner movement ----------
+
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         ensureTarget()
         val action = ev.actionMasked
@@ -605,6 +588,7 @@ class SwipeRefreshLayout @JvmOverloads constructor(
             0f,
             min(extraOS, slingshotDist * 2) / slingshotDist
         )
+        // simplified tension percent: q - q^2 where q = tensionSlingshotPercent/4
         val q = tensionSlingshotPercent / 4f
         val tensionPercent = (q - q * q) * 2f
 
@@ -751,7 +735,6 @@ class SwipeRefreshLayout @JvmOverloads constructor(
         }
     }
 
-    // animate to correct "triggered" position
     private fun animateOffsetToCorrectPosition(from: Int, listener: Animation.AnimationListener?) {
         mFrom = from
         mAnimateToCorrectPosition.reset()
@@ -819,6 +802,7 @@ class SwipeRefreshLayout @JvmOverloads constructor(
     }
 
     // ---------- layout overrides ----------
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         if (mTarget == null) ensureTarget()
@@ -896,4 +880,15 @@ class SwipeRefreshLayout @JvmOverloads constructor(
     interface OnChildScrollUpCallback {
         fun canChildScrollUp(parent: SwipeRefreshLayout, child: View?): Boolean
     }
+}
+
+/**
+ * Kotlin-friendly extension to set a refresh action with a lambda.
+ * Use as: swipeRefreshLayout.onRefresh { /* reload */ }
+ * This avoids overload ambiguity while keeping a clean Kotlin API.
+ */
+fun SwipeRefreshLayout.onRefresh(action: () -> Unit) {
+    this.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
+        override fun onRefresh() = action()
+    })
 }
