@@ -9,8 +9,8 @@ https://apputils.mohamed-zaitoon.com
 ```java
 android {
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility JavaVersion.VERSION_25
+        targetCompatibility JavaVersion.VERSION_25
     }
 }
 repositories {
@@ -18,7 +18,7 @@ repositories {
 }
 dependencies {
 
-implementation 'com.github.mohamed-zaitoon:apputils:1.4.0'
+implementation 'com.github.mohamed-zaitoon:apputils:1.4.1'
 	
 
  
@@ -26,14 +26,13 @@ implementation 'com.github.mohamed-zaitoon:apputils:1.4.0'
 ```kotlin
 
 plugins {
-    id("com.android.application") version "8.12.0" apply false
-    id("org.jetbrains.kotlin.android") version "2.2.10" apply false
+    id("com.android.application") version "8.13.0" apply false
+    id("org.jetbrains.kotlin.android") version "2.2.20" apply false
 }
-
 android {
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
 }
 
@@ -44,7 +43,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputils:1.4.0")
+    implementation("com.github.mohamed-zaitoon:apputils:1.4.1")
 }
 
 ```

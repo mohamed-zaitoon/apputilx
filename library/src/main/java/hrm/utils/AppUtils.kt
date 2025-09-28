@@ -58,37 +58,8 @@ object AppUtils {
     }
 
 
-    // ---------------- Locale / Language (context-based) ----------------
-    fun loadLanguage(): String? =
-        LocaleUtils.loadLanguage(getContext())
-
-    fun attachBaseContext(base: Context): ContextWrapper =
-        LocaleUtils.attachBaseContext(base)
-
-    fun setLanguage(lang: String) {
-        LocaleUtils.setLanguage(getContext(), lang)
-    }
 
 
-    // علّم الدالة بأنها مهجورة (deprecated)
-@Deprecated(
-    message = "This function is deprecated. Please use Google's Material Snackbar (com.google.android.material.snackbar.Snackbar) instead.",
-    replaceWith = ReplaceWith(
-        expression = "Snackbar.make(parentView, message, length).show()",
-        imports = ["com.google.android.material.snackbar.Snackbar"]
-    )
-)
-fun showSnackbar(
-    message: String,
-    parentView: View? = null,
-    iconRes: Int? = null,
-    actionText: String? = null,
-    actionListener: View.OnClickListener? = null,
-    length: Int? = null,
-    position: Int? = null
-) {
-    
-}
     // ---------------- Network (context-based) ----------------
     val isConnected: Boolean
         get() = NetworkUtils.isConnected
