@@ -47,9 +47,8 @@ android {
         }
     }
 }
-
 dependencies {
-implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
     implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("com.google.android.material:material:1.13.0")
@@ -57,12 +56,13 @@ implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 }
 
 
+
 publishing {
     publications {
         create<MavenPublication>("release") {
             groupId = "com.github.mohamed-zaitoon"
             artifactId = "apputils"
-            version = "1.5.0"
+            version = "1.5.1"
 
             afterEvaluate {
                 from(components["release"])

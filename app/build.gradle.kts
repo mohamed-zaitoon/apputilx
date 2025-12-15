@@ -12,8 +12,8 @@ android {
         applicationId = "mz.example"
         minSdk = 24
         targetSdk = 36
-        versionCode = 8124
-        versionName = "8.12.4"
+        versionCode = 8125
+        versionName = "8.12.5"
         multiDexEnabled = false
     }
 
@@ -52,7 +52,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(":library"))
 
-    implementation("androidx.appcompat:appcompat:1.7.1")
+     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("com.google.android.material:material:1.13.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("androidx.multidex:multidex:2.0.1")

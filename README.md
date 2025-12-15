@@ -18,7 +18,7 @@ repositories {
 }
 dependencies {
 
-implementation 'com.github.mohamed-zaitoon:apputils:1.5.0'
+implementation 'com.github.mohamed-zaitoon:apputils:1.5.1'
 	
 
  
@@ -26,7 +26,7 @@ implementation 'com.github.mohamed-zaitoon:apputils:1.5.0'
 ```kotlin
 
 plugins {
-    id("com.android.application") version "8.13.1" apply false
+    id("com.android.application") version "8.13.2" apply false
     id("org.jetbrains.kotlin.android") version "2.2.21" apply false
 }
 android {
@@ -43,7 +43,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputils:1.5.0")
+    implementation("com.github.mohamed-zaitoon:apputils:1.5.1")
 }
 
 ```
