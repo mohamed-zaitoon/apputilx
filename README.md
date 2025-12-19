@@ -9,8 +9,8 @@ https://apputils.mohamed-zaitoon.com
 ```java
 android {
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_24
-        targetCompatibility JavaVersion.VERSION_24
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
 repositories {
@@ -18,7 +18,7 @@ repositories {
 }
 dependencies {
 
-implementation 'com.github.mohamed-zaitoon:apputils:1.5.1'
+implementation 'com.github.mohamed-zaitoon:apputils:1.5.2'
 	
 
  
@@ -31,8 +31,8 @@ plugins {
 }
 android {
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_24
-        targetCompatibility = JavaVersion.VERSION_24
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 
@@ -43,14 +43,14 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputils:1.5.1")
+    implementation("com.github.mohamed-zaitoon:apputils:1.5.2")
 }
 
 ```
  
 ## License 
 ```txt
-Copyright (c) 2025 Mohamed Zaitoon. All rights reserved.
+Copyright (c) 2025-2026 Mohamed Zaitoon. All rights reserved.
 
 This software and its source code are proprietary and may not be copied, modified, or distributed in any form.
 Commercial use is strictly prohibited without written permission from the author.

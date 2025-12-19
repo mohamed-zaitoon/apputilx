@@ -12,8 +12,8 @@ android {
         applicationId = "mz.example"
         minSdk = 24
         targetSdk = 36
-        versionCode = 8125
-        versionName = "8.12.5"
+        versionCode = 8126
+        versionName = "8.12.6"
         multiDexEnabled = false
     }
 
@@ -37,13 +37,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_24
-        targetCompatibility = JavaVersion.VERSION_24
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlin {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
         }
     }
 }
@@ -53,7 +53,7 @@ dependencies {
     implementation(project(":library"))
 
      implementation("androidx.appcompat:appcompat:1.7.1")
-    implementation("com.google.android.material:material:1.13.0")
+    implementation("com.google.android.material:material:1.14.0-alpha08")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("androidx.multidex:multidex:2.0.1")
 }
