@@ -62,7 +62,7 @@ publishing {
         create<MavenPublication>("release") {
             groupId = "com.github.mohamed-zaitoon"
             artifactId = "apputils"
-            version = "25.12.1-alpha"
+            version = "25.12.1-beta"
 
             afterEvaluate {
                 from(components["release"])
