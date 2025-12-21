@@ -4,30 +4,39 @@ import android.app.Activity
 import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
-import android.content.ContextWrapper
-import android.os.Build
+import android.os.Buildnpm install -g firebase-tools
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.DrawableRes
 import java.util.Locale
-import android.view.View
-import com.google.android.material.snackbar.Snackbar
 
 object AppUtils {
 
+    // ==================================================
+    // Internal State
+    // ==================================================
+
     private lateinit var appContext: Context
     private var currentActivity: Activity? = null
-    
+
+    var BROWSER_URL: String? = null
+        private set
+
+    var COPIED_TEXT: String? = null
+        private set
+
+    // ==================================================
+    // Initialization
+    // ==================================================
 
     /**
-     * Initialize AppUtils with application context.
-     * Call this from Application.onCreate()
+     * Must be called from Application.onCreate()
      */
     fun initialize(context: Context) {
-        this.appContext = context.applicationContext
+        appContext = context.applicationContext
         NetworkUtils.initialize(context)
     }
 
-    // Activity lifecycle tracker (register from Application.onCreate)
     val activityTracker = object : Application.ActivityLifecycleCallbacks {
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             currentActivity = activity
@@ -41,156 +50,374 @@ object AppUtils {
             currentActivity = activity
         }
 
-        override fun onActivityPaused(activity: Activity) { /* no-op */ }
-        override fun onActivityStopped(activity: Activity) { /* no-op */ }
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) { /* no-op */ }
+        override fun onActivityPaused(activity: Activity) {}
+        override fun onActivityStopped(activity: Activity) {}
+        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
         override fun onActivityDestroyed(activity: Activity) {
-            if (currentActivity == activity) currentActivity = null
+            if (currentActivity === activity) currentActivity = null
         }
     }
 
-    private fun getActivity(): Activity? = currentActivity
+    private fun ctx(): Context =
+        if (::appContext.isInitialized) appContext
+        else throw IllegalStateException("Call AppUtils.initialize() first")
 
-    private fun getContext(): Context {
-        if (!::appContext.isInitialized)
-            throw IllegalStateException("Call hrm.utils.AppUtils.initialize(this) first")
-        return appContext
-    }
+    private fun act(): Activity? = currentActivity
 
+    // ==================================================
+    // Network
+    // ==================================================
 
-
-
-    // ---------------- Network (context-based) ----------------
     val isConnected: Boolean
         get() = NetworkUtils.isConnected
 
     fun addConnectionListener(listener: (Boolean) -> Unit) =
         NetworkUtils.addConnectionListener(listener)
 
-   // ---------------- Vibration (Activity preferred) ----------------
-fun vibrate(milliseconds: Long) {
-    val activity = getActivity()
-    if (activity != null) {
-        VibrationUtils.vibrate(activity, milliseconds)
-    } else {
-        VibrationUtils.vibrate(getContext(), milliseconds)
-    }
-}
+    fun removeConnectionListener(listener: (Boolean) -> Unit) =
+        NetworkUtils.removeConnectionListener(listener)
 
-fun vibratePattern(pattern: LongArray, repeat: Int) {
-    val activity = getActivity()
-    if (activity != null) {
-        VibrationUtils.vibratePattern(activity, pattern, repeat)
-    } else {
-        VibrationUtils.vibratePattern(getContext(), pattern, repeat)
-    }
-}
+    // ==================================================
+    // Vibration
+    // ==================================================
 
-    // ---------------- Screen Capture (needs Activity window) ----------------
-    /**
-     * Block screen capture. Uses current Activity when available; otherwise attempts with application context
-     * (ScreenUtils internally tries to extract activity from the context).
-     */
+    fun vibrate(milliseconds: Long) =
+        VibrationUtils.vibrate(act() ?: ctx(), milliseconds)
+
+    fun vibratePattern(pattern: LongArray, repeat: Int = -1) =
+        VibrationUtils.vibratePattern(act() ?: ctx(), pattern, repeat)
+
+    fun cancelVibration() =
+        VibrationUtils.cancel(act() ?: ctx())
+
+    // ==================================================
+    // Screen Capture
+    // ==================================================
+
     fun blockCapture() {
-        val activity = getActivity()
-        if (activity != null && !activity.isFinishing) {
-            ScreenUtils.blockCapture(activity)
-        } else {
-            ScreenUtils.blockCapture(getContext())
-        }
+        act()?.let { ScreenUtils.blockCapture(it) }
     }
 
     fun unblockCapture() {
-        val activity = getActivity()
-        if (activity != null && !activity.isFinishing) {
-            ScreenUtils.unblockCapture(activity)
-        } else {
-            ScreenUtils.unblockCapture(getContext())
-        }
+        act()?.let { ScreenUtils.unblockCapture(it) }
     }
 
-  fun showNotification(
-    channelId: String,
-    title: String,
-    text: String,
-    @DrawableRes iconResId: Int,
-    intent: PendingIntent? = null
-) {
-    val context = currentActivity ?: appContext
+    // ==================================================
+    // Notifications
+    // ==================================================
 
-    // طلب إذن الإشعارات في Android 13+
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        try {
-            if (androidx.core.content.ContextCompat.checkSelfPermission(
-                    context,
-                    android.Manifest.permission.POST_NOTIFICATIONS
-                ) != android.content.pm.PackageManager.PERMISSION_GRANTED
-            ) {
-                currentActivity?.let { activity ->
-                    androidx.core.app.ActivityCompat.requestPermissions(
-                        activity,
-                        arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                        1002
-                    )
-                }
+    fun showNotification(
+        channelId: String,
+        title: String,
+        text: String,
+        @DrawableRes iconResId: Int,
+        intent: PendingIntent? = null,
+        notificationId: Int = generateNotificationId(),
+        channelName: String = "AppUtils Notifications"
+    ) {
+        val context = act() ?: ctx()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !PermissionsUtils.isGranted(context, android.Manifest.permission.POST_NOTIFICATIONS)
+        ) {
+            act()?.let {
+                PermissionsUtils.request(
+                    it,
+                    android.Manifest.permission.POST_NOTIFICATIONS,
+                    1002
+                )
             }
-        } catch (_: Exception) { }
-    }
-
-    NotificationUtils.showNotification(context, channelId, title, text, iconResId, intent)
-}
-    // ---------------- Browser (context-required by caller) ----------------
-    fun openUrl(context: Context, url: String) =
-        BrowserUtils.openUrl(context, url)
-
-    // ---------------- Signature (context-based) ----------------
-    fun getAppSignatures(): List<String> =
-        SignatureUtils.getAppSignatures(getContext())
-
-    fun validateAppSignature(sha1: String): Boolean =
-        SignatureUtils.validateAppSignature(getContext(), sha1)
-
-    // ---------------- Clipboard (context-based) ----------------
-    fun copyText(text: String) = ClipboardUtils.copyText(getContext(), text)
-    fun getCopiedText(): String? = ClipboardUtils.getText(getContext())
-
-    // ---------------- Toast (context-based) ----------------
-    fun showToast(message: String, long: Boolean = false) {
-        if (long) ToastUtils.showLong(getContext(), message)
-        else ToastUtils.showShort(getContext(), message)
-    }
-
-    
-
-    // ---------------- Keyboard (caller passes Context) ----------------
-    fun hideKeyboard(context: Context) = KeyboardUtils.hideKeyboard(context)
-
-    // ---------------- Share (caller passes Context) ----------------
-    fun shareText(context: Context, text: String, subject: String = "") {
-        val intent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(android.content.Intent.EXTRA_SUBJECT, subject)
-            putExtra(android.content.Intent.EXTRA_TEXT, text)
+            return
         }
-        context.startActivity(android.content.Intent.createChooser(intent, "Share via"))
+
+        NotificationUtils.showNotification(
+            context = context,
+            channelId = channelId,
+            title = title,
+            text = text,
+            iconResId = iconResId,
+            intent = intent,
+            notificationId = notificationId,
+            channelName = channelName
+        )
     }
 
-    // ---------------- Device Info (context-free) ----------------
-    fun getDeviceModel(): String = "${Build.MANUFACTURER} ${Build.MODEL}"
+    fun cancelNotification(notificationId: Int) =
+        NotificationUtils.cancel(ctx(), notificationId)
 
-    fun getAndroidVersion(): String = "Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})"
+    fun cancelAllNotifications() =
+        NotificationUtils.cancelAll(ctx())
 
-    // ---------------- Logger ----------------
-    fun log(tag: String, message: String) {
-        android.util.Log.d(tag, message)
+    private fun generateNotificationId(): Int =
+        (System.currentTimeMillis() and 0xFFFFFFF).toInt()
+
+    // ==================================================
+    // Browser
+    // ==================================================
+
+    fun openUrl(context: Context, url: String) {
+        BROWSER_URL = url
+        BrowserUtils.openUrl(context, url)
     }
 
-    // ---------------- Permission (requires Activity) ----------------
-    /**
-     * Request permission using the provided Activity. This method still expects an Activity parameter
-     * because runtime permission flow requires the caller Activity to receive the result.
-     */
-    fun requestPermission(activity: Activity, permission: String, requestCode: Int) {
-        androidx.core.app.ActivityCompat.requestPermissions(activity, arrayOf(permission), requestCode)
+    // ==================================================
+    // Clipboard
+    // ==================================================
+
+    fun copyText(text: String) {
+        ClipboardUtils.copyText(ctx(), text)
+        COPIED_TEXT = text
     }
+
+    fun getCopiedText(): String? {
+        COPIED_TEXT = ClipboardUtils.getText(ctx())
+        return COPIED_TEXT
+    }
+
+    fun hasCopiedText(): Boolean =
+        ClipboardUtils.hasText(ctx())
+
+    fun clearClipboard() {
+        ClipboardUtils.clear(ctx())
+        COPIED_TEXT = null
+    }
+
+    // ==================================================
+    // Toast
+    // ==================================================
+
+    fun showToast(message: String, long: Boolean = false) {
+        if (long) ToastUtils.showLong(ctx(), message)
+        else ToastUtils.showShort(ctx(), message)
+    }
+
+    // ==================================================
+    // Keyboard
+    // ==================================================
+
+    fun hideKeyboard(context: Context? = null) =
+        KeyboardUtils.hideKeyboard(context ?: act() ?: ctx())
+
+    fun hideKeyboard(view: View) =
+        KeyboardUtils.hideKeyboard(view)
+
+    fun showKeyboard(view: View) =
+        KeyboardUtils.showKeyboard(view)
+
+    fun toggleKeyboard(context: Context? = null) =
+        KeyboardUtils.toggleKeyboard(context ?: act() ?: ctx())
+
+    fun isKeyboardOpen(view: View): Boolean =
+        KeyboardUtils.isKeyboardOpen(view)
+
+    // ==================================================
+    // Device Info
+    // ==================================================
+
+    fun deviceModel(): String = DeviceUtils.model()
+    fun deviceBrand(): String = DeviceUtils.brand()
+    fun androidSdk(): Int = DeviceUtils.sdk()
+    fun androidVersion(): String = DeviceUtils.androidVersion()
+
+    // ==================================================
+    // Battery
+    // ==================================================
+
+    fun getBatteryLevel(): Int =
+        BatteryUtils.getBatteryLevel(ctx())
+
+    fun isCharging(): Boolean =
+        BatteryUtils.isCharging(ctx())
+
+    fun getChargingType(): String =
+        BatteryUtils.getChargingType(ctx())
+
+    fun isPowerSaveMode(): Boolean =
+        BatteryUtils.isPowerSaveMode(ctx())
+
+    // ==================================================
+    // Time
+    // ==================================================
+
+    fun now(): Long = TimeUtils.now()
+
+    fun formatTime(
+        millis: Long,
+        pattern: String,
+        locale: Locale = Locale.getDefault()
+    ): String = TimeUtils.format(millis, pattern, locale)
+
+    fun parseTime(
+        date: String,
+        pattern: String,
+        locale: Locale = Locale.getDefault()
+    ): Long? = TimeUtils.parse(date, pattern, locale)
+
+    fun timeAgo(millis: Long): String =
+        TimeUtils.timeAgo(millis)
+
+    fun diffMinutes(start: Long, end: Long): Long =
+        TimeUtils.diffMinutes(start, end)
+
+    fun diffHours(start: Long, end: Long): Long =
+        TimeUtils.diffHours(start, end)
+
+    fun diffDays(start: Long, end: Long): Long =
+        TimeUtils.diffDays(start, end)
+
+    // ==================================================
+    // Validation
+    // ==================================================
+
+    fun isValidEmail(email: String): Boolean =
+        ValidationUtils.isValidEmail(email)
+
+    fun isValidPhone(phone: String): Boolean =
+        ValidationUtils.isValidPhone(phone)
+
+    fun isValidUrl(url: String): Boolean =
+        ValidationUtils.isValidUrl(url)
+
+    fun isStrongPassword(password: String): Boolean =
+        ValidationUtils.isStrongPassword(password)
+        // ==================================================
+// Intent
+// ==================================================
+
+fun openWhatsApp(phone: String, message: String? = null) =
+    IntentUtils.openWhatsApp(ctx(), phone, message)
+
+fun dial(phone: String) =
+    IntentUtils.dial(ctx(), phone)
+
+fun sendEmail(
+    email: String,
+    subject: String = "",
+    body: String = ""
+) = IntentUtils.sendEmail(ctx(), email, subject, body)
+
+fun shareText(text: String) =
+    IntentUtils.shareText(ctx(), text)
+    
+    
+        // ==================================================
+// Storage
+// ==================================================
+
+fun getFreeStorage(): Long =
+    StorageUtils.getFreeInternalStorage()
+
+fun getTotalStorage(): Long =
+    StorageUtils.getTotalInternalStorage()
+
+fun getCacheSize(): Long =
+    StorageUtils.getCacheSize(ctx())
+
+fun clearCache() =
+    StorageUtils.clearCache(ctx())
+    // ==================================================
+// Files
+// ==================================================
+
+fun writeFile(name: String, text: String) =
+    FileUtils.writeText(ctx(), name, text)
+
+fun readFile(name: String): String? =
+    FileUtils.readText(ctx(), name)
+
+fun deleteFile(name: String): Boolean =
+    FileUtils.delete(ctx(), name)
+
+fun fileExists(name: String): Boolean =
+    FileUtils.exists(ctx(), name)
+    // ==================================================
+// Encryption
+// ==================================================
+
+fun sha256(text: String): String =
+    EncryptionUtils.sha256(text)
+
+fun base64Encode(text: String): String =
+    EncryptionUtils.base64Encode(text)
+
+fun base64Decode(text: String): String =
+    EncryptionUtils.base64Decode(text)
+    // ==================================================
+// App State
+// ==================================================
+
+fun isAppInForeground(): Boolean =
+    AppStateUtils.isAppInForeground(ctx())
+
+fun isScreenOn(): Boolean =
+    AppStateUtils.isScreenOn(ctx())
+    
+    
+    // ==================================================
+// Permissions
+// ==================================================
+
+fun isPermissionGranted(permission: String): Boolean =
+    PermissionsUtils.isGranted(ctx(), permission)
+
+fun requestPermission(
+    activity: Activity,
+    permission: String,
+    requestCode: Int
+) = PermissionsUtils.request(activity, permission, requestCode)
+// ==================================================
+// App Signature
+// ==================================================
+
+fun getAppSignatures(): List<String> =
+    SignatureUtils.getAppSignatures(ctx())
+
+fun getPrimarySignatureSHA1(): String =
+    SignatureUtils.getAppPrimarySignatureSHA1(ctx())
+
+fun validateAppSignature(sha1: String): Boolean =
+    SignatureUtils.validateAppSignature(ctx(), sha1)
+    
+// ==================================================
+// Logger (Logcat + AlertDialog)
+// ==================================================
+
+fun log(tag: String, message: String) {
+    android.util.Log.d(tag, message)
+}
+
+fun logWarning(tag: String, message: String) {
+    android.util.Log.w(tag, message)
+}
+
+fun logError(tag: String, message: String, throwable: Throwable? = null) {
+    if (throwable != null) {
+        android.util.Log.e(tag, message, throwable)
+        showLogDialog(
+            "Error",
+            tag,
+            "$message\n\n${throwable.localizedMessage}"
+        )
+    } else {
+        android.util.Log.e(tag, message)
+        showLogDialog("Error", tag, message)
+    }
+}
+private fun showLogDialog(
+    type: String,
+    tag: String,
+    message: String
+) {
+    val activity = currentActivity ?: return
+
+    activity.runOnUiThread {
+        androidx.appcompat.app.AlertDialog.Builder(activity)
+            .setTitle("$type : $tag")
+            .setMessage(message)
+            .setCancelable(true)
+            .setPositiveButton("OK", null)
+            .show()
+    }
+}
+
 }

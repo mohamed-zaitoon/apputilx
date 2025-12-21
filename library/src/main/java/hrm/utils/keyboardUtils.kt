@@ -8,7 +8,6 @@ import android.view.inputmethod.InputMethodManager
 
 internal object KeyboardUtils {
 
-    // Extension function لتحويل Context إلى Activity
     private fun Context.getActivity(): Activity? {
         var ctx = this
         while (ctx is ContextWrapper) {
@@ -21,13 +20,33 @@ internal object KeyboardUtils {
     fun hideKeyboard(context: Context) {
         val activity = context.getActivity()
         val view = activity?.currentFocus ?: View(context)
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE)
+                as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun hideKeyboard(view: View) {
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE)
+                as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     fun showKeyboard(view: View) {
-        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE)
+                as InputMethodManager
         view.requestFocus()
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    fun toggleKeyboard(context: Context) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE)
+                as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+    }
+
+    fun isKeyboardOpen(view: View): Boolean {
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE)
+                as InputMethodManager
+        return imm.isActive(view)
     }
 }

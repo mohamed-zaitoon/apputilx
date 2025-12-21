@@ -1,41 +1,46 @@
 [![](https://jitpack.io/v/mohamed-zaitoon/apputils.svg)](https://jitpack.io/#mohamed-zaitoon/apputils)
+![AndroidX](https://img.shields.io/badge/AndroidX-Required-blue)
+![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
+![Platform](https://img.shields.io/badge/Platform-Android-green)
+![Release](https://img.shields.io/badge/Release-Alpha-orange)
+![Version](https://img.shields.io/badge/Version-25.12.21--alpha-blue)
 
-An Android library that provides most of used in one Class.
+# AppUtils
 
-https://apputils.mohamed-zaitoon.com
+> 🚧 Alpha release — APIs may change before the stable version.
+
+AppUtils is a lightweight Android utility library that centralizes the most commonly used helpers into a single, clean, and easy-to-use API.
+
+Documents:
+https://apputils.mohamed-zaitoon.com/
+
+Features:
+- Toast & Snackbar helpers
+- Network connectivity checks & listeners
+- Clipboard utilities
+- Keyboard utilities (show / hide / toggle / state detection)
+- Vibration helpers
+- Open URLs (Browser & Chrome Custom Tabs)
+- Screen capture control
+- Notification utilities
+- App signature validation
+- Device & system information helpers
 
 ## Download
 
-```java
-android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
-    }
-}
+Groovy:
+```gradle
 repositories {
     maven { url 'https://jitpack.io' }
 }
+
 dependencies {
-
-implementation 'com.github.mohamed-zaitoon:apputils:1.5.2'
-	
-
- 
+    implementation 'com.github.mohamed-zaitoon:apputils:25.12.1-alpha'
 }
+```
+
+Kotlin DSL:
 ```kotlin
-
-plugins {
-    id("com.android.application") version "8.13.2" apply false
-    id("org.jetbrains.kotlin.android") version "2.2.21" apply false
-}
-android {
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-    }
-}
-
 repositories {
     maven {
         url = uri("https://jitpack.io")
@@ -43,16 +48,34 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputils:1.5.2")
+    implementation("com.github.mohamed-zaitoon:apputils:25.12.1-alpha")
 }
+```
+
+## ProGuard / R8
+
+```proguard
+
+-keep class hrm.widget.** { *; }
 
 ```
- 
-## License 
-```txt
-Copyright (c) 2025-2026 Mohamed Zaitoon. All rights reserved.
 
-This software and its source code are proprietary and may not be copied, modified, or distributed in any form.
-Commercial use is strictly prohibited without written permission from the author.
+## Changelog
 
-Unauthorized use, reproduction, or distribution may result in legal action.
+25.12.21-alpha — Initial Alpha Release
+- Added core AppUtils initialization and lifecycle tracking
+- Added Toast and Snackbar utilities
+- Added network connectivity checks and listeners
+- Added clipboard utilities
+- Added keyboard utilities (show, hide, toggle, state detection)
+- Added vibration helpers
+- Added URL opening utilities with Chrome Custom Tabs
+- Added screen capture blocking / unblocking
+- Added notification helpers
+- Added app signature validation
+- Added device and system information utilities
+
+## License
+
+Copyright (c) 2025–2026 Mohamed Zaitoon.
+All rights reserved.
