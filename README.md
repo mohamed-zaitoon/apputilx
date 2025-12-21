@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.mohamed-zaitoon:apputils:25.12.1'
+    implementation 'com.github.mohamed-zaitoon:apputils:25.12.1-alpha'
 }
 ```
 
@@ -48,7 +48,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputils:25.12.1")
+    implementation("com.github.mohamed-zaitoon:apputils:25.12.2-alpha")
 }
 ```
 
