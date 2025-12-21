@@ -3,7 +3,7 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-Alpha-orange)
-![Version](https://img.shields.io/badge/Version-25.12.1--blue)
+![Version](https://img.shields.io/badge/Version-25.12.2-alpha--blue)
 
 # AppUtils
 
