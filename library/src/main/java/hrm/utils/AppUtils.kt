@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
-import android.os.Buildnpm install -g firebase-tools
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes

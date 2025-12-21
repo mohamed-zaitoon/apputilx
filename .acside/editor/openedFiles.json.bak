@@ -1,0 +1,65 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/java/hrm/utils/AppUtils.kt",
+      "selection": {
+        "end": {
+          "column": 23,
+          "index": 165,
+          "line": 6
+        },
+        "start": {
+          "column": 23,
+          "index": 165,
+          "line": 6
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/resources/mohamed-zaitoon.properties",
+      "selection": {
+        "end": {
+          "column": 21,
+          "index": 68,
+          "line": 3
+        },
+        "start": {
+          "column": 21,
+          "index": 68,
+          "line": 3
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/resources/META-INF/hrm_apputils.version",
+      "selection": {
+        "end": {
+          "column": 13,
+          "index": 13,
+          "line": 0
+        },
+        "start": {
+          "column": 13,
+          "index": 13,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 36,
+          "index": 1589,
+          "line": 64
+        },
+        "start": {
+          "column": 36,
+          "index": 1589,
+          "line": 64
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/apputils/library/build.gradle.kts"
+}
