@@ -3,7 +3,7 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-Alpha-orange)
-![Version](https://img.shields.io/badge/Version-25.12.1--rc-blue)
+![Version](https://img.shields.io/badge/Version-25.12.1--blue)
 
 # AppUtils
 
@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.mohamed-zaitoon:apputils:25.12.1-rc'
+    implementation 'com.github.mohamed-zaitoon:apputils:25.12.1'
 }
 ```
 
@@ -48,7 +48,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputils:25.12.1-rc")
+    implementation("com.github.mohamed-zaitoon:apputils:25.12.1")
 }
 ```
 
