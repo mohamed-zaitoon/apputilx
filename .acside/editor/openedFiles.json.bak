@@ -1,0 +1,95 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/app/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 22,
+          "index": 4787,
+          "line": 167
+        },
+        "start": {
+          "column": 22,
+          "index": 4787,
+          "line": 167
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/java/hrm/utils/AppUtils.kt",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/java/hrm/utils/BrowserUtils.kt",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/java/hrm/utils/SignatureUtils.kt",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/java/hrm/utils/keyboardUtils.kt",
+      "selection": {
+        "end": {
+          "column": 1,
+          "index": 1049,
+          "line": 32
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/java/hrm/utils/VibrationUtils.kt",
+      "selection": {
+        "end": {
+          "column": 1,
+          "index": 2241,
+          "line": 63
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/apputils/library/src/main/java/hrm/utils/VibrationUtils.kt"
+}
