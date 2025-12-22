@@ -1,4 +1,4 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -6,7 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 
-internal object NetworkUtils {
+internal object Network {
 
     private lateinit var connectivityManager: ConnectivityManager
     private val listeners = mutableListOf<(Boolean) -> Unit>()

@@ -1,6 +1,5 @@
 # Gradle files
 .gradle/
-.androidide/
 build/
 captures/
 **/local.properties

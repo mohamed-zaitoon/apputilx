@@ -1,11 +1,11 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import java.security.MessageDigest
 
-internal object SignatureUtils {
+internal object Signature {
 
     /**
      * Returns list of SHA-1 fingerprints formatted like "AA:BB:CC:...".

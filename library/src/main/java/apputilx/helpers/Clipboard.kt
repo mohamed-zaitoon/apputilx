@@ -1,12 +1,12 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 
-internal object ClipboardUtils {
+internal object Clipboard {
 
-    private const val CLIP_LABEL = "AppUtils"
+    private const val CLIP_LABEL = "App"
 
     /**
      * Copy plain text to the clipboard.

@@ -1,9 +1,9 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.Context
 import android.widget.Toast
 
-internal object ToastUtils {
+internal object Toast {
     fun showShort(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }

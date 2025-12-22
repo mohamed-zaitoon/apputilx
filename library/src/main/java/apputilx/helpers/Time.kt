@@ -1,11 +1,11 @@
-package hrm.utils
+package apputilx.helpers
 
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-internal object TimeUtils {
+internal object Time {
 
     // --------------------------------------------------
     // Current time

@@ -1,10 +1,10 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.app.ActivityManager
 import android.content.Context
 import android.os.PowerManager
 
-internal object AppStateUtils {
+internal object AppState {
 
     /**
      * Check if app is in foreground.

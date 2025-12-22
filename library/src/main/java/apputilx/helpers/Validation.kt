@@ -1,8 +1,8 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.util.Patterns
 
-internal object ValidationUtils {
+internal object Validation {
 
     /**
      * Validate email address.

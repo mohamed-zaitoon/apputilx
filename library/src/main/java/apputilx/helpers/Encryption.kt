@@ -1,9 +1,9 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.util.Base64
 import java.security.MessageDigest
 
-internal object EncryptionUtils {
+internal object Encryption {
 
     /**
      * SHA-256 hash.

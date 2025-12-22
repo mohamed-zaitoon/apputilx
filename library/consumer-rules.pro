@@ -1,1 +1,1 @@
--keep class hrm.widget.** { *; }
+-keep class apputilx.widget.** { *; }

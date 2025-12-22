@@ -2,7 +2,7 @@ package mz.example
 
 import android.app.Application
 import android.content.Context
-import hrm.utils.*
+import apputilx.*
 
 class ExampleApplication : Application() {
 
@@ -15,3 +15,4 @@ class ExampleApplication : Application() {
         
     }
 }
+

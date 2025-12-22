@@ -1,4 +1,4 @@
-package hrm.widget
+package apputilx.widget
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -31,7 +31,7 @@ import kotlin.math.min
 /**
  * SwipeRefreshLayout (Kotlin, adapted).
  *
- * Place in: library/src/main/java/hrm/widget/SwipeRefreshLayout.kt
+ * Place in: library/src/main/java/apputilx/widget/SwipeRefreshLayout.kt
  *
  * Compatibility notes:
  * - Exposes `var isRefreshing` (property) so Kotlin code can use `swipe.isRefreshing = true`

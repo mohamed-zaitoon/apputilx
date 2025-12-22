@@ -1,4 +1,4 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.app.Activity
 import android.content.Context
@@ -6,7 +6,7 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-internal object PermissionsUtils {
+internal object Permission {
 
     /**
      * Check if permission is granted.

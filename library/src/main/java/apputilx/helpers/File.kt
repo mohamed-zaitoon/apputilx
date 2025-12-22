@@ -1,9 +1,9 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.Context
 import java.io.File
 
-internal object FileUtils {
+internal object File {
 
     /**
      * Write text to internal file.

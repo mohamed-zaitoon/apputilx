@@ -1,10 +1,10 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 
-internal object IntentUtils {
+internal object Intent {
 
     /**
      * Open a URL using an external app.

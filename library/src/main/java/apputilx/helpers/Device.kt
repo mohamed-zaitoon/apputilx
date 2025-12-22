@@ -1,8 +1,8 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.os.Build
 
-internal object DeviceUtils {
+internal object Device {
 
     fun manufacturer(): String = Build.MANUFACTURER
     fun model(): String = Build.MODEL

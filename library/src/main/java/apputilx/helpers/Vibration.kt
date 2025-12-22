@@ -1,4 +1,4 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.Context
 import android.media.AudioAttributes
@@ -8,7 +8,7 @@ import android.os.Vibrator
 import android.os.VibratorManager
 
 @Suppress("DEPRECATION")
-internal object VibrationUtils {
+internal object Vibration {
 
     private fun getVibrator(context: Context): Vibrator? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {

@@ -3,7 +3,7 @@ package mz.example
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import hrm.utils.AppUtils
+import apputilx.AppUtils
 
 class ExampleActivity : AppCompatActivity() {
 

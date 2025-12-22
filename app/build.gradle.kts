@@ -31,7 +31,7 @@ android {
         val versionCodeStr = y + m + d + h + lastDigit
         var generatedVersionCode = versionCodeStr.toInt()
 
-        val oldVersionCodeFromFile = 251221229
+        val oldVersionCodeFromFile = 251222087
         if (generatedVersionCode <= oldVersionCodeFromFile) {
             generatedVersionCode = oldVersionCodeFromFile + 1
         }

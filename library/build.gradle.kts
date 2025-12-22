@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "hrm"
+    namespace = "apputilx"
     compileSdk = 36
 
     defaultConfig {
@@ -61,8 +61,8 @@ publishing {
     publications {
         create<MavenPublication>("release") {
             groupId = "com.github.mohamed-zaitoon"
-            artifactId = "apputils"
-            version = "25.12.2-alpha"
+            artifactId = "apputilx"
+            version = "1.0.0-alpha"
 
             afterEvaluate {
                 from(components["release"])

@@ -1,10 +1,10 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.Context
 import android.os.StatFs
 import java.io.File
 
-internal object StorageUtils {
+internal object Storage {
 
     /**
      * Get free internal storage in bytes.

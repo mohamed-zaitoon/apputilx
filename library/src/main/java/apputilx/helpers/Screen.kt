@@ -1,11 +1,11 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.view.WindowManager
 
-internal object ScreenUtils {
+internal object Screen {
 
     private fun Context.getActivity(): Activity? {
         var ctx = this

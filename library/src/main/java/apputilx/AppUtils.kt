@@ -1,4 +1,4 @@
-package hrm.utils
+package apputilx
 
 import android.app.Activity
 import android.app.Application
@@ -9,6 +9,25 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes
 import java.util.Locale
+import apputilx.helpers.AppState
+import apputilx.helpers.Battery
+import apputilx.helpers.Browser
+import apputilx.helpers.Clipboard
+import apputilx.helpers.Device
+import apputilx.helpers.Encryption
+import apputilx.helpers.File
+import apputilx.helpers.Intent
+import apputilx.helpers.Network
+import apputilx.helpers.Notification
+import apputilx.helpers.Permission
+import apputilx.helpers.Screen
+import apputilx.helpers.Signature
+import apputilx.helpers.Storage
+import apputilx.helpers.Time
+import apputilx.helpers.Toast
+import apputilx.helpers.Validation
+import apputilx.helpers.Vibration
+import apputilx.helpers.Keyboard
 
 object AppUtils {
 
@@ -34,7 +53,7 @@ object AppUtils {
      */
     fun initialize(context: Context) {
         appContext = context.applicationContext
-        NetworkUtils.initialize(context)
+        Network.initialize(context)
     }
 
     val activityTracker = object : Application.ActivityLifecycleCallbacks {
@@ -69,37 +88,37 @@ object AppUtils {
     // ==================================================
 
     val isConnected: Boolean
-        get() = NetworkUtils.isConnected
+        get() = Network.isConnected
 
     fun addConnectionListener(listener: (Boolean) -> Unit) =
-        NetworkUtils.addConnectionListener(listener)
+        Network.addConnectionListener(listener)
 
     fun removeConnectionListener(listener: (Boolean) -> Unit) =
-        NetworkUtils.removeConnectionListener(listener)
+        Network.removeConnectionListener(listener)
 
     // ==================================================
     // Vibration
     // ==================================================
 
     fun vibrate(milliseconds: Long) =
-        VibrationUtils.vibrate(act() ?: ctx(), milliseconds)
+        Vibration.vibrate(act() ?: ctx(), milliseconds)
 
     fun vibratePattern(pattern: LongArray, repeat: Int = -1) =
-        VibrationUtils.vibratePattern(act() ?: ctx(), pattern, repeat)
+        Vibration.vibratePattern(act() ?: ctx(), pattern, repeat)
 
     fun cancelVibration() =
-        VibrationUtils.cancel(act() ?: ctx())
+        Vibration.cancel(act() ?: ctx())
 
     // ==================================================
     // Screen Capture
     // ==================================================
 
     fun blockCapture() {
-        act()?.let { ScreenUtils.blockCapture(it) }
+        act()?.let { Screen.blockCapture(it) }
     }
 
     fun unblockCapture() {
-        act()?.let { ScreenUtils.unblockCapture(it) }
+        act()?.let { Screen.unblockCapture(it) }
     }
 
     // ==================================================
@@ -118,10 +137,10 @@ object AppUtils {
         val context = act() ?: ctx()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            !PermissionsUtils.isGranted(context, android.Manifest.permission.POST_NOTIFICATIONS)
+            !Permission.isGranted(context, android.Manifest.permission.POST_NOTIFICATIONS)
         ) {
             act()?.let {
-                PermissionsUtils.request(
+                Permission.request(
                     it,
                     android.Manifest.permission.POST_NOTIFICATIONS,
                     1002
@@ -130,7 +149,7 @@ object AppUtils {
             return
         }
 
-        NotificationUtils.showNotification(
+        Notification.showNotification(
             context = context,
             channelId = channelId,
             title = title,
@@ -143,10 +162,10 @@ object AppUtils {
     }
 
     fun cancelNotification(notificationId: Int) =
-        NotificationUtils.cancel(ctx(), notificationId)
+        Notification.cancel(ctx(), notificationId)
 
     fun cancelAllNotifications() =
-        NotificationUtils.cancelAll(ctx())
+        Notification.cancelAll(ctx())
 
     private fun generateNotificationId(): Int =
         (System.currentTimeMillis() and 0xFFFFFFF).toInt()
@@ -157,7 +176,7 @@ object AppUtils {
 
     fun openUrl(context: Context, url: String) {
         BROWSER_URL = url
-        BrowserUtils.openUrl(context, url)
+        Browser.openUrl(context, url)
     }
 
     // ==================================================
@@ -165,20 +184,20 @@ object AppUtils {
     // ==================================================
 
     fun copyText(text: String) {
-        ClipboardUtils.copyText(ctx(), text)
+        Clipboard.copyText(ctx(), text)
         COPIED_TEXT = text
     }
 
     fun getCopiedText(): String? {
-        COPIED_TEXT = ClipboardUtils.getText(ctx())
+        COPIED_TEXT = Clipboard.getText(ctx())
         return COPIED_TEXT
     }
 
     fun hasCopiedText(): Boolean =
-        ClipboardUtils.hasText(ctx())
+        Clipboard.hasText(ctx())
 
     fun clearClipboard() {
-        ClipboardUtils.clear(ctx())
+        Clipboard.clear(ctx())
         COPIED_TEXT = null
     }
 
@@ -187,8 +206,8 @@ object AppUtils {
     // ==================================================
 
     fun showToast(message: String, long: Boolean = false) {
-        if (long) ToastUtils.showLong(ctx(), message)
-        else ToastUtils.showShort(ctx(), message)
+        if (long) Toast.showLong(ctx(), message)
+        else Toast.showShort(ctx(), message)
     }
 
     // ==================================================
@@ -196,108 +215,108 @@ object AppUtils {
     // ==================================================
 
     fun hideKeyboard(context: Context? = null) =
-        KeyboardUtils.hideKeyboard(context ?: act() ?: ctx())
+        Keyboard.hideKeyboard(context ?: act() ?: ctx())
 
     fun hideKeyboard(view: View) =
-        KeyboardUtils.hideKeyboard(view)
+        Keyboard.hideKeyboard(view)
 
     fun showKeyboard(view: View) =
-        KeyboardUtils.showKeyboard(view)
+        Keyboard.showKeyboard(view)
 
     fun toggleKeyboard(context: Context? = null) =
-        KeyboardUtils.toggleKeyboard(context ?: act() ?: ctx())
+        Keyboard.toggleKeyboard(context ?: act() ?: ctx())
 
     fun isKeyboardOpen(view: View): Boolean =
-        KeyboardUtils.isKeyboardOpen(view)
+        Keyboard.isKeyboardOpen(view)
 
     // ==================================================
     // Device Info
     // ==================================================
 
-    fun deviceModel(): String = DeviceUtils.model()
-    fun deviceBrand(): String = DeviceUtils.brand()
-    fun androidSdk(): Int = DeviceUtils.sdk()
-    fun androidVersion(): String = DeviceUtils.androidVersion()
+    fun deviceModel(): String = Device.model()
+    fun deviceBrand(): String = Device.brand()
+    fun androidSdk(): Int = Device.sdk()
+    fun androidVersion(): String = Device.androidVersion()
 
     // ==================================================
     // Battery
     // ==================================================
 
     fun getBatteryLevel(): Int =
-        BatteryUtils.getBatteryLevel(ctx())
+        Battery.getBatteryLevel(ctx())
 
     fun isCharging(): Boolean =
-        BatteryUtils.isCharging(ctx())
+        Battery.isCharging(ctx())
 
     fun getChargingType(): String =
-        BatteryUtils.getChargingType(ctx())
+        Battery.getChargingType(ctx())
 
     fun isPowerSaveMode(): Boolean =
-        BatteryUtils.isPowerSaveMode(ctx())
+        Battery.isPowerSaveMode(ctx())
 
     // ==================================================
     // Time
     // ==================================================
 
-    fun now(): Long = TimeUtils.now()
+    fun now(): Long = Time.now()
 
     fun formatTime(
         millis: Long,
         pattern: String,
         locale: Locale = Locale.getDefault()
-    ): String = TimeUtils.format(millis, pattern, locale)
+    ): String = Time.format(millis, pattern, locale)
 
     fun parseTime(
         date: String,
         pattern: String,
         locale: Locale = Locale.getDefault()
-    ): Long? = TimeUtils.parse(date, pattern, locale)
+    ): Long? = Time.parse(date, pattern, locale)
 
     fun timeAgo(millis: Long): String =
-        TimeUtils.timeAgo(millis)
+        Time.timeAgo(millis)
 
     fun diffMinutes(start: Long, end: Long): Long =
-        TimeUtils.diffMinutes(start, end)
+        Time.diffMinutes(start, end)
 
     fun diffHours(start: Long, end: Long): Long =
-        TimeUtils.diffHours(start, end)
+        Time.diffHours(start, end)
 
     fun diffDays(start: Long, end: Long): Long =
-        TimeUtils.diffDays(start, end)
+        Time.diffDays(start, end)
 
     // ==================================================
     // Validation
     // ==================================================
 
     fun isValidEmail(email: String): Boolean =
-        ValidationUtils.isValidEmail(email)
+        Validation.isValidEmail(email)
 
     fun isValidPhone(phone: String): Boolean =
-        ValidationUtils.isValidPhone(phone)
+        Validation.isValidPhone(phone)
 
     fun isValidUrl(url: String): Boolean =
-        ValidationUtils.isValidUrl(url)
+        Validation.isValidUrl(url)
 
     fun isStrongPassword(password: String): Boolean =
-        ValidationUtils.isStrongPassword(password)
+        Validation.isStrongPassword(password)
         // ==================================================
 // Intent
 // ==================================================
 
 fun openWhatsApp(phone: String, message: String? = null) =
-    IntentUtils.openWhatsApp(ctx(), phone, message)
+    Intent.openWhatsApp(ctx(), phone, message)
 
 fun dial(phone: String) =
-    IntentUtils.dial(ctx(), phone)
+    Intent.dial(ctx(), phone)
 
 fun sendEmail(
     email: String,
     subject: String = "",
     body: String = ""
-) = IntentUtils.sendEmail(ctx(), email, subject, body)
+) = Intent.sendEmail(ctx(), email, subject, body)
 
 fun shareText(text: String) =
-    IntentUtils.shareText(ctx(), text)
+    Intent.shareText(ctx(), text)
     
     
         // ==================================================
@@ -305,52 +324,52 @@ fun shareText(text: String) =
 // ==================================================
 
 fun getFreeStorage(): Long =
-    StorageUtils.getFreeInternalStorage()
+    Storage.getFreeInternalStorage()
 
 fun getTotalStorage(): Long =
-    StorageUtils.getTotalInternalStorage()
+    Storage.getTotalInternalStorage()
 
 fun getCacheSize(): Long =
-    StorageUtils.getCacheSize(ctx())
+    Storage.getCacheSize(ctx())
 
 fun clearCache() =
-    StorageUtils.clearCache(ctx())
+    Storage.clearCache(ctx())
     // ==================================================
 // Files
 // ==================================================
 
 fun writeFile(name: String, text: String) =
-    FileUtils.writeText(ctx(), name, text)
+    File.writeText(ctx(), name, text)
 
 fun readFile(name: String): String? =
-    FileUtils.readText(ctx(), name)
+    File.readText(ctx(), name)
 
 fun deleteFile(name: String): Boolean =
-    FileUtils.delete(ctx(), name)
+    File.delete(ctx(), name)
 
 fun fileExists(name: String): Boolean =
-    FileUtils.exists(ctx(), name)
+    File.exists(ctx(), name)
     // ==================================================
 // Encryption
 // ==================================================
 
 fun sha256(text: String): String =
-    EncryptionUtils.sha256(text)
+    Encryption.sha256(text)
 
 fun base64Encode(text: String): String =
-    EncryptionUtils.base64Encode(text)
+    Encryption.base64Encode(text)
 
 fun base64Decode(text: String): String =
-    EncryptionUtils.base64Decode(text)
+    Encryption.base64Decode(text)
     // ==================================================
 // App State
 // ==================================================
 
 fun isAppInForeground(): Boolean =
-    AppStateUtils.isAppInForeground(ctx())
+    AppState.isAppInForeground(ctx())
 
 fun isScreenOn(): Boolean =
-    AppStateUtils.isScreenOn(ctx())
+    AppState.isScreenOn(ctx())
     
     
     // ==================================================
@@ -358,25 +377,25 @@ fun isScreenOn(): Boolean =
 // ==================================================
 
 fun isPermissionGranted(permission: String): Boolean =
-    PermissionsUtils.isGranted(ctx(), permission)
+    Permission.isGranted(ctx(), permission)
 
 fun requestPermission(
     activity: Activity,
     permission: String,
     requestCode: Int
-) = PermissionsUtils.request(activity, permission, requestCode)
+) = Permission.request(activity, permission, requestCode)
 // ==================================================
 // App Signature
 // ==================================================
 
 fun getAppSignatures(): List<String> =
-    SignatureUtils.getAppSignatures(ctx())
+    Signature.getAppSignatures(ctx())
 
 fun getPrimarySignatureSHA1(): String =
-    SignatureUtils.getAppPrimarySignatureSHA1(ctx())
+    Signature.getAppPrimarySignatureSHA1(ctx())
 
 fun validateAppSignature(sha1: String): Boolean =
-    SignatureUtils.validateAppSignature(ctx(), sha1)
+    Signature.validateAppSignature(ctx(), sha1)
     
 // ==================================================
 // Logger (Logcat + AlertDialog)

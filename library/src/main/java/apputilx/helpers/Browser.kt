@@ -1,11 +1,11 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
 
-internal object BrowserUtils {
+internal object Browser {
 
 
     fun openUrl(context: Context, url: String) {

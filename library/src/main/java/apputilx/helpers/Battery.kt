@@ -1,4 +1,4 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,7 @@ import android.os.BatteryManager
 import android.os.Build
 import android.os.PowerManager
 
-internal object BatteryUtils {
+internal object Battery {
 
     /**
      * Get current battery level as percentage (0 - 100).

@@ -1,4 +1,4 @@
-package hrm.utils
+package apputilx.helpers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -11,10 +11,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 
-internal object NotificationUtils {
+internal object Notification {
 
-    private const val TAG = "NotificationUtils"
-    private const val DEFAULT_CHANNEL_NAME = "AppUtils Notifications"
+    private const val TAG = "Notification"
+    private const val DEFAULT_CHANNEL_NAME = "App Notifications"
 
     // --------------------------------------------------
     // Channel
