@@ -1,9 +1,8 @@
-[![](https://jitpack.io/v/mohamed-zaitoon/apputilx.svg)](https://jitpack.io/#mohamed-zaitoon/apputilx)
 ![AndroidX](https://img.shields.io/badge/AndroidX-Required-blue)
 ![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-Alpha-orange)
-![Version](https://img.shields.io/badge/Version-1.0.0-beta--blue)
+![Version](https://img.shields.io/badge/Version-1.0.0-c--blue)
 
 # apputilx
 
@@ -28,27 +27,20 @@ Features:
 
 ## Download
 
-Groovy:
-```gradle
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-
-dependencies {
-    implementation 'com.github.mohamed-zaitoon:apputilx:1.0.0-beta'
-}
-```
-
 Kotlin DSL:
 ```kotlin
-repositories {
-    maven {
-        url = uri("https://jitpack.io")
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url = uri("https://maven.pkg.github.com/mohamed-zaitoon/apputilx")
+        }
     }
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputilx:1.0.0-beta")
+    implementation("io.github.mohamed-zaitoon:apputilx:1.0.0-c")
 }
 ```
 
@@ -62,7 +54,7 @@ dependencies {
 
 ## Changelog
 
-1.0.0-beta — Initial Alpha Release
+1.0.0-c — Initial Alpha Release
 - Added core apputil initialization and lifecycle tracking
 - Added Toast and Snackbar utilities
 - Added network connectivity checks and listeners

@@ -10,12 +10,11 @@ android {
 
     defaultConfig {
         minSdk = 24
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -35,11 +34,11 @@ android {
         }
     }
 
-    // تفعيل ViewBinding هنا
     buildFeatures {
         viewBinding = true
     }
 
+    // مهم جدًا مع Android + maven-publish
     publishing {
         singleVariant("release") {
             withSourcesJar()
@@ -47,25 +46,30 @@ android {
         }
     }
 }
-dependencies {
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
-    implementation("androidx.core:core-ktx:1.17.0")
-    implementation("androidx.appcompat:appcompat:1.7.1")
-    implementation("com.google.android.material:material:1.13.0")
-    implementation("androidx.browser:browser:1.9.0")
-}
 
+/* ---------- GitHub Packages Publishing ---------- */
 
-
-publishing {
-    publications {
-        create<MavenPublication>("release") {
-            groupId = "com.github.mohamed-zaitoon"
-            artifactId = "apputilx"
-            version = "1.0.0-beta"
-
-            afterEvaluate {
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
                 from(components["release"])
+
+                groupId = "io.github.mohamed-zaitoon"
+                artifactId = "apputilx"
+                version = "1.0.0-c"
+            }
+        }
+
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/mohamed-zaitoon/apputilx")
+
+                credentials {
+                    username = project.findProperty("gpr.user") as String?
+                    password = project.findProperty("gpr.key") as String?
+                }
             }
         }
     }
