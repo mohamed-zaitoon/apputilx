@@ -34,6 +34,7 @@ android {
         viewBinding = true
     }
 
+    // مهم لمكتبات Android
     publishing {
         singleVariant("release") {
             withSourcesJar()
@@ -49,18 +50,63 @@ dependencies {
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
 }
 
-/**
- * IMPORTANT:
- * Android components are created AFTER evaluation
- */
 afterEvaluate {
+
     publishing {
+
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
-                groupId = "com.github.mohamed-zaitoon"
+
+                groupId = "io.github.mohamed-zaitoon"
                 artifactId = "apputilx"
                 version = "1.0.3-alpha"
+
+                pom {
+                    name.set("AppUtilx")
+                    description.set("Android utility library with common helpers")
+                    url.set("https://github.com/mohamed-zaitoon/apputilx")
+
+                    licenses {
+                        license {
+                            name.set("MIT License")
+                            url.set("https://opensource.org/licenses/MIT")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("mohamed-zaitoon")
+                            name.set("Mohamed Zaitoon")
+                            email.set("mohamedzaitoon01@gmail.com")
+                        }
+                    }
+
+                    scm {
+                        connection.set("scm:git:https://github.com/mohamed-zaitoon/apputilx.git")
+                        developerConnection.set("scm:git:ssh://github.com/mohamed-zaitoon/apputilx.git")
+                        url.set("https://github.com/mohamed-zaitoon/apputilx")
+                    }
+                }
+            }
+        }
+
+        repositories {
+
+            // ✅ GitHub Packages
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/mohamed-zaitoon/apputilx")
+                credentials {
+                    username = findProperty("GITHUB_USERNAME") as String
+                    password = findProperty("GITHUB_TOKEN") as String
+                }
+            }
+
+            // ✅ JitPack (للتوافق – مش بيحتاج credentials)
+            maven {
+                name = "JitPack"
+                url = uri("https://jitpack.io")
             }
         }
     }
