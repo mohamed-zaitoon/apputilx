@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("maven-publish")
+    id("signing")
 }
 
 android {
@@ -16,10 +17,6 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
         }
     }
 
@@ -38,11 +35,9 @@ android {
         viewBinding = true
     }
 
-    // مهم جدًا مع Android + maven-publish
     publishing {
         singleVariant("release") {
             withSourcesJar()
-
         }
     }
 }
@@ -55,30 +50,60 @@ dependencies {
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
 }
 
-/* ---------- GitHub Packages Publishing ---------- */
-
 afterEvaluate {
+
     publishing {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
 
-                groupId = "io.github.mohamed-zaitoon"
+                groupId = "io.github.mohamedzaitoon"
                 artifactId = "apputilx"
-                version = "1.0.0-c"
+                version = "1.0.1-alpha"
+
+                pom {
+                    name.set("AppUtilx")
+                    description.set("Android utility library with common helpers")
+                    url.set("https://github.com/mohamed-zaitoon/apputilx")
+
+                    licenses {
+                        license {
+                            name.set("MIT License")
+                            url.set("https://opensource.org/licenses/MIT")
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id.set("mohamed-zaitoon")
+                            name.set("Mohamed Zaitoon")
+                            email.set("mohamedzaitoon01@gmail.com")
+                        }
+                    }
+
+                    scm {
+                        connection.set("scm:git:https://github.com/mohamed-zaitoon/apputilx.git")
+                        developerConnection.set("scm:git:ssh://github.com/mohamed-zaitoon/apputilx.git")
+                        url.set("https://github.com/mohamed-zaitoon/apputilx")
+                    }
+                }
             }
         }
 
         repositories {
             maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/mohamed-zaitoon/apputilx")
-
+                name = "OSSRH"
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
                 credentials {
-                    username = project.findProperty("gpr.user") as String?
-                    password = project.findProperty("gpr.key") as String?
+                    username = findProperty("OSSRH_USERNAME") as String?
+                    password = findProperty("OSSRH_PASSWORD") as String?
                 }
             }
         }
     }
+
+
+
 }
+
+
