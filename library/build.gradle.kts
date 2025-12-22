@@ -42,9 +42,17 @@ android {
     publishing {
         singleVariant("release") {
             withSourcesJar()
-            withJavadocJar()
+
         }
     }
+}
+
+dependencies {
+    api("androidx.core:core-ktx:1.17.0")
+    api("androidx.appcompat:appcompat:1.7.1")
+    api("com.google.android.material:material:1.13.0")
+    api("androidx.browser:browser:1.9.0")
+    api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
 }
 
 /* ---------- GitHub Packages Publishing ---------- */
