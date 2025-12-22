@@ -60,7 +60,7 @@ afterEvaluate {
                 from(components["release"])
                 groupId = "com.github.mohamed-zaitoon"
                 artifactId = "apputilx"
-                version = "1.0.2-beta"
+                version = "1.0.3-alpha"
             }
         }
     }
