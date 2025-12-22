@@ -25,13 +25,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlin {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
 
@@ -62,7 +62,7 @@ publishing {
         create<MavenPublication>("release") {
             groupId = "com.github.mohamed-zaitoon"
             artifactId = "apputilx"
-            version = "1.0.0-alpha"
+            version = "1.0.0-beta"
 
             afterEvaluate {
                 from(components["release"])

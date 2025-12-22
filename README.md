@@ -3,7 +3,7 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-Alpha-orange)
-![Version](https://img.shields.io/badge/Version-1.0.0-alpha--blue)
+![Version](https://img.shields.io/badge/Version-1.0.0-beta--blue)
 
 # apputilx
 
@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.mohamed-zaitoon:apputilx:1.0.0-alpha'
+    implementation 'com.github.mohamed-zaitoon:apputilx:1.0.0-beta'
 }
 ```
 
@@ -48,7 +48,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputilx:1.0.0-alpha")
+    implementation("com.github.mohamed-zaitoon:apputilx:1.0.0-beta")
 }
 ```
 
@@ -62,7 +62,7 @@ dependencies {
 
 ## Changelog
 
-1.0.0-alpha — Initial Alpha Release
+1.0.0-beta — Initial Alpha Release
 - Added core apputil initialization and lifecycle tracking
 - Added Toast and Snackbar utilities
 - Added network connectivity checks and listeners
