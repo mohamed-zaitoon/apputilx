@@ -62,7 +62,7 @@ dependencies {
 
 ## Changelog
 
-25.12.21-alpha — Initial Alpha Release
+1.0.0-alpha — Initial Alpha Release
 - Added core apputil initialization and lifecycle tracking
 - Added Toast and Snackbar utilities
 - Added network connectivity checks and listeners
