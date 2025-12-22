@@ -1,8 +1,9 @@
+[![](https://jitpack.io/v/mohamed-zaitoon/apputilx.svg)](https://jitpack.io/#mohamed-zaitoon/apputilx)
 ![AndroidX](https://img.shields.io/badge/AndroidX-Required-blue)
 ![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-Alpha-orange)
-![Version](https://img.shields.io/badge/Version-1.0.0-c--blue)
+![Version](https://img.shields.io/badge/Version-1.0.2-beta--blue)
 
 # apputilx
 
@@ -34,13 +35,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url = uri("https://maven.pkg.github.com/mohamed-zaitoon/apputilx")
+            maven { url = uri("https://jitpack.io") }
         }
     }
 }
 
 dependencies {
-    implementation("io.github.mohamed-zaitoon:apputilx:1.0.0-c")
+    implementation("com.github.mohamed-zaitoon:apputilx:1.0.2-beta")
 }
 ```
 
@@ -54,7 +55,7 @@ dependencies {
 
 ## Changelog
 
-1.0.0-c — Initial Alpha Release
+1.0.2-beta — Initial Alpha Release
 - Added core apputil initialization and lifecycle tracking
 - Added Toast and Snackbar utilities
 - Added network connectivity checks and listeners
