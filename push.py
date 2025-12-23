@@ -64,7 +64,6 @@ def ensure_gh_installed():
     code, _ = run("gh --version", silent=True)
     if code != 0:
         print("❌ GitHub CLI (gh) not installed.")
-        print("Install it first: https://cli.github.com/")
         sys.exit(1)
 
 def ensure_gh_auth():
@@ -84,6 +83,25 @@ def ensure_https_remote_from_gh():
 def git_current_branch():
     _, br = run("git rev-parse --abbrev-ref HEAD", silent=True)
     return (br or "").strip() or "main"
+
+# ------------------------
+# Tag helper
+# ------------------------
+def ask_for_version_tag():
+    print("\n🏷️ Create Git Tag")
+    while True:
+        version = input("Enter version (example: 1.0.3-alpha): ").strip()
+        if not version:
+            print("❌ Version cannot be empty.")
+            continue
+
+        # check if tag exists
+        code, _ = run(f"git rev-parse {version}", silent=True)
+        if code == 0:
+            print("❌ Tag already exists. Choose another version.")
+            continue
+
+        return version
 
 # ------------------------
 # Main
@@ -119,25 +137,33 @@ def main():
                 f.writelines(new_lines)
             print("🧹 Removed Termux-only AAPT2 override.")
 
-    if not changes.strip():
-        print("No changes to commit.")
-        sys.exit(0)
+    if changes.strip():
+        run("git add -A", check=True)
 
-    run("git add -A", check=True)
+        utc_time = datetime.now(timezone.utc).strftime("UTC %Y-%m-%d %H:%M:%S")
+        commit_msg = f"Commit {utc_time} from {system_name}"
+        run(f'git commit -m "{commit_msg}"', check=True)
 
-    utc_time = datetime.now(timezone.utc).strftime("UTC %Y-%m-%d %H:%M:%S")
-    commit_msg = f"Commit {utc_time} from {system_name}"
-    run(f'git commit -m "{commit_msg}"', check=True)
+        branch = git_current_branch()
+        print(f"\n📤 Pushing branch → {branch}")
+        code, _ = run(f"gh repo sync --branch {branch}", silent=True)
+        if code != 0:
+            run(f"git push -u origin {branch}", check=True)
+    else:
+        print("ℹ️ No changes to commit.")
 
-    branch = git_current_branch()
+    # 🔖 Tag step (ALWAYS ASK)
+    version = ask_for_version_tag()
 
-    print(f"\n📤 Pushing via GitHub CLI → {branch}")
-    code, _ = run(f"gh repo sync --branch {branch}", silent=True)
-    if code != 0:
-        run(f"git push -u origin {branch}", check=True)
+    print(f"\n🏷️ Creating tag: {version}")
+    run(f"git tag {version}", check=True)
 
-    print(f"\n✅ Push completed successfully at {utc_time}")
+    print(f"📤 Pushing tag: {version}")
+    run(f"git push origin {version}", check=True)
+
+    print("\n✅ Done successfully")
     print(f"📡 Device: {system_name}")
+    print(f"🏷️ Version: {version}")
 
 if __name__ == "__main__":
     main()

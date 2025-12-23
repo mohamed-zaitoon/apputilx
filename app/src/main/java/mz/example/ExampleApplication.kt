@@ -9,8 +9,8 @@ class ExampleApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        AppUtils.initialize(this)
-        registerActivityLifecycleCallbacks(AppUtils.activityTracker)
+        Utils.initialize(this)
+        registerActivityLifecycleCallbacks(Utils.activityTracker)
 
         
     }

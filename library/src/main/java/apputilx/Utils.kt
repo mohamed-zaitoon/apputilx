@@ -29,7 +29,7 @@ import apputilx.helpers.Validation
 import apputilx.helpers.Vibration
 import apputilx.helpers.Keyboard
 
-object AppUtils {
+object Utils {
 
     // ==================================================
     // Internal State

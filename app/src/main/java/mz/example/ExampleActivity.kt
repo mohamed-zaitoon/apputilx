@@ -3,7 +3,7 @@ package mz.example
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import apputilx.AppUtils
+import apputilx.Utils
 
 class ExampleActivity : AppCompatActivity() {
 
@@ -16,122 +16,122 @@ class ExampleActivity : AppCompatActivity() {
         // ==================================================
         // Network
         // ==================================================
-        AppUtils.addConnectionListener { connected ->
-            AppUtils.showToast("Network connected: $connected")
+        Utils.addConnectionListener { connected ->
+            Utils.showToast("Network connected: $connected")
         }
 
         // ==================================================
         // Browser
         // ==================================================
-        AppUtils.openUrl(this, "https://example.com")
-        AppUtils.showToast("Opened URL: ${AppUtils.BROWSER_URL}")
+        Utils.openUrl(this, "https://example.com")
+        Utils.showToast("Opened URL: ${Utils.BROWSER_URL}")
 
         // ==================================================
         // Clipboard
         // ==================================================
-        AppUtils.copyText("Hello from AppUtils")
-        val copied = AppUtils.getCopiedText()
-        AppUtils.showToast("Copied text: $copied")
+        Utils.copyText("Hello from Utils")
+        val copied = Utils.getCopiedText()
+        Utils.showToast("Copied text: $copied")
 
         // ==================================================
         // Vibration
         // ==================================================
-        AppUtils.vibrate(200)
-        AppUtils.vibratePattern(longArrayOf(0, 100, 50, 200))
+        Utils.vibrate(200)
+        Utils.vibratePattern(longArrayOf(0, 100, 50, 200))
 
         // ==================================================
         // Screen Capture
         // ==================================================
-        AppUtils.blockCapture()
-        // AppUtils.unblockCapture()
+        Utils.blockCapture()
+        // Utils.unblockCapture()
 
         // ==================================================
         // Notification
         // ==================================================
-        AppUtils.showNotification(
+        Utils.showNotification(
             channelId = "default",
-            title = "AppUtils",
-            text = "Notification from AppUtils",
+            title = "Utils",
+            text = "Notification from Utils",
             iconResId = R.drawable.ic_launcher
         )
 
         // ==================================================
         // Keyboard (example usage)
         // ==================================================
-        // AppUtils.hideKeyboard()
-        // AppUtils.toggleKeyboard()
+        // Utils.hideKeyboard()
+        // Utils.toggleKeyboard()
 
         // ==================================================
         // Device Info
         // ==================================================
-        val model = AppUtils.deviceModel()
-        val brand = AppUtils.deviceBrand()
-        val androidVersion = AppUtils.androidVersion()
-        AppUtils.log("DEVICE", "$brand $model - $androidVersion")
+        val model = Utils.deviceModel()
+        val brand = Utils.deviceBrand()
+        val androidVersion = Utils.androidVersion()
+        Utils.log("DEVICE", "$brand $model - $androidVersion")
 
         // ==================================================
         // Battery
         // ==================================================
-        val battery = AppUtils.getBatteryLevel()
-        val charging = AppUtils.isCharging()
-        AppUtils.log("BATTERY", "Level=$battery Charging=$charging")
+        val battery = Utils.getBatteryLevel()
+        val charging = Utils.isCharging()
+        Utils.log("BATTERY", "Level=$battery Charging=$charging")
 
         // ==================================================
         // Time
         // ==================================================
-        val now = AppUtils.now()
-        val formatted = AppUtils.formatTime(now, "yyyy-MM-dd HH:mm:ss")
-        AppUtils.log("TIME", "Now=$formatted")
-        AppUtils.log("TIME", AppUtils.timeAgo(now - 60000))
+        val now = Utils.now()
+        val formatted = Utils.formatTime(now, "yyyy-MM-dd HH:mm:ss")
+        Utils.log("TIME", "Now=$formatted")
+        Utils.log("TIME", Utils.timeAgo(now - 60000))
 
         // ==================================================
         // Validation
         // ==================================================
-        val emailValid = AppUtils.isValidEmail("test@example.com")
-        val phoneValid = AppUtils.isValidPhone("201234567890")
-        AppUtils.log("VALIDATION", "Email=$emailValid Phone=$phoneValid")
+        val emailValid = Utils.isValidEmail("test@example.com")
+        val phoneValid = Utils.isValidPhone("201234567890")
+        Utils.log("VALIDATION", "Email=$emailValid Phone=$phoneValid")
 
         // ==================================================
         // Intent
         // ==================================================
-        // AppUtils.openWhatsApp("201234567890", "Hello")
-        // AppUtils.dial("201234567890")
-        // AppUtils.sendEmail("test@example.com", "Hello", "Message body")
+        // Utils.openWhatsApp("201234567890", "Hello")
+        // Utils.dial("201234567890")
+        // Utils.sendEmail("test@example.com", "Hello", "Message body")
 
         // ==================================================
         // Storage
         // ==================================================
-        val freeStorage = AppUtils.getFreeStorage()
-        val totalStorage = AppUtils.getTotalStorage()
-        AppUtils.log("STORAGE", "Free=$freeStorage Total=$totalStorage")
+        val freeStorage = Utils.getFreeStorage()
+        val totalStorage = Utils.getTotalStorage()
+        Utils.log("STORAGE", "Free=$freeStorage Total=$totalStorage")
 
         // ==================================================
         // Files
         // ==================================================
-        AppUtils.writeFile("demo.txt", "Hello File")
-        val fileText = AppUtils.readFile("demo.txt")
-        AppUtils.log("FILE", "Content=$fileText")
+        Utils.writeFile("demo.txt", "Hello File")
+        val fileText = Utils.readFile("demo.txt")
+        Utils.log("FILE", "Content=$fileText")
 
         // ==================================================
         // Encryption
         // ==================================================
-        val hash = AppUtils.sha256("password")
-        val encoded = AppUtils.base64Encode("Hello")
-        val decoded = AppUtils.base64Decode(encoded)
-        AppUtils.log("CRYPTO", "SHA=$hash Base64=$decoded")
+        val hash = Utils.sha256("password")
+        val encoded = Utils.base64Encode("Hello")
+        val decoded = Utils.base64Decode(encoded)
+        Utils.log("CRYPTO", "SHA=$hash Base64=$decoded")
 
         // ==================================================
         // App State
         // ==================================================
-        val foreground = AppUtils.isAppInForeground()
-        val screenOn = AppUtils.isScreenOn()
-        AppUtils.log("STATE", "Foreground=$foreground ScreenOn=$screenOn")
+        val foreground = Utils.isAppInForeground()
+        val screenOn = Utils.isScreenOn()
+        Utils.log("STATE", "Foreground=$foreground ScreenOn=$screenOn")
 
         // ==================================================
         // App Signature
         // ==================================================
-        val signatures = AppUtils.getAppSignatures()
-        val primarySha1 = AppUtils.getPrimarySignatureSHA1()
-        AppUtils.log("SIGNATURE", "SHA1=$primarySha1")
+        val signatures = Utils.getAppSignatures()
+        val primarySha1 = Utils.getPrimarySignatureSHA1()
+        Utils.log("SIGNATURE", "SHA1=$primarySha1")
     }
 }

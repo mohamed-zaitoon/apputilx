@@ -34,7 +34,7 @@ android {
         viewBinding = true
     }
 
-    // مهم لمكتبات Android
+    // ضروري لمكتبات Android
     publishing {
         singleVariant("release") {
             withSourcesJar()
@@ -52,15 +52,19 @@ dependencies {
 
 afterEvaluate {
 
+    val ghUser = findProperty("GITHUB_USERNAME") as String?
+    val ghToken = findProperty("GITHUB_TOKEN") as String?
+
     publishing {
 
         publications {
+
             create<MavenPublication>("release") {
                 from(components["release"])
 
                 groupId = "io.github.mohamed-zaitoon"
                 artifactId = "apputilx"
-                version = "1.0.3-alpha"
+                version = "1.0.3-beta"
 
                 pom {
                     name.set("AppUtilx")
@@ -93,17 +97,19 @@ afterEvaluate {
 
         repositories {
 
-            // ✅ GitHub Packages
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/mohamed-zaitoon/apputilx")
-                credentials {
-                    username = findProperty("GITHUB_USERNAME") as String
-                    password = findProperty("GITHUB_TOKEN") as String
+            // 🔐 GitHub Packages (يشتغل فقط لو التوكن موجود)
+            if (!ghUser.isNullOrBlank() && !ghToken.isNullOrBlank()) {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/mohamed-zaitoon/apputilx")
+                    credentials {
+                        username = ghUser
+                        password = ghToken
+                    }
                 }
             }
 
-            // ✅ JitPack (للتوافق – مش بيحتاج credentials)
+            // 🌍 JitPack (لا يحتاج أي إعدادات)
             maven {
                 name = "JitPack"
                 url = uri("https://jitpack.io")
