@@ -3,11 +3,11 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-Beta-orange)
-![Version](https://img.shields.io/badge/Version-1.0.3-rc1--blue)
+![Version](https://img.shields.io/badge/Version-1.0.3--blue)
 
 # apputilx
 
-> 🚧 Beta release — APIs may change before the stable version.
+> 🚧 Release — APIs may change before the stable version.
 
 apputilx is a lightweight Android utility library that centralizes the most commonly used helpers into a single, clean, and easy-to-use API.
 
@@ -41,7 +41,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputilx:1.0.3-rc1")
+    implementation("com.github.mohamed-zaitoon:apputilx:1.0.3")
 }
 ```
 
@@ -55,7 +55,7 @@ dependencies {
 
 ## Changelog
 
-1.0.3-rc1 — Initial Test Release
+1.0.3 — Initial Release
 - Added core apputil initialization and lifecycle tracking
 - Added Toast and Snackbar utilities
 - Added network connectivity checks and listeners
