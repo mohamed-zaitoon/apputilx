@@ -64,7 +64,7 @@ afterEvaluate {
 
                 groupId = "io.github.mohamed-zaitoon"
                 artifactId = "apputilx"
-                version = "1.0.3-beta"
+                version = "1.0.3-rc1"
 
                 pom {
                     name.set("AppUtilx")
