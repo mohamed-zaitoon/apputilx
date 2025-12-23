@@ -2,12 +2,12 @@
 ![AndroidX](https://img.shields.io/badge/AndroidX-Required-blue)
 ![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
-![Release](https://img.shields.io/badge/Release-Alpha-orange)
+![Release](https://img.shields.io/badge/Release-Beta-orange)
 ![Version](https://img.shields.io/badge/Version-1.0.3-beta--blue)
 
 # apputilx
 
-> 🚧 Alpha release — APIs may change before the stable version.
+> 🚧 Beta release — APIs may change before the stable version.
 
 apputilx is a lightweight Android utility library that centralizes the most commonly used helpers into a single, clean, and easy-to-use API.
 

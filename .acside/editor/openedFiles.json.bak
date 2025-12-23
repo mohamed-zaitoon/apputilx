@@ -1,0 +1,170 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/settings.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/gradle.properties",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/.gitignore",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/library/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 37,
+          "index": 1470,
+          "line": 66
+        },
+        "start": {
+          "column": 37,
+          "index": 1470,
+          "line": 66
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/library/src/main/java/apputilx/Utils.kt",
+      "selection": {
+        "end": {
+          "column": 7,
+          "index": 905,
+          "line": 31
+        },
+        "start": {
+          "column": 7,
+          "index": 905,
+          "line": 31
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/library/src/main/java/apputilx/helpers/keyboard.kt",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/app/src/main/java/mz/example/ExampleActivity.kt",
+      "selection": {
+        "end": {
+          "column": 11,
+          "index": 1619,
+          "line": 45
+        },
+        "start": {
+          "column": 11,
+          "index": 1619,
+          "line": 45
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/app/src/main/java/mz/example/ExampleApplication.kt",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 317,
+          "line": 18
+        },
+        "start": {
+          "column": 0,
+          "index": 317,
+          "line": 18
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/app/.gitignore",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/apputilx/app/build.gradle.kts",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 1052,
+          "line": 47
+        },
+        "start": {
+          "column": 0,
+          "index": 1052,
+          "line": 47
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/apputilx/library/build.gradle.kts"
+}
