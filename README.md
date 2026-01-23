@@ -3,7 +3,6 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-First-purple)
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-orange)
-![Version](https://img.shields.io/badge/Version-1.1.0)
 
 # apputilx
 
@@ -41,7 +40,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputilx:1.0.3")
+    implementation("com.github.mohamed-zaitoon:apputilx:1.2.0")
 }
 ```
 
