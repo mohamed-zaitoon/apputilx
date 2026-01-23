@@ -1,3 +1,4 @@
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -9,7 +10,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -64,7 +65,7 @@ afterEvaluate {
 
                 groupId = "io.github.mohamed-zaitoon"
                 artifactId = "apputilx"
-                version = "1.0.3"
+                version = "1.1.1"
 
                 pom {
                     name.set("AppUtilx")

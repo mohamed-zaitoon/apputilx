@@ -6,7 +6,7 @@ import platform
 from datetime import datetime, timezone
 
 DEFAULT_GIT_NAME = "mohamed-zaitoon"
-DEFAULT_GIT_EMAIL = "mohamedzaitoon01@gmail.com"
+DEFAULT_GIT_EMAIL = "mohamedzaitoon242@gmail.com"
 
 def run(cmd, cwd=None, silent=False, check=False):
     try:

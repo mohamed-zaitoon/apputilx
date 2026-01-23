@@ -79,7 +79,7 @@ object Utils {
 
     private fun ctx(): Context =
         if (::appContext.isInitialized) appContext
-        else throw IllegalStateException("Call AppUtils.initialize() first")
+        else throw IllegalStateException("Call apputilx.Utils.initialize() first")
 
     private fun act(): Activity? = currentActivity
 

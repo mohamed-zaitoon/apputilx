@@ -48,3 +48,7 @@ proguard-rules.pro
 ndkBuild/
 obj/
 jniLibs/
+
+#######
+
+*.py
