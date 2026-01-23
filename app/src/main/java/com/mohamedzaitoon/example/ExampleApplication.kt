@@ -1,4 +1,4 @@
-package mz.example
+package com.mohamedzaitoon.example
 
 import android.app.Application
 import android.content.Context

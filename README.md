@@ -40,7 +40,7 @@ dependencyResolutionManagement {
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputilx:1.2.0")
+    implementation("com.github.mohamed-zaitoon:apputilx:1.2.1")
 }
 ```
 

@@ -3,17 +3,17 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.api.publish.maven.MavenPublication
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
     id("maven-publish")
 }
 
 configure<LibraryExtension> {
     namespace = "apputilx"
-    compileSdk = 36
+
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.minSdk.get().toInt()
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -28,18 +28,10 @@ configure<LibraryExtension> {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    //noinspection WrongGradleMethod
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
-    }
-
     buildFeatures {
         viewBinding = true
     }
 
-    // ضروري لمكتبات Android
     publishing {
         singleVariant("release") {
             withSourcesJar()
@@ -66,7 +58,8 @@ afterEvaluate {
 
                 groupId = "io.github.mohamed-zaitoon"
                 artifactId = "apputilx"
-                version = "1.2.0"
+    
+                version = libs.versions.versionName.get()
 
                 pom {
                     name.set("AppUtilx")
@@ -84,7 +77,7 @@ afterEvaluate {
                         developer {
                             id.set("mohamed-zaitoon")
                             name.set("Mohamed Zaitoon")
-                            email.set("mohamedzaitoon01@gmail.com")
+                            email.set("mohamedzaitoon242@gmail.com")
                         }
                     }
 
@@ -98,7 +91,6 @@ afterEvaluate {
         }
 
         repositories {
-            // 🔐 GitHub Packages (يشتغل فقط لو التوكن موجود)
             if (!ghUser.isNullOrBlank() && !ghToken.isNullOrBlank()) {
                 maven {
                     name = "GitHubPackages"
@@ -108,12 +100,6 @@ afterEvaluate {
                         password = ghToken
                     }
                 }
-            }
-
-            // 🌍 JitPack (لا يحتاج أي إعدادات)
-            maven {
-                name = "JitPack"
-                url = uri("https://jitpack.io")
             }
         }
     }

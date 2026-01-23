@@ -1,4 +1,4 @@
-package mz.example
+package com.mohamedzaitoon.example
 
 import android.annotation.SuppressLint
 import android.os.Bundle

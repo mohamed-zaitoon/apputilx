@@ -2,23 +2,21 @@ import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.kotlin.dsl.configure
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
 }
 
 configure<ApplicationExtension> {
-    namespace = "mz.example"
-    compileSdk = 36
-    buildToolsVersion = "36.1.0"
-
+    namespace = "com.mohamedzaitoon.example"
+    compileSdk = libs.versions.compileSdk.get().toInt()
+    buildToolsVersion = libs.versions.buildTools.get()
+    
     defaultConfig {
-        applicationId = "mz.example"
-        minSdk = 26
-        targetSdk = 36
-        multiDexEnabled = true
+        applicationId = "com.mohamedzaitoon.example"
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
 
-        versionCode = 120
-        versionName = "1.2.0"
+        versionCode = libs.versions.versionCode.get().toInt()
+        versionName = libs.versions.versionName.get()
     }
 
     buildTypes {
@@ -40,13 +38,6 @@ configure<ApplicationExtension> {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    //noinspection WrongGradleMethod
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
-    }
 }
 
 dependencies {
@@ -55,5 +46,4 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.multidex)
 }
