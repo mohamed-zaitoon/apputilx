@@ -29,18 +29,21 @@ Features:
 
 Kotlin DSL:
 ```kotlin
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven {
-            maven { url = uri("https://jitpack.io") }
-        }
+ // Add in gradle/libs.versions.toml
+    apputilx = "1.2.1"
+    apputilx = { group = "com.github.mohamed-zaitoon" , name = "apputilx" , version.ref = "apputilx" }
+    
+    //Add in settings.gradle.kts
+repositories {
+    google()
+    mavenCentral()
+    maven {
+       maven { url = uri("https://jitpack.io") }
     }
 }
 
 dependencies {
-    implementation("com.github.mohamed-zaitoon:apputilx:1.2.1")
+    implementation(libs.apputilx)
 }
 ```
 
