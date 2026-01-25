@@ -11,7 +11,7 @@
 apputilx is a lightweight Android utility library that centralizes the most commonly used helpers into a single, clean, and easy-to-use API.
 
 Documents:
-https://apputils.mohamed-zaitoon.com/
+https://apputilx.mohamedzaitoon.com/
 
 Features:
 - Toast & Snackbar helpers
