@@ -131,8 +131,12 @@ class SwipeRefreshLayout @JvmOverloads constructor(
 
     private var mChildScrollUpCallback: OnChildScrollUpCallback? = null
 
-    // NOTE: mRefreshListener is initialized after helper methods are defined
-    private lateinit var mRefreshListener: Animation.AnimationListener
+    // Initialized with no-op and later replaced with real listener
+    private var mRefreshListener: Animation.AnimationListener = object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation?) {}
+        override fun onAnimationEnd(animation: Animation?) {}
+        override fun onAnimationRepeat(animation: Animation?) {}
+    }
 
     // ---------- helper methods ----------
 

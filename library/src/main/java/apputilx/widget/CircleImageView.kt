@@ -17,8 +17,8 @@ import androidx.core.view.ViewCompat
 class CircleImageView(context: Context, color: Int) : AppCompatImageView(context) {
 
     companion object {
-        private const val KEY_SHADOW_COLOR = 0x1E000000.toInt()
-        private const val FILL_SHADOW_COLOR = 0x3D000000.toInt()
+        private const val KEY_SHADOW_COLOR = 0x1E000000
+        private const val FILL_SHADOW_COLOR = 0x3D000000
 
         // px constants (as floats in original Java)
         private const val X_OFFSET = 0f
