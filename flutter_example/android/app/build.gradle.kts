@@ -45,5 +45,5 @@ flutter {
 
 dependencies {
     // Use JitPack commit coordinate for now
-    implementation("com.github.mohamed-zaitoon:apputilx:97a56c332c1c0ace76d52fb630f26be92b35a0d3")
+    implementation("com.github.mohamed-zaitoon:apputilx:1.3.0")
 }
