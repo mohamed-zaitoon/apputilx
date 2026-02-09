@@ -16,13 +16,17 @@ https://apputilx.mohamedzaitoon.com/
 Features:
 - Toast & Snackbar helpers
 - Network connectivity checks & listeners
+- Lifecycle-aware network callbacks
 - Clipboard utilities
 - Keyboard utilities (show / hide / toggle / state detection)
 - Vibration helpers
 - Open URLs (Browser & Chrome Custom Tabs)
+- Safe intent helpers (WhatsApp, dial, email, share, app settings)
 - Screen capture control
 - Notification utilities
+- Biometric authentication helper
 - App signature validation
+- Storage & cache helpers
 - Device & system information helpers
 
 ## Download
@@ -30,7 +34,7 @@ Features:
 Kotlin DSL:
 ```kotlin
  // Add in gradle/libs.versions.toml
-    apputilx = "1.2.1"
+    apputilx = "1.3.0"
     apputilx = { group = "com.github.mohamed-zaitoon" , name = "apputilx" , version.ref = "apputilx" }
     
     //Add in settings.gradle.kts
@@ -56,6 +60,15 @@ dependencies {
 ```
 
 ## Changelog
+
+1.3.0 — Android 15 ready
+- Updated to versionCode 130 / versionName 1.3.0
+- Lifecycle-aware network callback to avoid leaks
+- Safer vibration APIs (Q+ attributes fallback)
+- Safe intent helpers and app settings shortcut
+- Added biometric authentication helper
+- Added ProcessLifecycle / Biometric dependencies
+- NotificationCompat foreground service behavior on Android 14+
 
 1.0.3 — Initial Release
 - Added core apputil initialization and lifecycle tracking

@@ -28,7 +28,7 @@ internal object Vibration {
         val vibrator = getVibrator(context) ?: return
         if (!vibrator.hasVibrator()) return
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val effect = VibrationEffect.createOneShot(
                 milliseconds,
                 VibrationEffect.DEFAULT_AMPLITUDE
@@ -38,7 +38,14 @@ internal object Vibration {
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
             vibrator.vibrate(effect, attrs)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val effect = VibrationEffect.createOneShot(
+                milliseconds,
+                VibrationEffect.DEFAULT_AMPLITUDE
+            )
+            vibrator.vibrate(effect)
         } else {
+            @Suppress("DEPRECATION")
             vibrator.vibrate(milliseconds)
         }
     }
@@ -57,14 +64,18 @@ internal object Vibration {
         val vibrator = getVibrator(context) ?: return
         if (!vibrator.hasVibrator()) return
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val effect = VibrationEffect.createWaveform(pattern, repeat)
             val attrs = AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .build()
             vibrator.vibrate(effect, attrs)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val effect = VibrationEffect.createWaveform(pattern, repeat)
+            vibrator.vibrate(effect)
         } else {
+            @Suppress("DEPRECATION")
             vibrator.vibrate(pattern, repeat)
         }
     }

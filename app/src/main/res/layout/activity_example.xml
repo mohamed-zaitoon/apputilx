@@ -5,17 +5,247 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- استخدم SwipeRefreshLayout من باكيج apputilx.widget -->
     <apputilx.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- WebView يغطي المحتوى -->
-        <WebView
-            android:id="@+id/webView"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AppUtilx Playground"
+                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:textStyle="bold"
+                    android:paddingBottom="8dp" />
+
+                <EditText
+                    android:id="@+id/etInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="اكتب نص للتجارب (مشاركة/نسخ/هاش)"
+                    android:padding="12dp"
+                    android:background="@android:drawable/edit_text"
+                    android:inputType="text" />
+
+                <TextView
+                    android:id="@+id/tvOutput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="النتيجة ستظهر هنا"
+                    android:padding="8dp"
+                    android:background="@android:color/darker_gray"
+                    android:textColor="@android:color/white" />
+
+                <!-- Network -->
+                <Button
+                    android:id="@+id/btnNetworkState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Network: isConnected()" />
+
+                <!-- Browser / Intent -->
+                <Button
+                    android:id="@+id/btnOpenUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open URL (Custom Tabs)" />
+
+                <Button
+                    android:id="@+id/btnOpenSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open App Settings" />
+
+                <Button
+                    android:id="@+id/btnWhatsApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open WhatsApp Chat" />
+
+                <Button
+                    android:id="@+id/btnDial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dial Number" />
+
+                <Button
+                    android:id="@+id/btnSendEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Send Email" />
+
+                <Button
+                    android:id="@+id/btnShareText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Share Text" />
+
+                <!-- Clipboard -->
+                <Button
+                    android:id="@+id/btnCopy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Copy Input to Clipboard" />
+
+                <Button
+                    android:id="@+id/btnPaste"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Get Clipboard Text" />
+
+                <!-- Vibration -->
+                <Button
+                    android:id="@+id/btnVibrateShort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vibrate 200ms" />
+
+                <Button
+                    android:id="@+id/btnVibratePattern"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vibrate Pattern" />
+
+                <!-- Screen capture -->
+                <Button
+                    android:id="@+id/btnBlockCapture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Block Screen Capture" />
+
+                <Button
+                    android:id="@+id/btnUnblockCapture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Unblock Screen Capture" />
+
+                <!-- Notification -->
+                <Button
+                    android:id="@+id/btnShowNotification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Show Notification" />
+
+                <Button
+                    android:id="@+id/btnCancelNotifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cancel All Notifications" />
+
+                <!-- Keyboard -->
+                <Button
+                    android:id="@+id/btnShowKeyboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Show Keyboard" />
+
+                <Button
+                    android:id="@+id/btnHideKeyboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hide Keyboard" />
+
+                <!-- Device / Battery -->
+                <Button
+                    android:id="@+id/btnDeviceInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Device Info" />
+
+                <Button
+                    android:id="@+id/btnBatteryInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Battery Info" />
+
+                <!-- Time -->
+                <Button
+                    android:id="@+id/btnTimeNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Time Now / Time Ago" />
+
+                <!-- Validation -->
+                <Button
+                    android:id="@+id/btnValidate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Validate Email/Phone/URL" />
+
+                <!-- Storage -->
+                <Button
+                    android:id="@+id/btnStorage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Storage / Cache Info" />
+
+                <!-- Files -->
+                <Button
+                    android:id="@+id/btnWriteFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Write File (demo.txt)" />
+
+                <Button
+                    android:id="@+id/btnReadFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Read File (demo.txt)" />
+
+                <Button
+                    android:id="@+id/btnDeleteFile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Delete File (demo.txt)" />
+
+                <!-- Encryption -->
+                <Button
+                    android:id="@+id/btnSha256"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SHA-256 (input)" />
+
+                <Button
+                    android:id="@+id/btnBase64"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Base64 Encode/Decode" />
+
+                <!-- App State -->
+                <Button
+                    android:id="@+id/btnAppState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="App State (foreground/screen)" />
+
+                <!-- Signatures -->
+                <Button
+                    android:id="@+id/btnSignatures"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="App Signatures" />
+
+                <!-- Biometrics -->
+                <Button
+                    android:id="@+id/btnBiometric"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Biometric Authenticate" />
+
+            </LinearLayout>
+        </ScrollView>
 
     </apputilx.widget.SwipeRefreshLayout>
 

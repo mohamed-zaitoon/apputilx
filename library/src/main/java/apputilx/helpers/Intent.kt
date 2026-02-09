@@ -1,8 +1,11 @@
 package apputilx.helpers
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
 
 internal object Intent {
 
@@ -10,10 +13,9 @@ internal object Intent {
      * Open a URL using an external app.
      */
     fun openUrl(context: Context, url: String) {
-        context.startActivity(
+        startSafely(context) {
             Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        )
+        }
     }
 
     /**
@@ -37,22 +39,48 @@ internal object Intent {
      * Send email.
      */
     fun sendEmail(context: Context, email: String, subject: String = "", body: String = "") {
-        val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:$email")
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-            putExtra(Intent.EXTRA_TEXT, body)
+        startSafely(context) {
+            Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:$email")
+                putExtra(Intent.EXTRA_SUBJECT, subject)
+                putExtra(Intent.EXTRA_TEXT, body)
+            }
         }
-        context.startActivity(intent)
     }
 
     /**
      * Share plain text.
      */
     fun shareText(context: Context, text: String) {
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT, text)
+        startSafely(context) {
+            Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, text)
+            }.let { Intent.createChooser(it, "Share via") }
         }
-        context.startActivity(Intent.createChooser(intent, "Share via"))
+    }
+
+    /**
+     * Open current app settings screen.
+     */
+    fun openAppSettings(context: Context) {
+        startSafely(context) {
+            Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:${context.packageName}")
+            )
+        }
+    }
+
+    private fun startSafely(context: Context, intentBuilder: () -> Intent) {
+        try {
+            val intent = intentBuilder()
+            if (context !is Activity) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            context.startActivity(intent)
+        } catch (_: ActivityNotFoundException) {
+            // ignore to prevent crash
+        }
     }
 }

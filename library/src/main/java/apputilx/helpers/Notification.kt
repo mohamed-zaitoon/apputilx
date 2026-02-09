@@ -65,6 +65,11 @@ internal object Notification {
 
             intent?.let { builder.setContentIntent(it) }
 
+            // For Android 14+ require explicit foreground service type to post while in background
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                builder.setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
+            }
+
             Log.d(TAG, "Showing notification: $title")
 
             NotificationManagerCompat.from(context)

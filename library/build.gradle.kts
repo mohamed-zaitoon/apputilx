@@ -45,6 +45,8 @@ dependencies {
     api(libs.material)
     api(libs.androidx.browser)
     api(libs.androidx.swiperefreshlayout)
+    api(libs.androidx.biometric)
+    api(libs.androidx.lifecycle.process)
 }
 
 afterEvaluate {

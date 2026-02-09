@@ -5,12 +5,32 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 
-internal object Network {
+internal object Network : DefaultLifecycleObserver {
 
     private lateinit var connectivityManager: ConnectivityManager
     private val listeners = mutableListOf<(Boolean) -> Unit>()
     private var initialized = false
+    private var registeredCallback = false
+    private val callback by lazy {
+        object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                updateConnection(true)
+            }
+
+            override fun onLost(network: Network) {
+                updateConnection(false)
+            }
+        }
+    }
+    private val request by lazy {
+        NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+    }
 
     /**
      * Indicates whether the device is currently connected to the internet.
@@ -29,26 +49,20 @@ internal object Network {
         connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        // Determine current connection state before registering callbacks
+        // pre-populate state
         updateCurrentConnectionState()
 
-        val request = NetworkRequest.Builder()
-            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .build()
+        // observe app lifecycle to register/unregister callbacks safely
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
+        registerCallbackIfNeeded()
+    }
 
-        connectivityManager.registerNetworkCallback(
-            request,
-            object : ConnectivityManager.NetworkCallback() {
+    override fun onStart(owner: LifecycleOwner) {
+        registerCallbackIfNeeded()
+    }
 
-                override fun onAvailable(network: Network) {
-                    updateConnection(true)
-                }
-
-                override fun onLost(network: Network) {
-                    updateConnection(false)
-                }
-            }
-        )
+    override fun onStop(owner: LifecycleOwner) {
+        unregisterCallback()
     }
 
     /**
@@ -61,11 +75,11 @@ internal object Network {
     }
     
     /**
- * Remove a previously added network connection listener.
- */
-fun removeConnectionListener(listener: (Boolean) -> Unit) {
-    listeners.remove(listener)
-}
+     * Remove a previously added network connection listener.
+     */
+    fun removeConnectionListener(listener: (Boolean) -> Unit) {
+        listeners.remove(listener)
+    }
 
     // --------------------------------------------------
     // Internal helpers
@@ -84,6 +98,22 @@ fun removeConnectionListener(listener: (Boolean) -> Unit) {
         if (isConnected == status) return
         isConnected = status
         notifyListeners(status)
+    }
+
+    private fun registerCallbackIfNeeded() {
+        if (registeredCallback) return
+        connectivityManager.registerNetworkCallback(request, callback)
+        registeredCallback = true
+    }
+
+    private fun unregisterCallback() {
+        if (!registeredCallback) return
+        try {
+            connectivityManager.unregisterNetworkCallback(callback)
+        } catch (_: Exception) {
+            // ignore
+        }
+        registeredCallback = false
     }
 
     private fun notifyListeners(status: Boolean) {

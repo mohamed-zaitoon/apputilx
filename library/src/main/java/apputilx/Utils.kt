@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes
+import androidx.fragment.app.FragmentActivity
 import java.util.Locale
 import apputilx.helpers.AppState
 import apputilx.helpers.Battery
@@ -28,6 +29,7 @@ import apputilx.helpers.Toast
 import apputilx.helpers.Validation
 import apputilx.helpers.Vibration
 import apputilx.helpers.Keyboard
+import apputilx.helpers.Biometric
 
 object Utils {
 
@@ -299,144 +301,181 @@ object Utils {
 
     fun isStrongPassword(password: String): Boolean =
         Validation.isStrongPassword(password)
-        // ==================================================
-// Intent
-// ==================================================
 
-fun openWhatsApp(phone: String, message: String? = null) =
-    Intent.openWhatsApp(ctx(), phone, message)
-
-fun dial(phone: String) =
-    Intent.dial(ctx(), phone)
-
-fun sendEmail(
-    email: String,
-    subject: String = "",
-    body: String = ""
-) = Intent.sendEmail(ctx(), email, subject, body)
-
-fun shareText(text: String) =
-    Intent.shareText(ctx(), text)
-    
-    
-        // ==================================================
-// Storage
-// ==================================================
-
-fun getFreeStorage(): Long =
-    Storage.getFreeInternalStorage()
-
-fun getTotalStorage(): Long =
-    Storage.getTotalInternalStorage()
-
-fun getCacheSize(): Long =
-    Storage.getCacheSize(ctx())
-
-fun clearCache() =
-    Storage.clearCache(ctx())
     // ==================================================
-// Files
-// ==================================================
-
-fun writeFile(name: String, text: String) =
-    File.writeText(ctx(), name, text)
-
-fun readFile(name: String): String? =
-    File.readText(ctx(), name)
-
-fun deleteFile(name: String): Boolean =
-    File.delete(ctx(), name)
-
-fun fileExists(name: String): Boolean =
-    File.exists(ctx(), name)
+    // Intent
     // ==================================================
-// Encryption
-// ==================================================
 
-fun sha256(text: String): String =
-    Encryption.sha256(text)
+    fun openWhatsApp(phone: String, message: String? = null) =
+        Intent.openWhatsApp(ctx(), phone, message)
 
-fun base64Encode(text: String): String =
-    Encryption.base64Encode(text)
+    fun dial(phone: String) =
+        Intent.dial(ctx(), phone)
 
-fun base64Decode(text: String): String =
-    Encryption.base64Decode(text)
+    fun sendEmail(
+        email: String,
+        subject: String = "",
+        body: String = ""
+    ) = Intent.sendEmail(ctx(), email, subject, body)
+
+    fun shareText(text: String) =
+        Intent.shareText(ctx(), text)
+
+    fun openAppSettings() =
+        Intent.openAppSettings(ctx())
+
     // ==================================================
-// App State
-// ==================================================
-
-fun isAppInForeground(): Boolean =
-    AppState.isAppInForeground(ctx())
-
-fun isScreenOn(): Boolean =
-    AppState.isScreenOn(ctx())
-    
-    
+    // Storage
     // ==================================================
-// Permissions
-// ==================================================
 
-fun isPermissionGranted(permission: String): Boolean =
-    Permission.isGranted(ctx(), permission)
+    fun getFreeStorage(): Long =
+        Storage.getFreeInternalStorage()
 
-fun requestPermission(
-    activity: Activity,
-    permission: String,
-    requestCode: Int
-) = Permission.request(activity, permission, requestCode)
-// ==================================================
-// App Signature
-// ==================================================
+    fun getTotalStorage(): Long =
+        Storage.getTotalInternalStorage()
 
-fun getAppSignatures(): List<String> =
-    Signature.getAppSignatures(ctx())
+    fun getCacheSize(): Long =
+        Storage.getCacheSize(ctx())
 
-fun getPrimarySignatureSHA1(): String =
-    Signature.getAppPrimarySignatureSHA1(ctx())
+    fun clearCache() =
+        Storage.clearCache(ctx())
 
-fun validateAppSignature(sha1: String): Boolean =
-    Signature.validateAppSignature(ctx(), sha1)
-    
-// ==================================================
-// Logger (Logcat + AlertDialog)
-// ==================================================
+    // ==================================================
+    // Files
+    // ==================================================
 
-fun log(tag: String, message: String) {
-    android.util.Log.d(tag, message)
-}
+    fun writeFile(name: String, text: String) =
+        File.writeText(ctx(), name, text)
 
-fun logWarning(tag: String, message: String) {
-    android.util.Log.w(tag, message)
-}
+    fun readFile(name: String): String? =
+        File.readText(ctx(), name)
 
-fun logError(tag: String, message: String, throwable: Throwable? = null) {
-    if (throwable != null) {
-        android.util.Log.e(tag, message, throwable)
-        showLogDialog(
-            "Error",
-            tag,
-            "$message\n\n${throwable.localizedMessage}"
+    fun deleteFile(name: String): Boolean =
+        File.delete(ctx(), name)
+
+    fun fileExists(name: String): Boolean =
+        File.exists(ctx(), name)
+
+    // ==================================================
+    // Encryption
+    // ==================================================
+
+    fun sha256(text: String): String =
+        Encryption.sha256(text)
+
+    fun base64Encode(text: String): String =
+        Encryption.base64Encode(text)
+
+    fun base64Decode(text: String): String =
+        Encryption.base64Decode(text)
+
+    // ==================================================
+    // App State
+    // ==================================================
+
+    fun isAppInForeground(): Boolean =
+        AppState.isAppInForeground(ctx())
+
+    fun isScreenOn(): Boolean =
+        AppState.isScreenOn(ctx())
+
+    // ==================================================
+    // Permissions
+    // ==================================================
+
+    fun isPermissionGranted(permission: String): Boolean =
+        Permission.isGranted(ctx(), permission)
+
+    fun requestPermission(
+        activity: Activity,
+        permission: String,
+        requestCode: Int
+    ) = Permission.request(activity, permission, requestCode)
+
+    // ==================================================
+    // Biometrics
+    // ==================================================
+
+    fun canUseBiometric(): Boolean =
+        Biometric.canAuthenticate(ctx())
+
+    fun authenticateBiometric(
+        activity: FragmentActivity? = null,
+        title: String,
+        subtitle: String? = null,
+        description: String? = null,
+        negativeButtonText: String = "Cancel",
+        onSuccess: () -> Unit,
+        onError: (code: Int, message: CharSequence?) -> Unit = { _, _ -> },
+        onFailed: () -> Unit = {}
+    ) {
+        val host = (activity ?: act()) as? FragmentActivity
+            ?: throw IllegalStateException("Biometric requires a FragmentActivity")
+        Biometric.authenticate(
+            activity = host,
+            title = title,
+            subtitle = subtitle,
+            description = description,
+            negativeButtonText = negativeButtonText,
+            onSuccess = onSuccess,
+            onError = onError,
+            onFailed = onFailed
         )
-    } else {
-        android.util.Log.e(tag, message)
-        showLogDialog("Error", tag, message)
     }
-}
-private fun showLogDialog(
-    type: String,
-    tag: String,
-    message: String
-) {
-    val activity = currentActivity ?: return
 
-    activity.runOnUiThread {
-        androidx.appcompat.app.AlertDialog.Builder(activity)
-            .setTitle("$type : $tag")
-            .setMessage(message)
-            .setCancelable(true)
-            .setPositiveButton("OK", null)
-            .show()
+    // ==================================================
+    // App Signature
+    // ==================================================
+
+    fun getAppSignatures(): List<String> =
+        Signature.getAppSignatures(ctx())
+
+    fun getPrimarySignatureSHA1(): String =
+        Signature.getAppPrimarySignatureSHA1(ctx())
+
+    fun validateAppSignature(sha1: String): Boolean =
+        Signature.validateAppSignature(ctx(), sha1)
+
+    // ==================================================
+    // Logger (Logcat + AlertDialog)
+    // ==================================================
+
+    fun log(tag: String, message: String) {
+        android.util.Log.d(tag, message)
     }
-}
 
+    fun logWarning(tag: String, message: String) {
+        android.util.Log.w(tag, message)
+    }
+
+    fun logError(tag: String, message: String, throwable: Throwable? = null) {
+        if (throwable != null) {
+            android.util.Log.e(tag, message, throwable)
+            showLogDialog(
+                "Error",
+                tag,
+                "$message\n\n${throwable.localizedMessage}"
+            )
+        } else {
+            android.util.Log.e(tag, message)
+            showLogDialog("Error", tag, message)
+        }
+    }
+
+    private fun showLogDialog(
+        type: String,
+        tag: String,
+        message: String
+    ) {
+        val activity = currentActivity ?: return
+
+        activity.runOnUiThread {
+            androidx.appcompat.app.AlertDialog.Builder(activity)
+                .setTitle("$type : $tag")
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton("OK", null)
+                .show()
+        }
+    }
 }

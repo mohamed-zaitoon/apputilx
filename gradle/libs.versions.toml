@@ -1,7 +1,7 @@
 [versions]
 # App & Library Versions
-versionCode = "121"
-versionName = "1.2.1"
+versionCode = "130"
+versionName = "1.3.0"
 
 # SDK Versions
 compileSdk = "36"
@@ -18,6 +18,10 @@ multidex = "2.0.1"
 browser = "1.9.0"
 swiperefreshlayout = "1.2.0"
 
+# Jetpack Extras
+biometric = "1.1.0"
+lifecycle = "2.8.6"
+
 # Plugins
 agp = "9.0.0"
 kotlin = "2.3.0"
@@ -30,6 +34,8 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycle" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,0 +1,74 @@
+package apputilx.helpers
+
+import android.content.Context
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+
+internal object Biometric {
+
+    /**
+     * Check if biometric or device credentials are available.
+     */
+    fun canAuthenticate(context: Context): Boolean {
+        val manager = BiometricManager.from(context)
+        val result = manager.canAuthenticate(
+            BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                BiometricManager.Authenticators.DEVICE_CREDENTIAL
+        )
+        return result == BiometricManager.BIOMETRIC_SUCCESS
+    }
+
+    /**
+     * Prompt user for biometric / device credential authentication.
+     */
+    fun authenticate(
+        activity: FragmentActivity,
+        title: String,
+        subtitle: String? = null,
+        description: String? = null,
+        negativeButtonText: String = "Cancel",
+        onSuccess: () -> Unit,
+        onError: (code: Int, message: CharSequence?) -> Unit = { _, _ -> },
+        onFailed: () -> Unit = {}
+    ) {
+        val executor = ContextCompat.getMainExecutor(activity)
+        val callback = object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                onSuccess()
+            }
+
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                onError(errorCode, errString)
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                onFailed()
+            }
+        }
+
+        val authenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG or
+            BiometricManager.Authenticators.DEVICE_CREDENTIAL
+
+        val promptInfoBuilder = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(title)
+            .apply { subtitle?.let { setSubtitle(it) } }
+            .apply { description?.let { setDescription(it) } }
+            .setAllowedAuthenticators(authenticators)
+
+        // Negative button text is only legal when DEVICE_CREDENTIAL is not allowed.
+        val allowsDeviceCredential =
+            authenticators and BiometricManager.Authenticators.DEVICE_CREDENTIAL != 0
+        if (!allowsDeviceCredential) {
+            promptInfoBuilder.setNegativeButtonText(negativeButtonText)
+        }
+
+        val promptInfo = promptInfoBuilder.build()
+
+        BiometricPrompt(activity, executor, callback).authenticate(promptInfo)
+    }
+}
