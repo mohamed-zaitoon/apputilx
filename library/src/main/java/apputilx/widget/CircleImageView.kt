@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
+import android.util.AttributeSet
 import android.view.View
 import android.view.animation.Animation
 import androidx.appcompat.widget.AppCompatImageView
@@ -13,8 +14,23 @@ import androidx.core.view.ViewCompat
 /**
  * Converted to Kotlin from the original Java CircleImageView.
  * Provides a circular image with backward-compatible shadow support.
+ *
+ * This class will be deprecated in the next final release (1.4.0).
  */
+@Deprecated(
+    message = "This class will be deprecated in the next final release (1.4.0).",
+    level = DeprecationLevel.WARNING
+)
 class CircleImageView(context: Context, color: Int) : AppCompatImageView(context) {
+
+    constructor(context: Context) : this(context, Color.TRANSPARENT)
+
+    constructor(context: Context, attrs: AttributeSet?) : this(context, Color.TRANSPARENT)
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : this(
+        context,
+        Color.TRANSPARENT
+    )
 
     companion object {
         private const val KEY_SHADOW_COLOR = 0x1E000000

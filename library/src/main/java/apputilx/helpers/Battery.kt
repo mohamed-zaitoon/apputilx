@@ -60,7 +60,8 @@ internal object Battery {
      * Check whether power save mode is enabled.
      */
     fun isPowerSaveMode(context: Context): Boolean {
-        val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val pm = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
+            ?: return false
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             pm.isPowerSaveMode
         } else {

@@ -1,20 +1,28 @@
 package apputilx.helpers
 
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.os.Build
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
+@SuppressLint("NewApi", "InlinedApi")
 internal object Network : DefaultLifecycleObserver {
 
     private lateinit var connectivityManager: ConnectivityManager
+    private lateinit var appContext: Context
     private val listeners = mutableListOf<(Boolean) -> Unit>()
     private var initialized = false
     private var registeredCallback = false
+    private var registeredReceiver = false
     private val callback by lazy {
         object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
@@ -31,6 +39,17 @@ internal object Network : DefaultLifecycleObserver {
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
     }
+    private val receiver by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val previous = isConnected
+                updateCurrentConnectionState()
+                if (previous != isConnected) {
+                    notifyListeners(isConnected)
+                }
+            }
+        }
+    }
 
     /**
      * Indicates whether the device is currently connected to the internet.
@@ -45,24 +64,27 @@ internal object Network : DefaultLifecycleObserver {
     fun initialize(context: Context) {
         if (initialized) return
         initialized = true
+        appContext = context.applicationContext
 
-        connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        connectivityManager = appContext.getSystemService(Context.CONNECTIVITY_SERVICE)
+            as? ConnectivityManager
+            ?: return
 
         // pre-populate state
         updateCurrentConnectionState()
 
         // observe app lifecycle to register/unregister callbacks safely
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
-        registerCallbackIfNeeded()
+        registerMonitorIfNeeded()
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        registerCallbackIfNeeded()
+        updateCurrentConnectionState()
+        registerMonitorIfNeeded()
     }
 
     override fun onStop(owner: LifecycleOwner) {
-        unregisterCallback()
+        unregisterMonitor()
     }
 
     /**
@@ -70,6 +92,7 @@ internal object Network : DefaultLifecycleObserver {
      * The listener is immediately invoked with the current state.
      */
     fun addConnectionListener(listener: (Boolean) -> Unit) {
+        updateCurrentConnectionState()
         listeners.add(listener)
         listener(isConnected)
     }
@@ -86,12 +109,16 @@ internal object Network : DefaultLifecycleObserver {
     // --------------------------------------------------
 
     private fun updateCurrentConnectionState() {
-        val network = connectivityManager.activeNetwork
-        val capabilities = connectivityManager.getNetworkCapabilities(network)
+        isConnected = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork
+            val capabilities = connectivityManager.getNetworkCapabilities(network)
 
-        isConnected =
             capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true &&
-            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            @Suppress("DEPRECATION")
+            connectivityManager.activeNetworkInfo?.isConnected == true
+        }
     }
 
     private fun updateConnection(status: Boolean) {
@@ -106,6 +133,32 @@ internal object Network : DefaultLifecycleObserver {
         registeredCallback = true
     }
 
+    private fun registerMonitorIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            registerCallbackIfNeeded()
+        } else {
+            registerReceiverIfNeeded()
+        }
+    }
+
+    private fun registerReceiverIfNeeded() {
+        if (registeredReceiver) return
+        @Suppress("DEPRECATION")
+        appContext.registerReceiver(
+            receiver,
+            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        )
+        registeredReceiver = true
+    }
+
+    private fun unregisterMonitor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            unregisterCallback()
+        } else {
+            unregisterReceiver()
+        }
+    }
+
     private fun unregisterCallback() {
         if (!registeredCallback) return
         try {
@@ -114,6 +167,16 @@ internal object Network : DefaultLifecycleObserver {
             // ignore
         }
         registeredCallback = false
+    }
+
+    private fun unregisterReceiver() {
+        if (!registeredReceiver) return
+        try {
+            appContext.unregisterReceiver(receiver)
+        } catch (_: Exception) {
+            // ignore
+        }
+        registeredReceiver = false
     }
 
     private fun notifyListeners(status: Boolean) {

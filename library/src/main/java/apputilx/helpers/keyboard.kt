@@ -3,10 +3,11 @@ package apputilx.helpers
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.os.Build
 import android.view.View
+import android.view.WindowInsets
 import android.view.inputmethod.InputMethodManager
 
-@Suppress("DEPRECATION")
 internal object Keyboard {
 
     // Extract Activity safely from any Context
@@ -43,10 +44,12 @@ internal object Keyboard {
      * Show the soft keyboard for a View.
      */
     fun showKeyboard(view: View) {
-        val imm =
-            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         view.requestFocus()
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            view.windowInsetsController?.show(WindowInsets.Type.ime())
+        } else {
+            showKeyboardLegacy(view)
+        }
     }
 
     /**
@@ -64,7 +67,11 @@ internal object Keyboard {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         } else {
             view.requestFocus()
-            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                view.windowInsetsController?.show(WindowInsets.Type.ime())
+            } else {
+                showKeyboardLegacy(view)
+            }
         }
     }
 
@@ -75,5 +82,12 @@ internal object Keyboard {
         val imm =
             view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         return imm.isActive(view)
+    }
+
+    @Suppress("DEPRECATION")
+    private fun showKeyboardLegacy(view: View) {
+        val imm =
+            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 }

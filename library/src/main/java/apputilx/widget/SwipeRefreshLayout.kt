@@ -37,7 +37,14 @@ import kotlin.math.min
  * - Exposes `var isRefreshing` (property) so Kotlin code can use `swipe.isRefreshing = true`
  * - Exposes setOnRefreshListener(listener: OnRefreshListener?) where OnRefreshListener is a `fun interface`,
  *   so you can pass a lambda: swipe.setOnRefreshListener { /* refresh */ }
+ *
+ * This class will be deprecated in the next final release (1.4.0).
  */
+@Deprecated(
+    message = "This class will be deprecated in the next final release (1.4.0).",
+    level = DeprecationLevel.WARNING
+)
+@Suppress("DEPRECATION")
 class SwipeRefreshLayout @JvmOverloads constructor(
     context: Context,
     attrs: android.util.AttributeSet? = null
@@ -730,6 +737,7 @@ class SwipeRefreshLayout @JvmOverloads constructor(
                     val overscrollTop = (y - mInitialMotionY) * DRAG_RATE
                     mIsBeingDragged = false
                     finishSpinner(overscrollTop)
+                    performClick()
                 }
                 mActivePointerId = INVALID_POINTER
                 return false
@@ -739,6 +747,10 @@ class SwipeRefreshLayout @JvmOverloads constructor(
         }
 
         return true
+    }
+
+    override fun performClick(): Boolean {
+        return super.performClick()
     }
 
     private fun startDragging(y: Float) {

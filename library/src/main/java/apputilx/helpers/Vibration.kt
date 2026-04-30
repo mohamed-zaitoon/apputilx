@@ -1,13 +1,11 @@
 package apputilx.helpers
 
 import android.content.Context
-import android.media.AudioAttributes
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 
-@Suppress("DEPRECATION")
 internal object Vibration {
 
     private fun getVibrator(context: Context): Vibrator? {
@@ -15,7 +13,7 @@ internal object Vibration {
             val manager = context.getSystemService(VibratorManager::class.java)
             manager?.defaultVibrator
         } else {
-            context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+            getLegacyVibrator(context)
         }
     }
 
@@ -28,25 +26,14 @@ internal object Vibration {
         val vibrator = getVibrator(context) ?: return
         if (!vibrator.hasVibrator()) return
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val effect = VibrationEffect.createOneShot(
-                milliseconds,
-                VibrationEffect.DEFAULT_AMPLITUDE
-            )
-            val attrs = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-            vibrator.vibrate(effect, attrs)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val effect = VibrationEffect.createOneShot(
                 milliseconds,
                 VibrationEffect.DEFAULT_AMPLITUDE
             )
             vibrator.vibrate(effect)
         } else {
-            @Suppress("DEPRECATION")
-            vibrator.vibrate(milliseconds)
+            vibrateLegacy(vibrator, milliseconds)
         }
     }
 
@@ -64,19 +51,11 @@ internal object Vibration {
         val vibrator = getVibrator(context) ?: return
         if (!vibrator.hasVibrator()) return
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val effect = VibrationEffect.createWaveform(pattern, repeat)
-            val attrs = AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
-            vibrator.vibrate(effect, attrs)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val effect = VibrationEffect.createWaveform(pattern, repeat)
             vibrator.vibrate(effect)
         } else {
-            @Suppress("DEPRECATION")
-            vibrator.vibrate(pattern, repeat)
+            vibrateLegacy(vibrator, pattern, repeat)
         }
     }
 
@@ -86,5 +65,20 @@ internal object Vibration {
     fun cancel(context: Context) {
         val vibrator = getVibrator(context) ?: return
         vibrator.cancel()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun getLegacyVibrator(context: Context): Vibrator? {
+        return context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+    }
+
+    @Suppress("DEPRECATION")
+    private fun vibrateLegacy(vibrator: Vibrator, milliseconds: Long) {
+        vibrator.vibrate(milliseconds)
+    }
+
+    @Suppress("DEPRECATION")
+    private fun vibrateLegacy(vibrator: Vibrator, pattern: LongArray, repeat: Int) {
+        vibrator.vibrate(pattern, repeat)
     }
 }

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.FragmentActivity
+import java.lang.ref.WeakReference
 import java.util.Locale
 import apputilx.helpers.AppState
 import apputilx.helpers.Battery
@@ -25,7 +26,6 @@ import apputilx.helpers.Screen
 import apputilx.helpers.Signature
 import apputilx.helpers.Storage
 import apputilx.helpers.Time
-import apputilx.helpers.Toast
 import apputilx.helpers.Validation
 import apputilx.helpers.Vibration
 import apputilx.helpers.Keyboard
@@ -38,7 +38,8 @@ object Utils {
     // ==================================================
 
     private lateinit var appContext: Context
-    private var currentActivity: Activity? = null
+    private var currentActivityRef: WeakReference<Activity>? = null
+    private var activityTrackerRegistered = false
 
     var BROWSER_URL: String? = null
         private set
@@ -56,26 +57,37 @@ object Utils {
     fun initialize(context: Context) {
         appContext = context.applicationContext
         Network.initialize(context)
+        registerActivityTracker(appContext)
+    }
+
+    /**
+     * Register the built-in activity tracker used by helpers that need the current Activity.
+     */
+    fun registerActivityTracker(context: Context) {
+        val application = context.applicationContext as? Application ?: return
+        if (activityTrackerRegistered) return
+        application.registerActivityLifecycleCallbacks(activityTracker)
+        activityTrackerRegistered = true
     }
 
     val activityTracker = object : Application.ActivityLifecycleCallbacks {
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            currentActivity = activity
+            currentActivityRef = WeakReference(activity)
         }
 
         override fun onActivityStarted(activity: Activity) {
-            currentActivity = activity
+            currentActivityRef = WeakReference(activity)
         }
 
         override fun onActivityResumed(activity: Activity) {
-            currentActivity = activity
+            currentActivityRef = WeakReference(activity)
         }
 
         override fun onActivityPaused(activity: Activity) {}
         override fun onActivityStopped(activity: Activity) {}
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
         override fun onActivityDestroyed(activity: Activity) {
-            if (currentActivity === activity) currentActivity = null
+            if (currentActivityRef?.get() === activity) currentActivityRef = null
         }
     }
 
@@ -83,7 +95,7 @@ object Utils {
         if (::appContext.isInitialized) appContext
         else throw IllegalStateException("Call apputilx.Utils.initialize() first")
 
-    private fun act(): Activity? = currentActivity
+    private fun act(): Activity? = currentActivityRef?.get()
 
     // ==================================================
     // Network
@@ -163,11 +175,52 @@ object Utils {
         )
     }
 
+    fun showBigTextNotification(
+        channelId: String,
+        title: String,
+        bigText: String,
+        @DrawableRes iconResId: Int,
+        intent: PendingIntent? = null,
+        notificationId: Int = generateNotificationId(),
+        channelName: String = "AppUtils Notifications"
+    ) = Notification.showBigTextNotification(
+        context = act() ?: ctx(),
+        channelId = channelId,
+        title = title,
+        bigText = bigText,
+        iconResId = iconResId,
+        intent = intent,
+        notificationId = notificationId,
+        channelName = channelName
+    )
+
+    fun showProgressNotification(
+        channelId: String,
+        title: String,
+        progress: Int,
+        max: Int,
+        @DrawableRes iconResId: Int,
+        notificationId: Int,
+        channelName: String = "AppUtils Notifications"
+    ) = Notification.showProgressNotification(
+        context = act() ?: ctx(),
+        channelId = channelId,
+        title = title,
+        progress = progress,
+        max = max,
+        iconResId = iconResId,
+        notificationId = notificationId,
+        channelName = channelName
+    )
+
     fun cancelNotification(notificationId: Int) =
         Notification.cancel(ctx(), notificationId)
 
     fun cancelAllNotifications() =
         Notification.cancelAll(ctx())
+
+    fun canPostNotifications(): Boolean =
+        Notification.canPostNotifications(ctx())
 
     private fun generateNotificationId(): Int =
         (System.currentTimeMillis() and 0xFFFFFFF).toInt()
@@ -179,6 +232,11 @@ object Utils {
     fun openUrl(context: Context, url: String) {
         BROWSER_URL = url
         Browser.openUrl(context, url)
+    }
+
+    fun openUrl(url: String) {
+        BROWSER_URL = url
+        Browser.openUrl(act() ?: ctx(), url)
     }
 
     // ==================================================
@@ -207,9 +265,14 @@ object Utils {
     // Toast
     // ==================================================
 
+    @Deprecated(
+        message = "Toast helper will be deprecated in the final release (1.4.0). Use Android Toast or Material Snackbar directly.",
+        level = DeprecationLevel.WARNING
+    )
+    @Suppress("DEPRECATION")
     fun showToast(message: String, long: Boolean = false) {
-        if (long) Toast.showLong(ctx(), message)
-        else Toast.showShort(ctx(), message)
+        if (long) apputilx.helpers.Toast.showLong(ctx(), message)
+        else apputilx.helpers.Toast.showShort(ctx(), message)
     }
 
     // ==================================================
@@ -237,6 +300,7 @@ object Utils {
 
     fun deviceModel(): String = Device.model()
     fun deviceBrand(): String = Device.brand()
+    fun deviceManufacturer(): String = Device.manufacturer()
     fun androidSdk(): Int = Device.sdk()
     fun androidVersion(): String = Device.androidVersion()
 
@@ -392,6 +456,12 @@ object Utils {
         requestCode: Int
     ) = Permission.request(activity, permission, requestCode)
 
+    fun requestPermissions(
+        activity: Activity,
+        permissions: Array<String>,
+        requestCode: Int
+    ) = Permission.requestMultiple(activity, permissions, requestCode)
+
     // ==================================================
     // Biometrics
     // ==================================================
@@ -467,7 +537,7 @@ object Utils {
         tag: String,
         message: String
     ) {
-        val activity = currentActivity ?: return
+        val activity = act() ?: return
 
         activity.runOnUiThread {
             androidx.appcompat.app.AlertDialog.Builder(activity)

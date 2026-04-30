@@ -12,7 +12,7 @@ configure<ApplicationExtension> {
     
     defaultConfig {
         applicationId = "com.mohamedzaitoon.example"
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = 23
         targetSdk = libs.versions.targetSdk.get().toInt()
 
         versionCode = libs.versions.versionCode.get().toInt()

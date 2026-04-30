@@ -14,7 +14,7 @@ Documents:
 https://apputilx.mohamedzaitoon.com/
 
 Features:
-- Toast & Snackbar helpers
+- Toast helper (deprecated for final 1.4.0) and notification utilities
 - Network connectivity checks & listeners
 - Lifecycle-aware network callbacks
 - Clipboard utilities
@@ -34,7 +34,7 @@ Features:
 Kotlin DSL:
 ```kotlin
  // Add in gradle/libs.versions.toml
-    apputilx = "1.3.0"
+    apputilx = "1.4.0-alpha01"
     apputilx = { group = "com.github.mohamed-zaitoon" , name = "apputilx" , version.ref = "apputilx" }
     
     //Add in settings.gradle.kts
@@ -61,14 +61,16 @@ dependencies {
 
 ## Changelog
 
-1.3.0 — Android 15 ready
-- Updated to versionCode 130 / versionName 1.3.0
+1.4.0-alpha01 — Android 17-beta ready
+- Updated to versionCode 131 / versionName 1.4.0-alpha01
 - Lifecycle-aware network callback to avoid leaks
 - Safer vibration APIs (Q+ attributes fallback)
 - Safe intent helpers and app settings shortcut
 - Added biometric authentication helper
 - Added ProcessLifecycle / Biometric dependencies
 - NotificationCompat foreground service behavior on Android 14+
+- Deprecated the Toast helper for the final 1.4.0 release; prefer Android Toast or Material Snackbar directly
+- Replaced deprecated platform calls with modern APIs where possible, keeping guarded legacy fallbacks for older Android versions
 
 1.0.3 — Initial Release
 - Added core apputil initialization and lifecycle tracking

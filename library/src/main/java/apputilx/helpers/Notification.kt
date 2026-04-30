@@ -1,5 +1,6 @@
 package apputilx.helpers
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -15,20 +16,23 @@ internal object Notification {
 
     private const val TAG = "Notification"
     private const val DEFAULT_CHANNEL_NAME = "App Notifications"
+    private const val DEFAULT_CHANNEL_IMPORTANCE = 3
 
     // --------------------------------------------------
     // Channel
     // --------------------------------------------------
 
+    @SuppressLint("WrongConstant")
     private fun ensureChannel(
         context: Context,
         channelId: String,
         channelName: String = DEFAULT_CHANNEL_NAME,
-        importance: Int = NotificationManager.IMPORTANCE_DEFAULT
+        importance: Int = DEFAULT_CHANNEL_IMPORTANCE
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val manager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+                as? NotificationManager
+                ?: return
 
             if (manager.getNotificationChannel(channelId) == null) {
                 val channel = NotificationChannel(channelId, channelName, importance)
@@ -41,6 +45,7 @@ internal object Notification {
     // Base Notification
     // --------------------------------------------------
 
+    @SuppressLint("MissingPermission")
     fun showNotification(
         context: Context,
         channelId: String,
@@ -84,6 +89,7 @@ internal object Notification {
     // Big Text Notification
     // --------------------------------------------------
 
+    @SuppressLint("MissingPermission")
     fun showBigTextNotification(
         context: Context,
         channelId: String,
@@ -94,26 +100,31 @@ internal object Notification {
         notificationId: Int = generateNotificationId(),
         channelName: String = DEFAULT_CHANNEL_NAME
     ) {
-        if (!hasPermission(context)) return
+        try {
+            if (!hasPermission(context)) return
 
-        ensureChannel(context, channelId, channelName)
+            ensureChannel(context, channelId, channelName)
 
-        val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(iconResId)
-            .setContentTitle(title)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
-            .setAutoCancel(true)
+            val builder = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(iconResId)
+                .setContentTitle(title)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
+                .setAutoCancel(true)
 
-        intent?.let { builder.setContentIntent(it) }
+            intent?.let { builder.setContentIntent(it) }
 
-        NotificationManagerCompat.from(context)
-            .notify(notificationId, builder.build())
+            NotificationManagerCompat.from(context)
+                .notify(notificationId, builder.build())
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to show big text notification", e)
+        }
     }
 
     // --------------------------------------------------
     // Progress Notification
     // --------------------------------------------------
 
+    @SuppressLint("MissingPermission")
     fun showProgressNotification(
         context: Context,
         channelId: String,
@@ -124,18 +135,22 @@ internal object Notification {
         notificationId: Int,
         channelName: String = DEFAULT_CHANNEL_NAME
     ) {
-        if (!hasPermission(context)) return
+        try {
+            if (!hasPermission(context)) return
 
-        ensureChannel(context, channelId, channelName)
+            ensureChannel(context, channelId, channelName)
 
-        val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(iconResId)
-            .setContentTitle(title)
-            .setProgress(max, progress, false)
-            .setOnlyAlertOnce(true)
+            val builder = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(iconResId)
+                .setContentTitle(title)
+                .setProgress(max, progress, false)
+                .setOnlyAlertOnce(true)
 
-        NotificationManagerCompat.from(context)
-            .notify(notificationId, builder.build())
+            NotificationManagerCompat.from(context)
+                .notify(notificationId, builder.build())
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to show progress notification", e)
+        }
     }
 
     // --------------------------------------------------
@@ -153,6 +168,8 @@ internal object Notification {
     // --------------------------------------------------
     // Helpers
     // --------------------------------------------------
+
+    fun canPostNotifications(context: Context): Boolean = hasPermission(context)
 
     private fun hasPermission(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

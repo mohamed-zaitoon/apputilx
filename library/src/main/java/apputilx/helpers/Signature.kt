@@ -1,6 +1,7 @@
 package apputilx.helpers
 
 import android.content.Context
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import java.security.MessageDigest
@@ -14,12 +15,7 @@ internal object Signature {
     fun getAppSignatures(context: Context): List<String> {
         return try {
             val pm = context.packageManager
-            val pkg = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                pm.getPackageInfo(context.packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-            } else {
-                @Suppress("DEPRECATION")
-                pm.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
-            }
+            val pkg = getPackageInfo(pm, context.packageName)
 
             // signingInfo may be null on some platforms, handle safely
             val sigArray = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -43,6 +39,28 @@ internal object Signature {
         } catch (e: Exception) {
             emptyList()
         }
+    }
+
+    private fun getPackageInfo(pm: PackageManager, packageName: String): PackageInfo {
+        return when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                pm.getPackageInfo(
+                    packageName,
+                    PackageManager.PackageInfoFlags.of(
+                        PackageManager.GET_SIGNING_CERTIFICATES.toLong()
+                    )
+                )
+            }
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
+                pm.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+            }
+            else -> getLegacyPackageInfo(pm, packageName)
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun getLegacyPackageInfo(pm: PackageManager, packageName: String): PackageInfo {
+        return pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
     }
 
     /**

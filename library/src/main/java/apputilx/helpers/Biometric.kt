@@ -1,6 +1,7 @@
 package apputilx.helpers
 
 import android.content.Context
+import android.os.Build
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
@@ -12,10 +13,11 @@ internal object Biometric {
      * Check if biometric or device credentials are available.
      */
     fun canAuthenticate(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
+
         val manager = BiometricManager.from(context)
         val result = manager.canAuthenticate(
-            BiometricManager.Authenticators.BIOMETRIC_STRONG or
-                BiometricManager.Authenticators.DEVICE_CREDENTIAL
+            getAuthenticators()
         )
         return result == BiometricManager.BIOMETRIC_SUCCESS
     }
@@ -33,6 +35,14 @@ internal object Biometric {
         onError: (code: Int, message: CharSequence?) -> Unit = { _, _ -> },
         onFailed: () -> Unit = {}
     ) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            onError(
+                BiometricPrompt.ERROR_HW_NOT_PRESENT,
+                "Biometric authentication is not available before Android 6.0."
+            )
+            return
+        }
+
         val executor = ContextCompat.getMainExecutor(activity)
         val callback = object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -51,8 +61,7 @@ internal object Biometric {
             }
         }
 
-        val authenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG or
-            BiometricManager.Authenticators.DEVICE_CREDENTIAL
+        val authenticators = getAuthenticators()
 
         val promptInfoBuilder = BiometricPrompt.PromptInfo.Builder()
             .setTitle(title)
@@ -70,5 +79,14 @@ internal object Biometric {
         val promptInfo = promptInfoBuilder.build()
 
         BiometricPrompt(activity, executor, callback).authenticate(promptInfo)
+    }
+
+    private fun getAuthenticators(): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                BiometricManager.Authenticators.DEVICE_CREDENTIAL
+        } else {
+            BiometricManager.Authenticators.BIOMETRIC_STRONG
+        }
     }
 }
