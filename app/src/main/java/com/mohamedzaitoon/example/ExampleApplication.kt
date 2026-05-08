@@ -1,8 +1,7 @@
 package com.mohamedzaitoon.example
 
 import android.app.Application
-import android.content.Context
-import apputilx.*
+import apputilx.Utils
 
 class ExampleApplication : Application() {
 
@@ -10,9 +9,5 @@ class ExampleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         Utils.initialize(this)
-        registerActivityLifecycleCallbacks(Utils.activityTracker)
-
-        
     }
 }
-

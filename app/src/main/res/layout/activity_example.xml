@@ -3,246 +3,290 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="false"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:title="@string/app_name"
+            app:titleCentered="false"
+            app:titleTextColor="?attr/colorOnPrimary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingHorizontal="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="24dp">
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="AppUtilx Playground"
-                    android:textAppearance="@android:style/TextAppearance.Large"
-                    android:textStyle="bold"
-                    android:paddingBottom="8dp" />
-
-                <EditText
-                    android:id="@+id/etInput"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputLayout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="اكتب نص للتجارب (مشاركة/نسخ/هاش)"
-                    android:padding="12dp"
-                    android:background="@android:drawable/edit_text"
-                    android:inputType="text" />
+                    android:hint="Text for helpers">
 
-                <TextView
-                    android:id="@+id/tvOutput"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="3"
+                        android:text="Hello AppUtilx" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/outputCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="النتيجة ستظهر هنا"
-                    android:padding="8dp"
-                    android:background="@android:color/darker_gray"
-                    android:textColor="@android:color/white" />
+                    android:layout_marginTop="12dp"
+                    app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                    app:cardCornerRadius="8dp"
+                    app:strokeColor="?attr/colorOutlineVariant"
+                    app:strokeWidth="1dp">
 
-                <!-- Network -->
-                <Button
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvOutput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="96dp"
+                        android:padding="16dp"
+                        android:text="Results will appear here"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurface" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/AppTheme.SectionLabel"
+                    android:text="Network" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnNetworkState"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Network: isConnected()" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Connection details" />
 
-                <!-- Browser / Intent -->
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNetworkTransport"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Transport and metered state" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/AppTheme.SectionLabel"
+                    android:text="Intents" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnOpenUrl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Open URL (Custom Tabs)" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Open URL" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnOpenSettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Open App Settings" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Open app settings" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnWhatsApp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Open WhatsApp Chat" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Open WhatsApp chat" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDial"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Dial Number" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Dial number" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSendSms"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Send SMS" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSendEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Send Email" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Send email" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnShareText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Share Text" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Share text" />
 
-                <!-- Clipboard -->
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnShareFile"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Share generated file" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnOpenMap"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Open map" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnOpenPlayStore"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Open Play Store page" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/AppTheme.SectionLabel"
+                    android:text="Clipboard, vibration, screen" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCopy"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Copy Input to Clipboard" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Copy input" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPaste"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Get Clipboard Text" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Read clipboard" />
 
-                <!-- Vibration -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnVibrateShort"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Vibrate 200ms" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Vibrate 200 ms" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnVibratePattern"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Vibrate Pattern" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Vibrate pattern" />
 
-                <!-- Screen capture -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnBlockCapture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Block Screen Capture" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Block screen capture" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUnblockCapture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Unblock Screen Capture" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Unblock screen capture" />
 
-                <!-- Notification -->
-                <Button
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/AppTheme.SectionLabel"
+                    android:text="Notifications and keyboard" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnShowNotification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Show Notification" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Show notification" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCancelNotifications"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cancel All Notifications" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Cancel notifications" />
 
-                <!-- Keyboard -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnShowKeyboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Show Keyboard" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Show keyboard" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnHideKeyboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Hide Keyboard" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Hide keyboard" />
 
-                <!-- Device / Battery -->
-                <Button
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/AppTheme.SectionLabel"
+                    android:text="Device and app" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDeviceInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Device Info" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Device info" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAppInfo"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="App info" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnBatteryInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Battery Info" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Battery info" />
 
-                <!-- Time -->
-                <Button
-                    android:id="@+id/btnTimeNow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Time Now / Time Ago" />
-
-                <!-- Validation -->
-                <Button
-                    android:id="@+id/btnValidate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Validate Email/Phone/URL" />
-
-                <!-- Storage -->
-                <Button
-                    android:id="@+id/btnStorage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Storage / Cache Info" />
-
-                <!-- Files -->
-                <Button
-                    android:id="@+id/btnWriteFile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Write File (demo.txt)" />
-
-                <Button
-                    android:id="@+id/btnReadFile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Read File (demo.txt)" />
-
-                <Button
-                    android:id="@+id/btnDeleteFile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Delete File (demo.txt)" />
-
-                <!-- Encryption -->
-                <Button
-                    android:id="@+id/btnSha256"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="SHA-256 (input)" />
-
-                <Button
-                    android:id="@+id/btnBase64"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Base64 Encode/Decode" />
-
-                <!-- App State -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAppState"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="App State (foreground/screen)" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="App state" />
 
-                <!-- Signatures -->
-                <Button
+                <com.google.android.material.textview.MaterialTextView
+                    style="@style/AppTheme.SectionLabel"
+                    android:text="Data helpers" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnTimeNow"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Time helpers" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnValidate"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Validation helpers" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStorage"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Storage helpers" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnWriteFile"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Write and append file" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReadFile"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Read file and bytes" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDeleteFile"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Delete file" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSha256"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Hashes and HMAC" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBase64"
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Base64 helpers" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSignatures"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="App Signatures" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="App signatures" />
 
-                <!-- Biometrics -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnBiometric"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Biometric Authenticate" />
+                    style="@style/AppTheme.DemoButton"
+                    android:text="Biometric authenticate" />
 
             </LinearLayout>
         </ScrollView>

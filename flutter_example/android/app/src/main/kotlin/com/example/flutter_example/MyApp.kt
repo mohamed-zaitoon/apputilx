@@ -7,6 +7,5 @@ class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Utils.initialize(this)
-        registerActivityLifecycleCallbacks(Utils.activityTracker)
     }
 }

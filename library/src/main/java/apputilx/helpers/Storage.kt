@@ -1,9 +1,11 @@
 package apputilx.helpers
 
 import android.content.Context
-import android.os.Build
 import android.os.StatFs
 import java.io.File
+import java.util.Locale
+import kotlin.math.ln
+import kotlin.math.pow
 
 internal object Storage {
 
@@ -12,12 +14,7 @@ internal object Storage {
      */
     fun getFreeInternalStorage(): Long {
         val stat = StatFs(File("/data").path)
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            stat.availableBytes
-        } else {
-            @Suppress("DEPRECATION")
-            stat.availableBlocks.toLong() * stat.blockSize.toLong()
-        }
+        return stat.availableBytes
     }
 
     /**
@@ -25,12 +22,14 @@ internal object Storage {
      */
     fun getTotalInternalStorage(): Long {
         val stat = StatFs(File("/data").path)
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            stat.totalBytes
-        } else {
-            @Suppress("DEPRECATION")
-            stat.blockCount.toLong() * stat.blockSize.toLong()
-        }
+        return stat.totalBytes
+    }
+
+    /**
+     * Get used internal storage in bytes.
+     */
+    fun getUsedInternalStorage(): Long {
+        return getTotalInternalStorage() - getFreeInternalStorage()
     }
 
     /**
@@ -45,5 +44,18 @@ internal object Storage {
      */
     fun clearCache(context: Context) {
         context.cacheDir.deleteRecursively()
+    }
+
+    /**
+     * Convert a byte count into a compact human-readable value.
+     */
+    fun formatBytes(bytes: Long): String {
+        if (bytes < 1024) return "$bytes B"
+
+        val units = arrayOf("KB", "MB", "GB", "TB", "PB")
+        val exponent = (ln(bytes.toDouble()) / ln(1024.0)).toInt().coerceAtMost(units.lastIndex + 1)
+        val value = bytes / 1024.0.pow(exponent.toDouble())
+
+        return String.format(Locale.US, "%.1f %s", value, units[exponent - 1])
     }
 }

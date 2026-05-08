@@ -1,12 +1,12 @@
 [versions]
 # App & Library Versions
-versionCode = "131"
-versionName = "1.4.0-alpha01"
+versionCode = "132"
+versionName = "1.4.0-alpha02"
 
 # SDK Versions
 compileSdk = "37"
 buildTools = "37.0.0"
-minSdk = "17"
+minSdk = "23"
 targetSdk = "37"
 
 # Dependencies
@@ -14,7 +14,6 @@ coreKtx = "1.18.0"
 appcompat = "1.7.1"
 material = "1.13.0"
 constraintlayout = "2.2.1"
-multidex = "2.0.1"
 browser = "1.10.0"
 swiperefreshlayout = "1.2.0"
 
@@ -23,7 +22,7 @@ biometric = "1.1.0"
 lifecycle = "2.10.0"
 
 # Plugins
-agp = "9.2.0"
+agp = "9.2.1"
 kotlin = "2.3.21"
 
 [libraries]
@@ -31,7 +30,6 @@ androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx"
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
-androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }

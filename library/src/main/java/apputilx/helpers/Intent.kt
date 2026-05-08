@@ -36,6 +36,18 @@ internal object Intent {
     }
 
     /**
+     * Open the default SMS app with an optional body.
+     */
+    fun sendSms(context: Context, phone: String, message: String = "") {
+        startSafely(context) {
+            Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("smsto:$phone")
+                putExtra("sms_body", message)
+            }
+        }
+    }
+
+    /**
      * Send email.
      */
     fun sendEmail(context: Context, email: String, subject: String = "", body: String = "") {
@@ -61,6 +73,41 @@ internal object Intent {
     }
 
     /**
+     * Share a file Uri. The caller should pass a FileProvider/content Uri.
+     */
+    fun shareFile(
+        context: Context,
+        uri: Uri,
+        mimeType: String,
+        chooserTitle: String = "Share via"
+    ) {
+        startSafely(context) {
+            Intent(Intent.ACTION_SEND).apply {
+                type = mimeType
+                putExtra(Intent.EXTRA_STREAM, uri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }.let { Intent.createChooser(it, chooserTitle) }
+        }
+    }
+
+    /**
+     * Open a map app at the given coordinates.
+     */
+    fun openMap(
+        context: Context,
+        latitude: Double,
+        longitude: Double,
+        label: String? = null
+    ) {
+        val query = if (label.isNullOrBlank()) {
+            "$latitude,$longitude"
+        } else {
+            "$latitude,$longitude(${Uri.encode(label)})"
+        }
+        openUrl(context, "geo:$latitude,$longitude?q=$query")
+    }
+
+    /**
      * Open current app settings screen.
      */
     fun openAppSettings(context: Context) {
@@ -72,15 +119,37 @@ internal object Intent {
         }
     }
 
-    private fun startSafely(context: Context, intentBuilder: () -> Intent) {
-        try {
-            val intent = intentBuilder()
+    /**
+     * Open the app store page for a package, falling back to browser if Play Store is unavailable.
+     */
+    fun openPlayStore(context: Context, packageName: String = context.packageName) {
+        val marketIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("market://details?id=$packageName")
+        )
+
+        if (!startSafely(context, marketIntent)) {
+            startSafely(context) {
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                )
+            }
+        }
+    }
+
+    private fun startSafely(context: Context, intentBuilder: () -> Intent): Boolean =
+        startSafely(context, intentBuilder())
+
+    private fun startSafely(context: Context, intent: Intent): Boolean {
+        return try {
             if (context !is Activity) {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
+            true
         } catch (_: ActivityNotFoundException) {
-            // ignore to prevent crash
+            false
         }
     }
 }

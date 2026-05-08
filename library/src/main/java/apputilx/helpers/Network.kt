@@ -1,15 +1,11 @@
 package apputilx.helpers
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.os.Build
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -22,15 +18,14 @@ internal object Network : DefaultLifecycleObserver {
     private val listeners = mutableListOf<(Boolean) -> Unit>()
     private var initialized = false
     private var registeredCallback = false
-    private var registeredReceiver = false
     private val callback by lazy {
         object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
-                updateConnection(true)
+                refreshConnectionState()
             }
 
             override fun onLost(network: Network) {
-                updateConnection(false)
+                refreshConnectionState()
             }
         }
     }
@@ -38,17 +33,6 @@ internal object Network : DefaultLifecycleObserver {
         NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
-    }
-    private val receiver by lazy {
-        object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                val previous = isConnected
-                updateCurrentConnectionState()
-                if (previous != isConnected) {
-                    notifyListeners(isConnected)
-                }
-            }
-        }
     }
 
     /**
@@ -104,27 +88,61 @@ internal object Network : DefaultLifecycleObserver {
         listeners.remove(listener)
     }
 
+    /**
+     * Indicates whether the current network has been validated by the system.
+     */
+    fun hasValidatedInternet(): Boolean {
+        val capabilities = currentCapabilities() ?: return false
+        return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+            capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+    }
+
+    /**
+     * Return the active transport name: WIFI, CELLULAR, ETHERNET, VPN, BLUETOOTH, UNKNOWN, or NONE.
+     */
+    fun activeTransport(): String {
+        val capabilities = currentCapabilities() ?: return "NONE"
+        return when {
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "WIFI"
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "CELLULAR"
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "ETHERNET"
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN) -> "VPN"
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> "BLUETOOTH"
+            else -> "UNKNOWN"
+        }
+    }
+
+    fun isWifiConnected(): Boolean =
+        hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+
+    fun isCellularConnected(): Boolean =
+        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+
+    fun isEthernetConnected(): Boolean =
+        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+
+    fun isVpnConnected(): Boolean =
+        hasTransport(NetworkCapabilities.TRANSPORT_VPN)
+
+    fun isConnectionMetered(): Boolean {
+        if (!initialized) return false
+        return connectivityManager.isActiveNetworkMetered
+    }
+
     // --------------------------------------------------
     // Internal helpers
     // --------------------------------------------------
 
     private fun updateCurrentConnectionState() {
-        isConnected = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network = connectivityManager.activeNetwork
-            val capabilities = connectivityManager.getNetworkCapabilities(network)
-
-            capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true &&
-                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-        } else {
-            @Suppress("DEPRECATION")
-            connectivityManager.activeNetworkInfo?.isConnected == true
-        }
+        isConnected = hasValidatedInternet()
     }
 
-    private fun updateConnection(status: Boolean) {
-        if (isConnected == status) return
-        isConnected = status
-        notifyListeners(status)
+    private fun refreshConnectionState() {
+        val previous = isConnected
+        updateCurrentConnectionState()
+        if (previous != isConnected) {
+            notifyListeners(isConnected)
+        }
     }
 
     private fun registerCallbackIfNeeded() {
@@ -134,29 +152,11 @@ internal object Network : DefaultLifecycleObserver {
     }
 
     private fun registerMonitorIfNeeded() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            registerCallbackIfNeeded()
-        } else {
-            registerReceiverIfNeeded()
-        }
-    }
-
-    private fun registerReceiverIfNeeded() {
-        if (registeredReceiver) return
-        @Suppress("DEPRECATION")
-        appContext.registerReceiver(
-            receiver,
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        )
-        registeredReceiver = true
+        registerCallbackIfNeeded()
     }
 
     private fun unregisterMonitor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            unregisterCallback()
-        } else {
-            unregisterReceiver()
-        }
+        unregisterCallback()
     }
 
     private fun unregisterCallback() {
@@ -169,18 +169,18 @@ internal object Network : DefaultLifecycleObserver {
         registeredCallback = false
     }
 
-    private fun unregisterReceiver() {
-        if (!registeredReceiver) return
-        try {
-            appContext.unregisterReceiver(receiver)
-        } catch (_: Exception) {
-            // ignore
-        }
-        registeredReceiver = false
-    }
-
     private fun notifyListeners(status: Boolean) {
         // Iterate on a copy to avoid ConcurrentModificationException
         listeners.toList().forEach { it(status) }
+    }
+
+    private fun currentCapabilities(): NetworkCapabilities? {
+        if (!initialized) return null
+        val network = connectivityManager.activeNetwork ?: return null
+        return connectivityManager.getNetworkCapabilities(network)
+    }
+
+    private fun hasTransport(transport: Int): Boolean {
+        return currentCapabilities()?.hasTransport(transport) == true
     }
 }

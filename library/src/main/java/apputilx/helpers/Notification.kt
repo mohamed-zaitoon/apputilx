@@ -23,7 +23,7 @@ internal object Notification {
     // --------------------------------------------------
 
     @SuppressLint("WrongConstant")
-    private fun ensureChannel(
+    fun createChannel(
         context: Context,
         channelId: String,
         channelName: String = DEFAULT_CHANNEL_NAME,
@@ -38,6 +38,15 @@ internal object Notification {
                 val channel = NotificationChannel(channelId, channelName, importance)
                 manager.createNotificationChannel(channel)
             }
+        }
+    }
+
+    fun deleteChannel(context: Context, channelId: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+                as? NotificationManager
+                ?: return
+            manager.deleteNotificationChannel(channelId)
         }
     }
 
@@ -59,7 +68,7 @@ internal object Notification {
         try {
             if (!hasPermission(context)) return
 
-            ensureChannel(context, channelId, channelName)
+            createChannel(context, channelId, channelName)
 
             val builder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(iconResId)
@@ -103,7 +112,7 @@ internal object Notification {
         try {
             if (!hasPermission(context)) return
 
-            ensureChannel(context, channelId, channelName)
+            createChannel(context, channelId, channelName)
 
             val builder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(iconResId)
@@ -138,7 +147,7 @@ internal object Notification {
         try {
             if (!hasPermission(context)) return
 
-            ensureChannel(context, channelId, channelName)
+            createChannel(context, channelId, channelName)
 
             val builder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(iconResId)
@@ -171,7 +180,13 @@ internal object Notification {
 
     fun canPostNotifications(context: Context): Boolean = hasPermission(context)
 
+    fun areNotificationsEnabled(context: Context): Boolean {
+        return NotificationManagerCompat.from(context).areNotificationsEnabled()
+    }
+
     private fun hasPermission(context: Context): Boolean {
+        if (!areNotificationsEnabled(context)) return false
+
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 context,

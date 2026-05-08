@@ -63,4 +63,10 @@ internal object Screen {
     fun unblockCapture(activity: Activity) {
         applySecureFlag(activity, false)
     }
+
+    /**
+     * Check whether screenshots and screen recording are currently blocked.
+     */
+    fun isCaptureBlocked(activity: Activity): Boolean =
+        activity.hasSecureFlag()
 }

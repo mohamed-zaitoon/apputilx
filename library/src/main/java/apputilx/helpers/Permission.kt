@@ -19,6 +19,27 @@ internal object Permission {
     }
 
     /**
+     * Check if all permissions are granted.
+     */
+    fun areGranted(context: Context, permissions: Array<String>): Boolean {
+        return permissions.all { isGranted(context, it) }
+    }
+
+    /**
+     * Return permissions that are not currently granted.
+     */
+    fun deniedPermissions(context: Context, permissions: Array<String>): List<String> {
+        return permissions.filterNot { isGranted(context, it) }
+    }
+
+    /**
+     * Check whether rationale should be shown for a permission.
+     */
+    fun shouldShowRationale(activity: Activity, permission: String): Boolean {
+        return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
+    }
+
+    /**
      * Request a permission.
      */
     fun request(

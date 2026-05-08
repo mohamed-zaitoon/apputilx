@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.PendingIntent
 import android.content.Context
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.annotation.DrawableRes
 import androidx.fragment.app.FragmentActivity
 import java.lang.ref.WeakReference
 import java.util.Locale
+import apputilx.helpers.AppInfo
 import apputilx.helpers.AppState
 import apputilx.helpers.Battery
 import apputilx.helpers.Browser
@@ -63,6 +65,7 @@ object Utils {
     /**
      * Register the built-in activity tracker used by helpers that need the current Activity.
      */
+    @Suppress("DEPRECATION")
     fun registerActivityTracker(context: Context) {
         val application = context.applicationContext as? Application ?: return
         if (activityTrackerRegistered) return
@@ -70,6 +73,10 @@ object Utils {
         activityTrackerRegistered = true
     }
 
+    @Deprecated(
+        message = "Manual activity tracker registration is no longer needed. Utils.initialize() registers it automatically.",
+        level = DeprecationLevel.WARNING
+    )
     val activityTracker = object : Application.ActivityLifecycleCallbacks {
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
             currentActivityRef = WeakReference(activity)
@@ -110,6 +117,27 @@ object Utils {
     fun removeConnectionListener(listener: (Boolean) -> Unit) =
         Network.removeConnectionListener(listener)
 
+    fun hasValidatedInternet(): Boolean =
+        Network.hasValidatedInternet()
+
+    fun activeNetworkTransport(): String =
+        Network.activeTransport()
+
+    fun isWifiConnected(): Boolean =
+        Network.isWifiConnected()
+
+    fun isCellularConnected(): Boolean =
+        Network.isCellularConnected()
+
+    fun isEthernetConnected(): Boolean =
+        Network.isEthernetConnected()
+
+    fun isVpnConnected(): Boolean =
+        Network.isVpnConnected()
+
+    fun isConnectionMetered(): Boolean =
+        Network.isConnectionMetered()
+
     // ==================================================
     // Vibration
     // ==================================================
@@ -134,6 +162,9 @@ object Utils {
     fun unblockCapture() {
         act()?.let { Screen.unblockCapture(it) }
     }
+
+    fun isCaptureBlocked(): Boolean =
+        act()?.let { Screen.isCaptureBlocked(it) } ?: false
 
     // ==================================================
     // Notifications
@@ -222,6 +253,18 @@ object Utils {
     fun canPostNotifications(): Boolean =
         Notification.canPostNotifications(ctx())
 
+    fun areNotificationsEnabled(): Boolean =
+        Notification.areNotificationsEnabled(ctx())
+
+    fun createNotificationChannel(
+        channelId: String,
+        channelName: String = "AppUtils Notifications",
+        importance: Int = 3
+    ) = Notification.createChannel(ctx(), channelId, channelName, importance)
+
+    fun deleteNotificationChannel(channelId: String) =
+        Notification.deleteChannel(ctx(), channelId)
+
     private fun generateNotificationId(): Int =
         (System.currentTimeMillis() and 0xFFFFFFF).toInt()
 
@@ -303,6 +346,10 @@ object Utils {
     fun deviceManufacturer(): String = Device.manufacturer()
     fun androidSdk(): Int = Device.sdk()
     fun androidVersion(): String = Device.androidVersion()
+    fun deviceName(): String = Device.deviceName()
+    fun supportedAbis(): List<String> = Device.supportedAbis()
+    fun isTablet(): Boolean = Device.isTablet(ctx())
+    fun isEmulator(): Boolean = Device.isEmulator()
 
     // ==================================================
     // Battery
@@ -319,6 +366,18 @@ object Utils {
 
     fun isPowerSaveMode(): Boolean =
         Battery.isPowerSaveMode(ctx())
+
+    fun getBatteryStatus(): String =
+        Battery.getBatteryStatus(ctx())
+
+    fun getBatteryHealth(): String =
+        Battery.getBatteryHealth(ctx())
+
+    fun getBatteryTemperatureCelsius(): Float? =
+        Battery.getBatteryTemperatureCelsius(ctx())
+
+    fun getBatteryVoltageMillivolts(): Int? =
+        Battery.getBatteryVoltageMillivolts(ctx())
 
     // ==================================================
     // Time
@@ -363,8 +422,36 @@ object Utils {
     fun isValidUrl(url: String): Boolean =
         Validation.isValidUrl(url)
 
+    fun isValidIpAddress(ipAddress: String): Boolean =
+        Validation.isValidIpAddress(ipAddress)
+
+    fun isValidUsername(
+        username: String,
+        minLength: Int = 3,
+        maxLength: Int = 30
+    ): Boolean = Validation.isValidUsername(username, minLength, maxLength)
+
     fun isStrongPassword(password: String): Boolean =
         Validation.isStrongPassword(password)
+
+    fun isPasswordValid(
+        password: String,
+        minLength: Int = 8,
+        requireUppercase: Boolean = true,
+        requireLowercase: Boolean = true,
+        requireDigit: Boolean = true,
+        requireSpecial: Boolean = false
+    ): Boolean = Validation.isPasswordValid(
+        password,
+        minLength,
+        requireUppercase,
+        requireLowercase,
+        requireDigit,
+        requireSpecial
+    )
+
+    fun isNumeric(value: String): Boolean =
+        Validation.isNumeric(value)
 
     // ==================================================
     // Intent
@@ -376,6 +463,9 @@ object Utils {
     fun dial(phone: String) =
         Intent.dial(ctx(), phone)
 
+    fun sendSms(phone: String, message: String = "") =
+        Intent.sendSms(ctx(), phone, message)
+
     fun sendEmail(
         email: String,
         subject: String = "",
@@ -385,8 +475,23 @@ object Utils {
     fun shareText(text: String) =
         Intent.shareText(ctx(), text)
 
+    fun shareFile(
+        uri: Uri,
+        mimeType: String,
+        chooserTitle: String = "Share via"
+    ) = Intent.shareFile(ctx(), uri, mimeType, chooserTitle)
+
+    fun openMap(
+        latitude: Double,
+        longitude: Double,
+        label: String? = null
+    ) = Intent.openMap(ctx(), latitude, longitude, label)
+
     fun openAppSettings() =
         Intent.openAppSettings(ctx())
+
+    fun openPlayStore(packageName: String = ctx().packageName) =
+        Intent.openPlayStore(ctx(), packageName)
 
     // ==================================================
     // Storage
@@ -398,11 +503,17 @@ object Utils {
     fun getTotalStorage(): Long =
         Storage.getTotalInternalStorage()
 
+    fun getUsedStorage(): Long =
+        Storage.getUsedInternalStorage()
+
     fun getCacheSize(): Long =
         Storage.getCacheSize(ctx())
 
     fun clearCache() =
         Storage.clearCache(ctx())
+
+    fun formatBytes(bytes: Long): String =
+        Storage.formatBytes(bytes)
 
     // ==================================================
     // Files
@@ -411,14 +522,32 @@ object Utils {
     fun writeFile(name: String, text: String) =
         File.writeText(ctx(), name, text)
 
+    fun appendFile(name: String, text: String) =
+        File.appendText(ctx(), name, text)
+
     fun readFile(name: String): String? =
         File.readText(ctx(), name)
+
+    fun writeFileBytes(name: String, bytes: ByteArray) =
+        File.writeBytes(ctx(), name, bytes)
+
+    fun readFileBytes(name: String): ByteArray? =
+        File.readBytes(ctx(), name)
 
     fun deleteFile(name: String): Boolean =
         File.delete(ctx(), name)
 
     fun fileExists(name: String): Boolean =
         File.exists(ctx(), name)
+
+    fun fileSize(name: String): Long =
+        File.size(ctx(), name)
+
+    fun listFiles(): List<String> =
+        File.list(ctx())
+
+    fun clearFiles(): Boolean =
+        File.clear(ctx())
 
     // ==================================================
     // Encryption
@@ -427,11 +556,23 @@ object Utils {
     fun sha256(text: String): String =
         Encryption.sha256(text)
 
+    fun sha512(text: String): String =
+        Encryption.sha512(text)
+
+    fun hmacSha256(text: String, secret: String): String =
+        Encryption.hmacSha256(text, secret)
+
     fun base64Encode(text: String): String =
         Encryption.base64Encode(text)
 
     fun base64Decode(text: String): String =
         Encryption.base64Decode(text)
+
+    fun base64UrlEncode(text: String): String =
+        Encryption.base64UrlEncode(text)
+
+    fun base64UrlDecode(text: String): String =
+        Encryption.base64UrlDecode(text)
 
     // ==================================================
     // App State
@@ -440,8 +581,42 @@ object Utils {
     fun isAppInForeground(): Boolean =
         AppState.isAppInForeground(ctx())
 
+    fun isAppInBackground(): Boolean =
+        AppState.isAppInBackground(ctx())
+
     fun isScreenOn(): Boolean =
         AppState.isScreenOn(ctx())
+
+    fun isLowRamDevice(): Boolean =
+        AppState.isLowRamDevice(ctx())
+
+    fun isIgnoringBatteryOptimizations(): Boolean =
+        AppState.isIgnoringBatteryOptimizations(ctx())
+
+    // ==================================================
+    // App Info
+    // ==================================================
+
+    fun appPackageName(): String =
+        AppInfo.packageName(ctx())
+
+    fun appName(): String =
+        AppInfo.appName(ctx())
+
+    fun appVersionName(): String =
+        AppInfo.versionName(ctx())
+
+    fun appVersionCode(): Long =
+        AppInfo.versionCode(ctx())
+
+    fun appInstallerPackageName(): String? =
+        AppInfo.installerPackageName(ctx())
+
+    fun isDebuggable(): Boolean =
+        AppInfo.isDebuggable(ctx())
+
+    fun isPackageInstalled(packageName: String): Boolean =
+        AppInfo.isPackageInstalled(ctx(), packageName)
 
     // ==================================================
     // Permissions
@@ -449,6 +624,17 @@ object Utils {
 
     fun isPermissionGranted(permission: String): Boolean =
         Permission.isGranted(ctx(), permission)
+
+    fun arePermissionsGranted(permissions: Array<String>): Boolean =
+        Permission.areGranted(ctx(), permissions)
+
+    fun deniedPermissions(permissions: Array<String>): List<String> =
+        Permission.deniedPermissions(ctx(), permissions)
+
+    fun shouldShowPermissionRationale(
+        activity: Activity,
+        permission: String
+    ): Boolean = Permission.shouldShowRationale(activity, permission)
 
     fun requestPermission(
         activity: Activity,
