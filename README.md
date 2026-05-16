@@ -34,7 +34,7 @@ Features:
 Kotlin DSL:
 ```kotlin
  // Add in gradle/libs.versions.toml
-    apputilx = "1.4.0-alpha02"
+    apputilx = "1.4.0-beta01"
     apputilx = { group = "com.github.mohamed-zaitoon" , name = "apputilx" , version.ref = "apputilx" }
     
     //Add in settings.gradle.kts
