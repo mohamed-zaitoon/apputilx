@@ -1,5 +1,5 @@
 <resources>
-    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="AppTheme.Base" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
@@ -11,10 +11,11 @@
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/colorSurface</item>
-        <item name="android:windowLightNavigationBar">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AppTheme" parent="AppTheme.Base" />
 
     <style name="AppTheme.SectionLabel" parent="TextAppearance.Material3.TitleSmall">
         <item name="android:layout_width">match_parent</item>

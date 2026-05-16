@@ -1,5 +1,7 @@
-<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">تطبيق للاختبار</string>
-	<string name="hello_world">  مرحبا بالعالم</string>
+    <string name="app_name">تطبيق للاختبار</string>
+    <string name="hello_world">مرحبا بالعالم</string>
+    <string name="no_internet">لا يوجد اتصال بالإنترنت</string>
+    <string name="btn_rtry">حاول مرة أخرى</string>
 </resources>

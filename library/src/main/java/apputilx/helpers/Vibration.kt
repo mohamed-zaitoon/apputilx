@@ -27,11 +27,16 @@ internal object Vibration {
         val vibrator = getVibrator(context) ?: return
         if (!vibrator.hasVibrator()) return
 
-        val effect = VibrationEffect.createOneShot(
-            milliseconds,
-            VibrationEffect.DEFAULT_AMPLITUDE
-        )
-        vibrator.vibrate(effect)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val effect = VibrationEffect.createOneShot(
+                milliseconds,
+                VibrationEffect.DEFAULT_AMPLITUDE
+            )
+            vibrator.vibrate(effect)
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(milliseconds)
+        }
     }
 
     /**
@@ -48,8 +53,13 @@ internal object Vibration {
         val vibrator = getVibrator(context) ?: return
         if (!vibrator.hasVibrator()) return
 
-        val effect = VibrationEffect.createWaveform(pattern, repeat)
-        vibrator.vibrate(effect)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val effect = VibrationEffect.createWaveform(pattern, repeat)
+            vibrator.vibrate(effect)
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(pattern, repeat)
+        }
     }
 
     /**
