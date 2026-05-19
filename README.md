@@ -6,7 +6,7 @@
 
 # apputilx
 
-> 🚧 Release — APIs may change before the stable version.
+> Stable release for Android utility helpers.
 
 apputilx is a lightweight Android utility library that centralizes the most commonly used helpers into a single, clean, and easy-to-use API.
 
@@ -33,17 +33,15 @@ Features:
 
 Kotlin DSL:
 ```kotlin
- // Add in gradle/libs.versions.toml
-    apputilx = "1.4.0-beta01"
-    apputilx = { group = "com.github.mohamed-zaitoon" , name = "apputilx" , version.ref = "apputilx" }
+// Add in gradle/libs.versions.toml
+apputilx = "1.4.0"
+apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }
     
-    //Add in settings.gradle.kts
+// Add in settings.gradle.kts
 repositories {
     google()
     mavenCentral()
-    maven {
-       maven { url = uri("https://jitpack.io") }
-    }
+    maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
@@ -61,8 +59,8 @@ dependencies {
 
 ## Changelog
 
-1.4.0-alpha01 — Android 17-beta ready
-- Updated to versionCode 131 / versionName 1.4.0-alpha01
+1.4.0 — Android 17 ready
+- Updated to versionCode 140 / versionName 1.4.0
 - Lifecycle-aware network callback to avoid leaks
 - Safer vibration APIs (Q+ attributes fallback)
 - Safe intent helpers and app settings shortcut
