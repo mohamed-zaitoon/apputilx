@@ -1,7 +1,7 @@
 [versions]
 # App & Library Versions
-versionCode = "133"
-versionName = "1.4.0-beta01"
+versionCode = "140"
+versionName = "1.4.0"
 
 # SDK Versions
 compileSdk = "37"
@@ -12,7 +12,7 @@ targetSdk = "37"
 # Dependencies
 coreKtx = "1.18.0"
 appcompat = "1.7.1"
-material = "1.13.0"
+material = "1.14.0"
 constraintlayout = "2.2.1"
 browser = "1.10.0"
 swiperefreshlayout = "1.2.0"
