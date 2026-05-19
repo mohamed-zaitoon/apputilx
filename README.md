@@ -49,14 +49,6 @@ dependencies {
 }
 ```
 
-## ProGuard / R8
-
-```proguard
-
--keep class apputilx.widget.** { *; }
-
-```
-
 ## Changelog
 
 1.4.0 — Android 17 ready

@@ -305,20 +305,6 @@ object Utils {
     }
 
     // ==================================================
-    // Toast
-    // ==================================================
-
-    @Deprecated(
-        message = "Toast helper will be deprecated in the final release (1.4.0). Use Android Toast or Material Snackbar directly.",
-        level = DeprecationLevel.WARNING
-    )
-    @Suppress("DEPRECATION")
-    fun showToast(message: String, long: Boolean = false) {
-        if (long) apputilx.helpers.Toast.showLong(ctx(), message)
-        else apputilx.helpers.Toast.showShort(ctx(), message)
-    }
-
-    // ==================================================
     // Keyboard
     // ==================================================
 
