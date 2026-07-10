@@ -29,25 +29,21 @@ internal object Notification {
         channelName: String = DEFAULT_CHANNEL_NAME,
         importance: Int = DEFAULT_CHANNEL_IMPORTANCE
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE)
-                as? NotificationManager
-                ?: return
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+            as? NotificationManager
+            ?: return
 
-            if (manager.getNotificationChannel(channelId) == null) {
-                val channel = NotificationChannel(channelId, channelName, importance)
-                manager.createNotificationChannel(channel)
-            }
+        if (manager.getNotificationChannel(channelId) == null) {
+            val channel = NotificationChannel(channelId, channelName, importance)
+            manager.createNotificationChannel(channel)
         }
     }
 
     fun deleteChannel(context: Context, channelId: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE)
-                as? NotificationManager
-                ?: return
-            manager.deleteNotificationChannel(channelId)
-        }
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE)
+            as? NotificationManager
+            ?: return
+        manager.deleteNotificationChannel(channelId)
     }
 
     // --------------------------------------------------
@@ -79,7 +75,6 @@ internal object Notification {
 
             intent?.let { builder.setContentIntent(it) }
 
-            // For Android 14+ require explicit foreground service type to post while in background
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 builder.setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
             }

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.core.net.toUri
 
 internal object Intent {
 
@@ -14,7 +15,7 @@ internal object Intent {
      */
     fun openUrl(context: Context, url: String) {
         startSafely(context) {
-            Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            Intent(Intent.ACTION_VIEW, url.toUri())
         }
     }
 
@@ -22,9 +23,8 @@ internal object Intent {
      * Open WhatsApp chat with a phone number.
      */
     fun openWhatsApp(context: Context, phone: String, message: String? = null) {
-        val uri = Uri.parse(
-            "https://wa.me/$phone${message?.let { "?text=${Uri.encode(it)}" } ?: ""}"
-        )
+        val encodedMessage = message?.let { "?text=${Uri.encode(it)}" }.orEmpty()
+        val uri = "https://wa.me/$phone$encodedMessage".toUri()
         openUrl(context, uri.toString())
     }
 
@@ -41,7 +41,7 @@ internal object Intent {
     fun sendSms(context: Context, phone: String, message: String = "") {
         startSafely(context) {
             Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("smsto:$phone")
+                data = "smsto:$phone".toUri()
                 putExtra("sms_body", message)
             }
         }
@@ -53,7 +53,7 @@ internal object Intent {
     fun sendEmail(context: Context, email: String, subject: String = "", body: String = "") {
         startSafely(context) {
             Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:$email")
+                data = "mailto:$email".toUri()
                 putExtra(Intent.EXTRA_SUBJECT, subject)
                 putExtra(Intent.EXTRA_TEXT, body)
             }
@@ -114,7 +114,7 @@ internal object Intent {
         startSafely(context) {
             Intent(
                 Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:${context.packageName}")
+                "package:${context.packageName}".toUri()
             )
         }
     }
@@ -125,14 +125,14 @@ internal object Intent {
     fun openPlayStore(context: Context, packageName: String = context.packageName) {
         val marketIntent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("market://details?id=$packageName")
+            "market://details?id=$packageName".toUri()
         )
 
         if (!startSafely(context, marketIntent)) {
             startSafely(context) {
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                    "https://play.google.com/store/apps/details?id=$packageName".toUri()
                 )
             }
         }

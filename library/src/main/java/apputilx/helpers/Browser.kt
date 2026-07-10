@@ -5,12 +5,13 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.net.toUri
 
 internal object Browser {
 
 
     fun openUrl(context: Context, url: String) {
-        val uri = Uri.parse(url)
+        val uri = url.toUri()
 
         val customTabsIntent = CustomTabsIntent.Builder()
             .setShowTitle(true) // إظهار عنوان الصفحة

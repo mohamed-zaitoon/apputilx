@@ -13,8 +13,6 @@ internal object Biometric {
      * Check if biometric or device credentials are available.
      */
     fun canAuthenticate(context: Context): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return false
-
         val manager = BiometricManager.from(context)
         val result = manager.canAuthenticate(
             getAuthenticators()
@@ -35,14 +33,6 @@ internal object Biometric {
         onError: (code: Int, message: CharSequence?) -> Unit = { _, _ -> },
         onFailed: () -> Unit = {}
     ) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            onError(
-                BiometricPrompt.ERROR_HW_NOT_PRESENT,
-                "Biometric authentication is not available before Android 6.0."
-            )
-            return
-        }
-
         val executor = ContextCompat.getMainExecutor(activity)
         val callback = object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {

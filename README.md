@@ -6,7 +6,7 @@
 
 # apputilx
 
-> Stable release for Android utility helpers.
+> Alpha release for Android utility helpers.
 
 apputilx is a lightweight Android utility library that centralizes the most commonly used helpers into a single, clean, and easy-to-use API.
 
@@ -14,7 +14,7 @@ Documents:
 https://apputilx.mohamedzaitoon.com/
 
 Features:
-- Toast helper (deprecated for final 1.4.0) and notification utilities
+- Notification utilities
 - Network connectivity checks & listeners
 - Lifecycle-aware network callbacks
 - Clipboard utilities
@@ -34,7 +34,7 @@ Features:
 Kotlin DSL:
 ```kotlin
 // Add in gradle/libs.versions.toml
-apputilx = "1.4.0"
+apputilx = "1.5.0-alpha01"
 apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }
     
 // Add in settings.gradle.kts
@@ -50,6 +50,15 @@ dependencies {
 ```
 
 ## Changelog
+
+1.5.0-alpha01 — Android 37 alpha
+- Updated to versionCode 151 / versionName 1.5.0-alpha01
+- Raised the minimum supported Android version to API 27
+- Targeted Android 37 in the sample app and compile setup
+- Updated AndroidX, Material, Kotlin, and Jetpack helper dependencies
+- Improved Android 13+ notification permission handling across notification helpers
+- Removed obsolete pre-API 27 code paths from biometric, notification, and vibration helpers
+- Removed library-level cleartext traffic configuration so consuming apps keep control of network policy
 
 1.4.0 — Android 17 ready
 - Updated to versionCode 140 / versionName 1.4.0

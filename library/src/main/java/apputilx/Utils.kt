@@ -42,6 +42,7 @@ object Utils {
     private lateinit var appContext: Context
     private var currentActivityRef: WeakReference<Activity>? = null
     private var activityTrackerRegistered = false
+    private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1002
 
     var BROWSER_URL: String? = null
         private set
@@ -181,18 +182,7 @@ object Utils {
     ) {
         val context = act() ?: ctx()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            !Permission.isGranted(context, android.Manifest.permission.POST_NOTIFICATIONS)
-        ) {
-            act()?.let {
-                Permission.request(
-                    it,
-                    android.Manifest.permission.POST_NOTIFICATIONS,
-                    1002
-                )
-            }
-            return
-        }
+        if (!ensureNotificationPermission(context)) return
 
         Notification.showNotification(
             context = context,
@@ -214,16 +204,21 @@ object Utils {
         intent: PendingIntent? = null,
         notificationId: Int = generateNotificationId(),
         channelName: String = "AppUtils Notifications"
-    ) = Notification.showBigTextNotification(
-        context = act() ?: ctx(),
-        channelId = channelId,
-        title = title,
-        bigText = bigText,
-        iconResId = iconResId,
-        intent = intent,
-        notificationId = notificationId,
-        channelName = channelName
-    )
+    ) {
+        val context = act() ?: ctx()
+        if (!ensureNotificationPermission(context)) return
+
+        Notification.showBigTextNotification(
+            context = context,
+            channelId = channelId,
+            title = title,
+            bigText = bigText,
+            iconResId = iconResId,
+            intent = intent,
+            notificationId = notificationId,
+            channelName = channelName
+        )
+    }
 
     fun showProgressNotification(
         channelId: String,
@@ -233,16 +228,21 @@ object Utils {
         @DrawableRes iconResId: Int,
         notificationId: Int,
         channelName: String = "AppUtils Notifications"
-    ) = Notification.showProgressNotification(
-        context = act() ?: ctx(),
-        channelId = channelId,
-        title = title,
-        progress = progress,
-        max = max,
-        iconResId = iconResId,
-        notificationId = notificationId,
-        channelName = channelName
-    )
+    ) {
+        val context = act() ?: ctx()
+        if (!ensureNotificationPermission(context)) return
+
+        Notification.showProgressNotification(
+            context = context,
+            channelId = channelId,
+            title = title,
+            progress = progress,
+            max = max,
+            iconResId = iconResId,
+            notificationId = notificationId,
+            channelName = channelName
+        )
+    }
 
     fun cancelNotification(notificationId: Int) =
         Notification.cancel(ctx(), notificationId)
@@ -267,6 +267,23 @@ object Utils {
 
     private fun generateNotificationId(): Int =
         (System.currentTimeMillis() and 0xFFFFFFF).toInt()
+
+    private fun ensureNotificationPermission(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
+        if (Permission.isGranted(context, android.Manifest.permission.POST_NOTIFICATIONS)) {
+            return true
+        }
+
+        val activity = context as? Activity ?: act()
+        activity?.let {
+            Permission.request(
+                it,
+                android.Manifest.permission.POST_NOTIFICATIONS,
+                NOTIFICATION_PERMISSION_REQUEST_CODE
+            )
+        }
+        return false
+    }
 
     // ==================================================
     // Browser

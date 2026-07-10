@@ -1,9 +1,9 @@
 jdk:
-  - openjdk17
+  - openjdk21
 
 install:
   # Build only the library and publish to local maven (JitPack will pick it up).
-  - ./gradlew -Pgroup=io.github.mohamed-zaitoon -Pversion=${VERSION:-1.4.0} --no-daemon -xlint -xlintVitalRelease -xlintVitalAnalyzeRelease :library:publishReleasePublicationToMavenLocal
+  - ./gradlew -Pgroup=io.github.mohamed-zaitoon -Pversion=${VERSION:-1.5.0-alpha01} --no-daemon -xlint -xlintVitalRelease -xlintVitalAnalyzeRelease :library:publishReleasePublicationToMavenLocal
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx2g -Dorg.gradle.parallel=true -Dkotlin.daemon.jvmargs=-Xmx1g"
