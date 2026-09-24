@@ -18,9 +18,9 @@
         android:label="@string/app_name"
         android:resizeableActivity="true"
         android:theme="@style/AppTheme"
-        tools:targetApi="n">
+        tools:targetApi="37">
         <activity
-            android:name=".ExampleActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
             <intent-filter>

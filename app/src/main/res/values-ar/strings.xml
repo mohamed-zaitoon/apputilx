@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">تجربة AppUtilX</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_appearance">المظهر</string>
+    <string name="settings_theme">الثيم</string>
+    <string name="settings_theme_summary">اختر مظهر التطبيق</string>
+    <string name="settings_theme_material3">جوجل ماتيريال 3</string>
+    <string name="settings_theme_xiaomi">شاومي (HyperOS)</string>
+    <string name="settings_dark_mode">الوضع الداكن</string>
+    <string name="settings_dark_mode_summary">اختر تفضيل الوضع الداكن</string>
+    <string name="settings_dark_mode_system">اتبع النظام</string>
+    <string name="settings_dark_mode_light">فاتح</string>
+    <string name="settings_dark_mode_dark">داكن</string>
+    <string name="settings_glass">تأثير الزجاج</string>
+    <string name="settings_glass_summary">تأثير الزجاج المصفوف (ثيم شاومي فقط)</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_language_summary">اختر لغة التطبيق</string>
+    <string name="settings_language_system">اتبع النظام</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_arabic">العربية</string>
+
+    <!-- Home -->
+    <string name="home_title">تجربة AppUtilX</string>
+    <string name="home_subtitle">كل المساعدات في مكان واحد</string>
+    <string name="home_input_hint">نص للمساعدين</string>
+    <string name="home_output_hint">ستظهر النتائج هنا</string>
+
+    <!-- Sections -->
+    <string name="section_network">الشبكة</string>
+    <string name="section_intents">المقاصد</string>
+    <string name="section_clipboard">الحافظة، الاهتزاز، الشاشة</string>
+    <string name="section_notifications">الإشعارات ولوحة المفاتيح</string>
+    <string name="section_device">الجهاز والتطبيق</string>
+    <string name="section_data">مساعدو البيانات</string>
+    <string name="section_security">الأمان</string>
+
+    <!-- Network -->
+    <string name="action_network_state">تفاصيل الاتصال</string>
+    <string name="action_network_transport">نوع الاتصال والقياس</string>
+
+    <!-- Intents -->
+    <string name="action_open_url">فتح رابط</string>
+    <string name="action_open_settings">فتح إعدادات التطبيق</string>
+    <string name="action_whatsapp">فتح محادثة واتساب</string>
+    <string name="action_dial">اتصال بالرقم</string>
+    <string name="action_sms">إرسال رسالة SMS</string>
+    <string name="action_email">إرسال بريد إلكتروني</string>
+    <string name="action_share_text">مشاركة نص</string>
+    <string name="action_share_file">مشاركة ملف</string>
+    <string name="action_map">فتح الخريطة</string>
+    <string name="action_playstore">فتح صفحة Play Store</string>
+
+    <!-- Clipboard / Vibration / Screen -->
+    <string name="action_copy">نسخ النص</string>
+    <string name="action_paste">قراءة الحافظة</string>
+    <string name="action_vibrate_short">اهتزاز 200 مللي ثانية</string>
+    <string name="action_vibrate_pattern">نمط اهتزاز</string>
+    <string name="action_block_capture">منع التقاط الشاشة</string>
+    <string name="action_unblock_capture">السماح بالتقاط الشاشة</string>
+
+    <!-- Notifications / Keyboard -->
+    <string name="action_show_notification">عرض إشعار</string>
+    <string name="action_cancel_notifications">إلغاء الإشعارات</string>
+    <string name="action_show_keyboard">إظهار لوحة المفاتيح</string>
+    <string name="action_hide_keyboard">إخفاء لوحة المفاتيح</string>
+
+    <!-- Device / App -->
+    <string name="action_device_info">معلومات الجهاز</string>
+    <string name="action_app_info">معلومات التطبيق</string>
+    <string name="action_battery_info">معلومات البطارية</string>
+    <string name="action_app_state">حالة التطبيق</string>
+
+    <!-- Data -->
+    <string name="action_time_now">مساعدو الوقت</string>
+    <string name="action_validate">مساعدو التحقق</string>
+    <string name="action_storage">مساعدو التخزين</string>
+    <string name="action_write_file">كتابة وإضافة ملف</string>
+    <string name="action_read_file">قراءة ملف وبايت</string>
+    <string name="action_delete_file">حذف ملف</string>
+    <string name="action_sha256">التشفير و HMAC</string>
+    <string name="action_base64">مساعدو Base64</string>
+
+    <!-- Security -->
+    <string name="action_signatures">تواقيع التطبيق</string>
+    <string name="action_biometric">المصادقة البيومترية</string>
+    <string name="action_logger">تجربة المسجل</string>
+</resources>

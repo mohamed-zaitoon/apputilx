@@ -4,39 +4,29 @@
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-orange)
 
-# apputilx
+# AppUtilX
 
-> Alpha release for Android utility helpers.
+> Lightweight, production-ready Android utility library with essential Kotlin and Flutter helpers.
 
-apputilx is a lightweight Android utility library that centralizes the most commonly used helpers into a single, clean, and easy-to-use API.
+AppUtilX centralizes common Android tasks — network checks, haptics/vibration, biometric authentication, secure intents, clipboard, notifications, file management, and device info — into a single, clean API.
 
-Documents:
-https://apputilx.mohamedzaitoon.com/
+🌐 **Documentation:** [apputilx.mohamedzaitoon.com](https://apputilx.mohamedzaitoon.com)  
+📖 **العربية:** [README.ar.md](README.ar.md)
 
-Features:
-- Notification utilities
-- Network connectivity checks & listeners
-- Lifecycle-aware network callbacks
-- Clipboard utilities
-- Keyboard utilities (show / hide / toggle / state detection)
-- Vibration helpers
-- Open URLs (Browser & Chrome Custom Tabs)
-- Safe intent helpers (WhatsApp, dial, email, share, app settings)
-- Screen capture control
-- Notification utilities
-- Biometric authentication helper
-- App signature validation
-- Storage & cache helpers
-- Device & system information helpers
+---
 
-## Download
+## 📦 Installation & Setup
 
-Kotlin DSL:
+### 1. Add Dependency
+
 ```kotlin
 // Add in gradle/libs.versions.toml
+[versions]
 apputilx = "1.5.0-alpha01"
+
+[libraries]
 apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }
-    
+
 // Add in settings.gradle.kts
 repositories {
     google()
@@ -44,47 +34,43 @@ repositories {
     maven { url = uri("https://jitpack.io") }
 }
 
+// Add in app/build.gradle.kts
 dependencies {
     implementation(libs.apputilx)
 }
 ```
 
-## Changelog
+### 2. Initialize in Application Class
 
-1.5.0-alpha01 — Android 37 alpha
-- Updated to versionCode 151 / versionName 1.5.0-alpha01
-- Raised the minimum supported Android version to API 27
-- Targeted Android 37 in the sample app and compile setup
-- Updated AndroidX, Material, Kotlin, and Jetpack helper dependencies
-- Improved Android 13+ notification permission handling across notification helpers
-- Removed obsolete pre-API 27 code paths from biometric, notification, and vibration helpers
-- Removed library-level cleartext traffic configuration so consuming apps keep control of network policy
+#### Kotlin (Android Native)
+```kotlin
+import android.app.Application
+import apputilx.Utils
 
-1.4.0 — Android 17 ready
-- Updated to versionCode 140 / versionName 1.4.0
-- Lifecycle-aware network callback to avoid leaks
-- Safer vibration APIs (Q+ attributes fallback)
-- Safe intent helpers and app settings shortcut
-- Added biometric authentication helper
-- Added ProcessLifecycle / Biometric dependencies
-- NotificationCompat foreground service behavior on Android 14+
-- Deprecated the Toast helper for the final 1.4.0 release; prefer Android Toast or Material Snackbar directly
-- Replaced deprecated platform calls with modern APIs where possible, keeping guarded legacy fallbacks for older Android versions
+class ExampleApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        Utils.initialize(this)
+    }
+}
+```
 
-1.0.3 — Initial Release
-- Added core apputil initialization and lifecycle tracking
-- Added Toast and Snackbar utilities
-- Added network connectivity checks and listeners
-- Added clipboard utilities
-- Added keyboard utilities (show, hide, toggle, state detection)
-- Added vibration helpers
-- Added URL opening utilities with Chrome Custom Tabs
-- Added screen capture blocking / unblocking
-- Added notification helpers
-- Added app signature validation
-- Added device and system information utilities
+#### Flutter (Android Host `MyApp.kt`)
+```kotlin
+import android.app.Application
+import apputilx.Utils
 
-## License
+class MyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        Utils.initialize(this)
+    }
+}
+```
 
-Copyright (c) 2025–2026 Mohamed Zaitoon.
+---
+
+## 📄 License
+
+Copyright (c) 2025–2027 Mohamed Zaitoon.
 All rights reserved.

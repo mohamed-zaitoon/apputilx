@@ -76,7 +76,8 @@ internal object Biometric {
             BiometricManager.Authenticators.BIOMETRIC_STRONG or
                 BiometricManager.Authenticators.DEVICE_CREDENTIAL
         } else {
-            BiometricManager.Authenticators.BIOMETRIC_STRONG
+            BiometricManager.Authenticators.BIOMETRIC_STRONG or
+                BiometricManager.Authenticators.BIOMETRIC_WEAK
         }
     }
 }

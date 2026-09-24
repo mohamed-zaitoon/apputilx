@@ -8,9 +8,10 @@
         <item name="colorSurfaceContainer">@color/colorSurfaceContainer</item>
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">@color/colorSurface</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/colorGlassChrome</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -22,7 +23,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorTertiary</item>
+    </style>
+
+    <style name="AppTheme.GlassTextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/colorGlassPanel</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxStrokeColor">@color/colorGlassStrokeStrong</item>
+        <item name="hintTextColor">@color/colorSecondary</item>
     </style>
 
     <style name="AppTheme.DemoButton" parent="Widget.Material3.Button.OutlinedButton">
@@ -32,6 +43,11 @@
         <item name="android:layout_marginBottom">2dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="android:textColor">@color/colorOnSurface</item>
+        <item name="backgroundTint">@color/colorGlassButton</item>
         <item name="cornerRadius">8dp</item>
+        <item name="rippleColor">@color/colorGlassButtonPressed</item>
+        <item name="strokeColor">@color/colorGlassStrokeStrong</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 </resources>

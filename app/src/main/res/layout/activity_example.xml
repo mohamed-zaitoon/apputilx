@@ -4,13 +4,13 @@
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface">
+    android:background="@drawable/glass_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorGlassChrome"
         android:fitsSystemWindows="false"
         app:elevation="0dp">
 
@@ -18,10 +18,10 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/transparent"
             app:title="@string/app_name"
             app:titleCentered="false"
-            app:titleTextColor="?attr/colorOnPrimary" />
+            app:titleTextColor="?attr/colorOnSurface" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -47,7 +47,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputLayout"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    style="@style/AppTheme.GlassTextInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Text for helpers">
@@ -67,9 +67,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:cardBackgroundColor="?attr/colorSurfaceContainer"
+                    app:cardBackgroundColor="@color/colorGlassPanel"
                     app:cardCornerRadius="8dp"
-                    app:strokeColor="?attr/colorOutlineVariant"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/colorGlassStroke"
                     app:strokeWidth="1dp">
 
                     <com.google.android.material.textview.MaterialTextView

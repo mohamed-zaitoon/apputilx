@@ -1,9 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">AppUtilX Demo</string>
 
-    <string name="app_name">Test App</string>
-    <string name="hello_world">Hello world!</string>
-	<string name="no_internet">No Internet connection</string>
-	<string name="btn_rtry">Try again</string>
-	
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_summary">Choose app appearance</string>
+    <string name="settings_theme_material3">Google Material 3</string>
+    <string name="settings_theme_xiaomi">Xiaomi (HyperOS)</string>
+    <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_dark_mode_summary">Choose dark mode preference</string>
+    <string name="settings_dark_mode_system">Follow system</string>
+    <string name="settings_dark_mode_light">Light</string>
+    <string name="settings_dark_mode_dark">Dark</string>
+    <string name="settings_glass">Glass effect</string>
+    <string name="settings_glass_summary">Frosted glass effect (Xiaomi theme only)</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_summary">Choose app language</string>
+    <string name="settings_language_system">Follow system</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_arabic">العربية</string>
+
+    <!-- Home -->
+    <string name="home_title">AppUtilX Demo</string>
+    <string name="home_subtitle">All helpers in one place</string>
+    <string name="home_input_hint">Text for helpers</string>
+    <string name="home_output_hint">Results will appear here</string>
+
+    <!-- Sections -->
+    <string name="section_network">Network</string>
+    <string name="section_intents">Intents</string>
+    <string name="section_clipboard">Clipboard, vibration, screen</string>
+    <string name="section_notifications">Notifications and keyboard</string>
+    <string name="section_device">Device and app</string>
+    <string name="section_data">Data helpers</string>
+    <string name="section_security">Security</string>
+
+    <!-- Network -->
+    <string name="action_network_state">Connection details</string>
+    <string name="action_network_transport">Transport and metered state</string>
+
+    <!-- Intents -->
+    <string name="action_open_url">Open URL</string>
+    <string name="action_open_settings">Open app settings</string>
+    <string name="action_whatsapp">Open WhatsApp chat</string>
+    <string name="action_dial">Dial number</string>
+    <string name="action_sms">Send SMS</string>
+    <string name="action_email">Send email</string>
+    <string name="action_share_text">Share text</string>
+    <string name="action_share_file">Share generated file</string>
+    <string name="action_map">Open map</string>
+    <string name="action_playstore">Open Play Store page</string>
+
+    <!-- Clipboard / Vibration / Screen -->
+    <string name="action_copy">Copy input</string>
+    <string name="action_paste">Read clipboard</string>
+    <string name="action_vibrate_short">Vibrate 200 ms</string>
+    <string name="action_vibrate_pattern">Vibrate pattern</string>
+    <string name="action_block_capture">Block screen capture</string>
+    <string name="action_unblock_capture">Unblock screen capture</string>
+
+    <!-- Notifications / Keyboard -->
+    <string name="action_show_notification">Show notification</string>
+    <string name="action_cancel_notifications">Cancel notifications</string>
+    <string name="action_show_keyboard">Show keyboard</string>
+    <string name="action_hide_keyboard">Hide keyboard</string>
+
+    <!-- Device / App -->
+    <string name="action_device_info">Device info</string>
+    <string name="action_app_info">App info</string>
+    <string name="action_battery_info">Battery info</string>
+    <string name="action_app_state">App state</string>
+
+    <!-- Data -->
+    <string name="action_time_now">Time helpers</string>
+    <string name="action_validate">Validation helpers</string>
+    <string name="action_storage">Storage helpers</string>
+    <string name="action_write_file">Write and append file</string>
+    <string name="action_read_file">Read file and bytes</string>
+    <string name="action_delete_file">Delete file</string>
+    <string name="action_sha256">Hashes and HMAC</string>
+    <string name="action_base64">Base64 helpers</string>
+
+    <!-- Security -->
+    <string name="action_signatures">App signatures</string>
+    <string name="action_biometric">Biometric authenticate</string>
+    <string name="action_logger">Logger demo</string>
 </resources>

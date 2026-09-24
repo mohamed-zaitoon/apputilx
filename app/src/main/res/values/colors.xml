@@ -10,4 +10,10 @@
     <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorOnSurface">#191C1B</color>
     <color name="colorOutlineVariant">#C2C8C6</color>
+    <color name="colorGlassChrome">#CCFFFFFF</color>
+    <color name="colorGlassPanel">#AFFFFFFF</color>
+    <color name="colorGlassButton">#7AFFFFFF</color>
+    <color name="colorGlassButtonPressed">#99EAF6F2</color>
+    <color name="colorGlassStroke">#99FFFFFF</color>
+    <color name="colorGlassStrokeStrong">#B7CAD6D2</color>
 </resources>
