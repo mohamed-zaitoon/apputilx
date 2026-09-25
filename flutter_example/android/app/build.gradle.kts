@@ -20,8 +20,8 @@ android {
         applicationId = "com.example.flutter_example"
         minSdk = 28
         targetSdk = 35
-        versionCode = 151
-        versionName = "1.5.0-alpha01"
+        versionCode = 152
+        versionName = "1.5.0-alpha02"
     }
 
     signingConfigs {

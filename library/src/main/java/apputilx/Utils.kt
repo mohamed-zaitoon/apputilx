@@ -2,25 +2,27 @@ package apputilx
 
 import android.app.Activity
 import android.app.Application
-import android.app.PendingIntent
+import android.app.NotificationManager
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
-import java.lang.ref.WeakReference
-import java.util.Locale
 import apputilx.helpers.AppInfo
 import apputilx.helpers.AppState
+import apputilx.helpers.Audio
 import apputilx.helpers.Battery
+import apputilx.helpers.Biometric
 import apputilx.helpers.Browser
 import apputilx.helpers.Clipboard
 import apputilx.helpers.Device
+import apputilx.helpers.Display
 import apputilx.helpers.Encryption
 import apputilx.helpers.File
 import apputilx.helpers.Intent
+import apputilx.helpers.Keyboard
 import apputilx.helpers.Network
 import apputilx.helpers.Notification
 import apputilx.helpers.Permission
@@ -30,80 +32,62 @@ import apputilx.helpers.Storage
 import apputilx.helpers.Time
 import apputilx.helpers.Validation
 import apputilx.helpers.Vibration
-import apputilx.helpers.Keyboard
-import apputilx.helpers.Biometric
 
 object Utils {
 
-    // ==================================================
-    // Internal State
-    // ==================================================
+    private var application: Application? = null
 
-    private lateinit var appContext: Context
-    private var currentActivityRef: WeakReference<Activity>? = null
-    private var activityTrackerRegistered = false
-    private const val NOTIFICATION_PERMISSION_REQUEST_CODE = 1002
-
-    var BROWSER_URL: String? = null
-        private set
-
-    var COPIED_TEXT: String? = null
-        private set
-
-    // ==================================================
-    // Initialization
-    // ==================================================
-
-    /**
-     * Must be called from Application.onCreate()
-     */
-    fun initialize(context: Context) {
-        appContext = context.applicationContext
-        Network.initialize(context)
-        registerActivityTracker(appContext)
+    fun initialize(app: Application) {
+        application = app
+        Network.initialize(app)
+        registerLifecycle(app)
     }
 
-    /**
-     * Register the built-in activity tracker used by helpers that need the current Activity.
-     */
-    @Suppress("DEPRECATION")
-    fun registerActivityTracker(context: Context) {
-        val application = context.applicationContext as? Application ?: return
-        if (activityTrackerRegistered) return
-        application.registerActivityLifecycleCallbacks(activityTracker)
-        activityTrackerRegistered = true
+    private fun ctx(): Context {
+        return application
+            ?: throw IllegalStateException("AppUtilX must be initialized: Utils.initialize(application)")
     }
 
-    @Deprecated(
-        message = "Manual activity tracker registration is no longer needed. Utils.initialize() registers it automatically.",
-        level = DeprecationLevel.WARNING
-    )
-    val activityTracker = object : Application.ActivityLifecycleCallbacks {
-        override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-            currentActivityRef = WeakReference(activity)
-        }
-
-        override fun onActivityStarted(activity: Activity) {
-            currentActivityRef = WeakReference(activity)
-        }
-
-        override fun onActivityResumed(activity: Activity) {
-            currentActivityRef = WeakReference(activity)
-        }
-
-        override fun onActivityPaused(activity: Activity) {}
-        override fun onActivityStopped(activity: Activity) {}
-        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-        override fun onActivityDestroyed(activity: Activity) {
-            if (currentActivityRef?.get() === activity) currentActivityRef = null
-        }
+    private fun act(): Activity? {
+        return currentActivity
     }
 
-    private fun ctx(): Context =
-        if (::appContext.isInitialized) appContext
-        else throw IllegalStateException("Call apputilx.Utils.initialize() first")
+    // Lifecycle tracker
+    private var currentActivity: Activity? = null
 
-    private fun act(): Activity? = currentActivityRef?.get()
+    private fun registerLifecycle(app: Application) {
+        app.registerActivityLifecycleCallbacks(object :
+            Application.ActivityLifecycleCallbacks {
+            override fun onActivityCreated(
+                a: Activity,
+                b: Bundle?
+            ) {
+                currentActivity = a
+            }
+
+            override fun onActivityStarted(a: Activity) {
+                currentActivity = a
+            }
+
+            override fun onActivityResumed(a: Activity) {
+                currentActivity = a
+            }
+
+            override fun onActivityPaused(a: Activity) {}
+            override fun onActivityStopped(a: Activity) {}
+            override fun onActivitySaveInstanceState(
+                a: Activity,
+                b: Bundle
+            ) {
+            }
+
+            override fun onActivityDestroyed(a: Activity) {
+                if (currentActivity == a) {
+                    currentActivity = null
+                }
+            }
+        })
+    }
 
     // ==================================================
     // Network
@@ -112,14 +96,11 @@ object Utils {
     val isConnected: Boolean
         get() = Network.isConnected
 
-    fun addConnectionListener(listener: (Boolean) -> Unit) =
-        Network.addConnectionListener(listener)
-
-    fun removeConnectionListener(listener: (Boolean) -> Unit) =
-        Network.removeConnectionListener(listener)
-
     fun hasValidatedInternet(): Boolean =
         Network.hasValidatedInternet()
+
+    fun isConnectionMetered(): Boolean =
+        Network.isConnectionMetered()
 
     fun activeNetworkTransport(): String =
         Network.activeTransport()
@@ -136,223 +117,119 @@ object Utils {
     fun isVpnConnected(): Boolean =
         Network.isVpnConnected()
 
-    fun isConnectionMetered(): Boolean =
-        Network.isConnectionMetered()
+    // ==================================================
+    // Clipboard
+    // ==================================================
+
+    fun copyText(text: String) =
+        Clipboard.copyText(ctx(), text)
+
+    fun getCopiedText(): String? =
+        Clipboard.getText(ctx())
+
+    fun clearClipboard() =
+        Clipboard.clear(ctx())
+
+    // ==================================================
+    // Keyboard
+    // ==================================================
+
+    fun hideKeyboard() {
+        val a = act()
+        if (a != null) {
+            Keyboard.hideKeyboard(a)
+        } else {
+            Keyboard.hideKeyboard(ctx())
+        }
+    }
+
+    fun showKeyboard(target: View) =
+        Keyboard.showKeyboard(target)
+
+    fun isKeyboardVisible(): Boolean {
+        val a = act() ?: return false
+        val view = a.currentFocus ?: return false
+        return Keyboard.isKeyboardOpen(view)
+    }
 
     // ==================================================
     // Vibration
     // ==================================================
 
-    fun vibrate(milliseconds: Long) =
-        Vibration.vibrate(act() ?: ctx(), milliseconds)
+    fun vibrate(ms: Long = 500) =
+        Vibration.vibrate(ctx(), ms)
 
     fun vibratePattern(pattern: LongArray, repeat: Int = -1) =
-        Vibration.vibratePattern(act() ?: ctx(), pattern, repeat)
+        Vibration.vibratePattern(ctx(), pattern, repeat)
 
     fun cancelVibration() =
-        Vibration.cancel(act() ?: ctx())
+        Vibration.cancel(ctx())
+
+    // ==================================================
+    // Audio
+    // ==================================================
+
+    fun playClickSound() =
+        Audio.playClickSound(ctx())
+
+    fun isAudioMuted(): Boolean =
+        Audio.isMuted(ctx())
+
+    fun getMusicVolume(): Int =
+        Audio.getMusicVolume(ctx())
+
+    // ==================================================
+    // Display
+    // ==================================================
+
+    fun isPortrait(): Boolean =
+        Display.isPortrait(ctx())
+
+    fun isLandscape(): Boolean =
+        Display.isLandscape(ctx())
+
+    fun getScreenWidthDp(): Int =
+        Display.getScreenWidthDp(ctx())
+
+    fun getScreenHeightDp(): Int =
+        Display.getScreenHeightDp(ctx())
 
     // ==================================================
     // Screen Capture
     // ==================================================
 
     fun blockCapture() {
-        act()?.let { Screen.blockCapture(it) }
+        val a = act()
+        if (a != null) {
+            Screen.blockCapture(a)
+        } else {
+            Screen.blockCapture(ctx())
+        }
     }
 
     fun unblockCapture() {
-        act()?.let { Screen.unblockCapture(it) }
-    }
-
-    fun isCaptureBlocked(): Boolean =
-        act()?.let { Screen.isCaptureBlocked(it) } ?: false
-
-    // ==================================================
-    // Notifications
-    // ==================================================
-
-    fun showNotification(
-        channelId: String,
-        title: String,
-        text: String,
-        @DrawableRes iconResId: Int,
-        intent: PendingIntent? = null,
-        notificationId: Int = generateNotificationId(),
-        channelName: String = "AppUtils Notifications"
-    ) {
-        val context = act() ?: ctx()
-
-        if (!ensureNotificationPermission(context)) return
-
-        Notification.showNotification(
-            context = context,
-            channelId = channelId,
-            title = title,
-            text = text,
-            iconResId = iconResId,
-            intent = intent,
-            notificationId = notificationId,
-            channelName = channelName
-        )
-    }
-
-    fun showBigTextNotification(
-        channelId: String,
-        title: String,
-        bigText: String,
-        @DrawableRes iconResId: Int,
-        intent: PendingIntent? = null,
-        notificationId: Int = generateNotificationId(),
-        channelName: String = "AppUtils Notifications"
-    ) {
-        val context = act() ?: ctx()
-        if (!ensureNotificationPermission(context)) return
-
-        Notification.showBigTextNotification(
-            context = context,
-            channelId = channelId,
-            title = title,
-            bigText = bigText,
-            iconResId = iconResId,
-            intent = intent,
-            notificationId = notificationId,
-            channelName = channelName
-        )
-    }
-
-    fun showProgressNotification(
-        channelId: String,
-        title: String,
-        progress: Int,
-        max: Int,
-        @DrawableRes iconResId: Int,
-        notificationId: Int,
-        channelName: String = "AppUtils Notifications"
-    ) {
-        val context = act() ?: ctx()
-        if (!ensureNotificationPermission(context)) return
-
-        Notification.showProgressNotification(
-            context = context,
-            channelId = channelId,
-            title = title,
-            progress = progress,
-            max = max,
-            iconResId = iconResId,
-            notificationId = notificationId,
-            channelName = channelName
-        )
-    }
-
-    fun cancelNotification(notificationId: Int) =
-        Notification.cancel(ctx(), notificationId)
-
-    fun cancelAllNotifications() =
-        Notification.cancelAll(ctx())
-
-    fun canPostNotifications(): Boolean =
-        Notification.canPostNotifications(ctx())
-
-    fun areNotificationsEnabled(): Boolean =
-        Notification.areNotificationsEnabled(ctx())
-
-    fun createNotificationChannel(
-        channelId: String,
-        channelName: String = "AppUtils Notifications",
-        importance: Int = 3
-    ) = Notification.createChannel(ctx(), channelId, channelName, importance)
-
-    fun deleteNotificationChannel(channelId: String) =
-        Notification.deleteChannel(ctx(), channelId)
-
-    private fun generateNotificationId(): Int =
-        (System.currentTimeMillis() and 0xFFFFFFF).toInt()
-
-    private fun ensureNotificationPermission(context: Context): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
-        if (Permission.isGranted(context, android.Manifest.permission.POST_NOTIFICATIONS)) {
-            return true
+        val a = act()
+        if (a != null) {
+            Screen.unblockCapture(a)
+        } else {
+            Screen.unblockCapture(ctx())
         }
+    }
 
-        val activity = context as? Activity ?: act()
-        activity?.let {
-            Permission.request(
-                it,
-                android.Manifest.permission.POST_NOTIFICATIONS,
-                NOTIFICATION_PERMISSION_REQUEST_CODE
-            )
-        }
-        return false
+    fun isCaptureBlocked(): Boolean {
+        val a = act() ?: return false
+        return Screen.isCaptureBlocked(a)
     }
 
     // ==================================================
-    // Browser
+    // Browser & Chrome Custom Tabs
     // ==================================================
 
-    fun openUrl(context: Context, url: String) {
-        BROWSER_URL = url
+    fun openUrl(url: String) =
+        Browser.openUrl(ctx(), url)
+
+    fun openUrl(context: Context, url: String) =
         Browser.openUrl(context, url)
-    }
-
-    fun openUrl(url: String) {
-        BROWSER_URL = url
-        Browser.openUrl(act() ?: ctx(), url)
-    }
-
-    // ==================================================
-    // Clipboard
-    // ==================================================
-
-    fun copyText(text: String) {
-        Clipboard.copyText(ctx(), text)
-        COPIED_TEXT = text
-    }
-
-    fun getCopiedText(): String? {
-        COPIED_TEXT = Clipboard.getText(ctx())
-        return COPIED_TEXT
-    }
-
-    fun hasCopiedText(): Boolean =
-        Clipboard.hasText(ctx())
-
-    fun clearClipboard() {
-        Clipboard.clear(ctx())
-        COPIED_TEXT = null
-    }
-
-    // ==================================================
-    // Keyboard
-    // ==================================================
-
-    fun hideKeyboard(context: Context? = null) =
-        Keyboard.hideKeyboard(context ?: act() ?: ctx())
-
-    fun hideKeyboard(view: View) =
-        Keyboard.hideKeyboard(view)
-
-    fun showKeyboard(view: View) =
-        Keyboard.showKeyboard(view)
-
-    fun toggleKeyboard(context: Context? = null) =
-        Keyboard.toggleKeyboard(context ?: act() ?: ctx())
-
-    fun isKeyboardOpen(view: View): Boolean =
-        Keyboard.isKeyboardOpen(view)
-
-    // ==================================================
-    // Device Info
-    // ==================================================
-
-    fun deviceModel(): String = Device.model()
-    fun deviceBrand(): String = Device.brand()
-    fun deviceManufacturer(): String = Device.manufacturer()
-    fun androidSdk(): Int = Device.sdk()
-    fun androidVersion(): String = Device.androidVersion()
-    fun deviceName(): String = Device.deviceName()
-    fun supportedAbis(): List<String> = Device.supportedAbis()
-    fun isTablet(): Boolean = Device.isTablet(ctx())
-    fun isEmulator(): Boolean = Device.isEmulator()
 
     // ==================================================
     // Battery
@@ -367,50 +244,55 @@ object Utils {
     fun getChargingType(): String =
         Battery.getChargingType(ctx())
 
-    fun isPowerSaveMode(): Boolean =
-        Battery.isPowerSaveMode(ctx())
-
     fun getBatteryStatus(): String =
         Battery.getBatteryStatus(ctx())
 
     fun getBatteryHealth(): String =
         Battery.getBatteryHealth(ctx())
 
-    fun getBatteryTemperatureCelsius(): Float? =
-        Battery.getBatteryTemperatureCelsius(ctx())
-
-    fun getBatteryVoltageMillivolts(): Int? =
-        Battery.getBatteryVoltageMillivolts(ctx())
+    fun isPowerSaveMode(): Boolean =
+        Battery.isPowerSaveMode(ctx())
 
     // ==================================================
-    // Time
+    // Device Info
     // ==================================================
 
-    fun now(): Long = Time.now()
+    fun deviceName(): String =
+        Device.deviceName()
 
-    fun formatTime(
-        millis: Long,
-        pattern: String,
-        locale: Locale = Locale.getDefault()
-    ): String = Time.format(millis, pattern, locale)
+    fun deviceBrand(): String =
+        Device.brand()
 
-    fun parseTime(
-        date: String,
-        pattern: String,
-        locale: Locale = Locale.getDefault()
-    ): Long? = Time.parse(date, pattern, locale)
+    fun deviceManufacturer(): String =
+        Device.manufacturer()
 
-    fun timeAgo(millis: Long): String =
-        Time.timeAgo(millis)
+    fun androidSdk(): Int =
+        Device.sdk()
 
-    fun diffMinutes(start: Long, end: Long): Long =
-        Time.diffMinutes(start, end)
+    fun androidVersion(): String =
+        Device.androidVersion()
 
-    fun diffHours(start: Long, end: Long): Long =
-        Time.diffHours(start, end)
+    fun isTablet(): Boolean =
+        Device.isTablet(ctx())
 
-    fun diffDays(start: Long, end: Long): Long =
-        Time.diffDays(start, end)
+    fun isEmulator(): Boolean =
+        Device.isEmulator()
+
+    fun supportedAbis(): List<String> =
+        Device.supportedAbis()
+
+    // ==================================================
+    // Time & Formatting
+    // ==================================================
+
+    fun now(): Long =
+        Time.now()
+
+    fun formatTime(ms: Long, pattern: String): String =
+        Time.format(ms, pattern)
+
+    fun timeAgo(ms: Long): String =
+        Time.timeAgo(ms)
 
     // ==================================================
     // Validation
@@ -425,36 +307,49 @@ object Utils {
     fun isValidUrl(url: String): Boolean =
         Validation.isValidUrl(url)
 
-    fun isValidIpAddress(ipAddress: String): Boolean =
-        Validation.isValidIpAddress(ipAddress)
+    fun isValidIpAddress(ip: String): Boolean =
+        Validation.isValidIpAddress(ip)
 
-    fun isValidUsername(
-        username: String,
-        minLength: Int = 3,
-        maxLength: Int = 30
-    ): Boolean = Validation.isValidUsername(username, minLength, maxLength)
+    fun isValidUsername(username: String): Boolean =
+        Validation.isValidUsername(username)
 
-    fun isStrongPassword(password: String): Boolean =
-        Validation.isStrongPassword(password)
+    fun isPasswordValid(password: String): Boolean =
+        Validation.isPasswordValid(password)
 
-    fun isPasswordValid(
-        password: String,
-        minLength: Int = 8,
-        requireUppercase: Boolean = true,
-        requireLowercase: Boolean = true,
-        requireDigit: Boolean = true,
-        requireSpecial: Boolean = false
-    ): Boolean = Validation.isPasswordValid(
-        password,
-        minLength,
-        requireUppercase,
-        requireLowercase,
-        requireDigit,
-        requireSpecial
+    // ==================================================
+    // Notifications
+    // ==================================================
+
+    fun createNotificationChannel(
+        id: String,
+        name: String,
+        description: String = "",
+        importance: Int = NotificationManager.IMPORTANCE_DEFAULT
+    ) = Notification.createChannel(ctx(), id, name, importance)
+
+    fun deleteNotificationChannel(id: String) =
+        Notification.deleteChannel(ctx(), id)
+
+    fun showNotification(
+        channelId: String,
+        title: String,
+        text: String,
+        iconResId: Int,
+        id: Int = 1
+    ) = Notification.showNotification(
+        context = ctx(),
+        channelId = channelId,
+        title = title,
+        text = text,
+        iconResId = iconResId,
+        notificationId = id
     )
 
-    fun isNumeric(value: String): Boolean =
-        Validation.isNumeric(value)
+    fun cancelNotification(id: Int) =
+        Notification.cancel(ctx(), id)
+
+    fun cancelAllNotifications() =
+        Notification.cancelAll(ctx())
 
     // ==================================================
     // Intent
@@ -700,23 +595,23 @@ object Utils {
     // ==================================================
 
     fun log(tag: String, message: String) {
-        android.util.Log.d(tag, message)
+        Log.d(tag, message)
     }
 
     fun logWarning(tag: String, message: String) {
-        android.util.Log.w(tag, message)
+        Log.w(tag, message)
     }
 
     fun logError(tag: String, message: String, throwable: Throwable? = null) {
         if (throwable != null) {
-            android.util.Log.e(tag, message, throwable)
+            Log.e(tag, message, throwable)
             showLogDialog(
                 "Error",
                 tag,
                 "$message\n\n${throwable.localizedMessage}"
             )
         } else {
-            android.util.Log.e(tag, message)
+            Log.e(tag, message)
             showLogDialog("Error", tag, message)
         }
     }
@@ -729,7 +624,7 @@ object Utils {
         val activity = act() ?: return
 
         activity.runOnUiThread {
-            androidx.appcompat.app.AlertDialog.Builder(activity)
+            AlertDialog.Builder(activity)
                 .setTitle("$type : $tag")
                 .setMessage(message)
                 .setCancelable(true)

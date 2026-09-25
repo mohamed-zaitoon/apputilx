@@ -1,6 +1,5 @@
 package com.example.flutter_example
 
-import android.os.Bundle
 import apputilx.Utils
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -90,6 +89,15 @@ class MainActivity : FlutterFragmentActivity() {
                 "unblockCapture" -> {
                     Utils.unblockCapture()
                     result.success(Utils.isCaptureBlocked())
+                }
+
+                // Audio & Display
+                "audioInfo" -> {
+                    Utils.playClickSound()
+                    result.success("Muted=${Utils.isAudioMuted()} MusicVolume=${Utils.getMusicVolume()}%")
+                }
+                "displayInfo" -> {
+                    result.success("Portrait=${Utils.isPortrait()} WidthDp=${Utils.getScreenWidthDp()} HeightDp=${Utils.getScreenHeightDp()}")
                 }
 
                 // Notifications / Keyboard

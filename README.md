@@ -8,7 +8,7 @@
 
 > Lightweight, production-ready Android utility library with essential Kotlin and Flutter helpers.
 
-AppUtilX centralizes common Android tasks — network checks, haptics/vibration, biometric authentication, secure intents, clipboard, notifications, file management, and device info — into a single, clean API.
+AppUtilX centralizes common Android tasks — network checks, haptics/vibration, audio feedback, display metrics, biometric authentication, secure intents, clipboard, notifications, file management, and device info — into a single, clean API.
 
 🌐 **Documentation:** [apputilx.mohamedzaitoon.com](https://apputilx.mohamedzaitoon.com)  
 📖 **العربية:** [README.ar.md](README.ar.md)
@@ -22,7 +22,7 @@ AppUtilX centralizes common Android tasks — network checks, haptics/vibration,
 ```kotlin
 // Add in gradle/libs.versions.toml
 [versions]
-apputilx = "1.5.0-alpha01"
+apputilx = "1.5.0-alpha02"
 
 [libraries]
 apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }
