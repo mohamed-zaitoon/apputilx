@@ -8,8 +8,9 @@ plugins {
 configure<LibraryExtension> {
     namespace = "apputilx"
 
-    compileSdk = 37
-    buildToolsVersion = "35.0.0"
+    compileSdk = 35
+    buildToolsVersion = "37.0.0"
+    ndkVersion = "28.2.13676358"
 
     defaultConfig {
         minSdk = 28
@@ -29,15 +30,11 @@ configure<LibraryExtension> {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
     api("androidx.core:core-ktx:1.15.0")
-    api("androidx.appcompat:appcompat:1.7.0")
+    api("androidx.appcompat:appcompat:1.8.0")
     api("com.google.android.material:material:1.12.0")
     api("androidx.browser:browser:1.8.0")
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
