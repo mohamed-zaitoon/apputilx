@@ -48,7 +48,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "com.github.mohamed-zaitoon"
                 artifactId = "apputilx"
-                version = "1.5.0-alpha03"
+                version = "1.5.0-beta01"
                 from(components["release"])
             }
         }
