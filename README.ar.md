@@ -22,7 +22,7 @@
 ```kotlin
 // إضافة الإصدار في gradle/libs.versions.toml
 [versions]
-apputilx = "1.5.0-alpha02"
+apputilx = "1.5.0-alpha03"
 
 [libraries]
 apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }

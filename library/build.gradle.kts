@@ -1,8 +1,12 @@
 import com.android.build.api.dsl.LibraryExtension
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.create
 
 plugins {
     id("com.android.library")
+    id("maven-publish")
 }
 
 configure<LibraryExtension> {
@@ -26,9 +30,28 @@ configure<LibraryExtension> {
         }
     }
 
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+afterEvaluate {
+    configure<PublishingExtension> {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "com.github.mohamed-zaitoon"
+                artifactId = "apputilx"
+                version = "1.5.0-alpha03"
+                from(components["release"])
+            }
+        }
     }
 }
 
