@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import com.mohamedzaitoon.apputilx.AppUtilX
-import com.mohamedzaitoon.apputilx.view.Browser
+import com.mohamedzaitoon.apputilx.browser.Browser
 
 object Intent {
 

@@ -1,4 +1,4 @@
-package com.mohamedzaitoon.apputilx.view
+package com.mohamedzaitoon.apputilx.browser
 
 import android.R
 import android.content.Context

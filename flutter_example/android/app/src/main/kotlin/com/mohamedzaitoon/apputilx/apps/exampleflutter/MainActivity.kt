@@ -19,7 +19,7 @@ import com.mohamedzaitoon.apputilx.net.Network
 import com.mohamedzaitoon.apputilx.security.Encryption
 import com.mohamedzaitoon.apputilx.util.Time
 import com.mohamedzaitoon.apputilx.util.Validation
-import com.mohamedzaitoon.apputilx.view.Browser
+import com.mohamedzaitoon.apputilx.browser.Browser
 import com.mohamedzaitoon.apputilx.view.Keyboard
 import com.mohamedzaitoon.apputilx.view.Screen
 import io.flutter.embedding.android.FlutterFragmentActivity

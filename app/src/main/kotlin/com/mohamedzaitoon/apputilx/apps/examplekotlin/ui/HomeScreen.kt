@@ -55,6 +55,7 @@ import com.mohamedzaitoon.apputilx.app.AppState
 import com.mohamedzaitoon.apputilx.app.Notification
 import com.mohamedzaitoon.apputilx.app.Permission
 import com.mohamedzaitoon.apputilx.app.Signature
+import com.mohamedzaitoon.apputilx.browser.Browser
 import com.mohamedzaitoon.apputilx.content.Clipboard
 import com.mohamedzaitoon.apputilx.content.Intent
 import com.mohamedzaitoon.apputilx.hardware.Audio
@@ -69,7 +70,6 @@ import com.mohamedzaitoon.apputilx.net.Network
 import com.mohamedzaitoon.apputilx.security.Encryption
 import com.mohamedzaitoon.apputilx.util.Time
 import com.mohamedzaitoon.apputilx.util.Validation
-import com.mohamedzaitoon.apputilx.view.Browser
 import com.mohamedzaitoon.apputilx.view.Keyboard
 import com.mohamedzaitoon.apputilx.view.Screen
 import top.yukonga.miuix.kmp.theme.MiuixTheme
