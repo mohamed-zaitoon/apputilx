@@ -6,9 +6,9 @@
 
 # AppUtilX (باللغة العربية)
 
-> مكتبة أدوات وأدوات مساعدة خفيفة وعالية الأداء لتطبيقات أندرويد و فلاتر.
+> مكتبة أدوات وأدوات مساعدة خفيفة وموحدة مبنية طبقاً لمعايير تقسيم وحزم AndroidX لمشاريع أندرويد و فلاتر.
 
-تجمع مكتبة **AppUtilX** جميع المهام المكررة في تطوير أندرويد — مثل فحص الشبكة، الاهتزاز الفعلي، الصوتيات والشاشة، المصادقة بالبصمة، المقاصد الآمنة (Intents)، الحافظة، الإشعارات، إدارة الملفات، ومعلومات الجهاز والبطارية — بداخل واجهة برمجية ناصعة وبسيطة.
+تجمع مكتبة **AppUtilX** جميع المهام المكررة في تطوير أندرويد — مثل فحص الشبكة، الاهتزاز الفعلي، الصوتيات والشاشة، المصادقة بالبصمة، المقاصد الآمنة (Intents)، الحافظة، الإشعارات، إدارة الملفات، ومعلومات الجهاز والبطارية — مقسمة بداخل حزم برمجية نظيفة تحت `com.mohamedzaitoon.android.core.*`.
 
 🌐 **الموقع والتوثيق التفاعلي:** [apputilx.mohamedzaitoon.com](https://apputilx.mohamedzaitoon.com)  
 📖 **English Version:** [README.md](README.md)
@@ -22,7 +22,7 @@
 ```kotlin
 // إضافة الإصدار في gradle/libs.versions.toml
 [versions]
-apputilx = "1.5.0-beta01"
+apputilx = "1.5.0-beta02"
 
 [libraries]
 apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }
@@ -42,30 +42,44 @@ dependencies {
 
 ### 2. تهيئة المكتبة بداخل كلاس التطبيق (Application)
 
-#### كوتلن (Kotlin Native)
 ```kotlin
 import android.app.Application
-import apputilx.Utils
+import com.mohamedzaitoon.android.core.AppUtilX
 
 class ExampleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        Utils.initialize(this)
+        AppUtilX.initialize(this)
     }
 }
 ```
 
-#### فلاتر (Flutter Android Host `MyApp.kt`)
-```kotlin
-import android.app.Application
-import apputilx.Utils
+---
 
-class MyApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        Utils.initialize(this)
-    }
-}
+## 🚀 أمثلة الاستخدام المباشر لقطاعات المكتبة
+
+```kotlin
+import com.mohamedzaitoon.android.core.net.Network
+import com.mohamedzaitoon.android.core.hardware.Audio
+import com.mohamedzaitoon.android.core.hardware.Vibration
+import com.mohamedzaitoon.android.core.content.Clipboard
+import com.mohamedzaitoon.android.core.hardware.Device
+import com.mohamedzaitoon.android.core.hardware.Battery
+
+// فحص الاتصال بالإنترنت
+val isOnline = Network.isConnected
+val transport = Network.activeTransport()
+
+// الصوتيات والاهتزاز
+Audio.playClickSound()
+Vibration.vibrate(200)
+
+// النسخ للحافظة
+Clipboard.copyText("مرحباً بك مع AppUtilX")
+
+// معلومات الجهاز والبطارية
+val device = Device.deviceName()
+val battery = Battery.getBatteryLevel()
 ```
 
 ---

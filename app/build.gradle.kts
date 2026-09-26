@@ -7,12 +7,12 @@ plugins {
 }
 
 configure<ApplicationExtension> {
-    namespace = "com.mohamedzaitoon.example"
+    namespace = "com.mohamedzaitoon.android.apps.examplekotlin"
     compileSdk = 37
     buildToolsVersion = "37.0.0"
     
     defaultConfig {
-        applicationId = "com.mohamedzaitoon.example"
+        applicationId = "com.mohamedzaitoon.android.apps.examplekotlin"
         minSdk = 28
         targetSdk = 37
 

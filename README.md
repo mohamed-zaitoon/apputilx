@@ -6,9 +6,9 @@
 
 # AppUtilX
 
-> Lightweight, production-ready Android utility library with essential Kotlin and Flutter helpers.
+> Enterprise-grade, modular Android & Flutter utility library structured around AndroidX package standards.
 
-AppUtilX centralizes common Android tasks — network checks, haptics/vibration, audio feedback, display metrics, biometric authentication, secure intents, clipboard, notifications, file management, and device info — into a single, clean API.
+AppUtilX provides clean, modular Android category helpers — Network, Audio, Vibration, Display, Biometrics, Secure Intents, Clipboard, Notifications, File Management, Device/Battery info, and Cryptography — under `com.mohamedzaitoon.android.core.*`.
 
 🌐 **Documentation:** [apputilx.mohamedzaitoon.com](https://apputilx.mohamedzaitoon.com)  
 📖 **العربية:** [README.ar.md](README.ar.md)
@@ -17,55 +17,66 @@ AppUtilX centralizes common Android tasks — network checks, haptics/vibration,
 
 ## 📦 Installation & Setup
 
-### 1. Add Dependency
+### 1. Add Dependency (libs.versions.toml)
 
-```kotlin
-// Add in gradle/libs.versions.toml
+```toml
 [versions]
-apputilx = "1.5.0-beta01"
+apputilx = "1.5.0-beta02"
 
 [libraries]
 apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }
+```
 
-// Add in settings.gradle.kts
+### 2. Add Repository (settings.gradle.kts)
+
+```kotlin
 repositories {
     google()
     mavenCentral()
     maven { url = uri("https://jitpack.io") }
 }
-
-// Add in app/build.gradle.kts
-dependencies {
-    implementation(libs.apputilx)
-}
 ```
 
-### 2. Initialize in Application Class
+### 3. Initialize in Application Class
 
-#### Kotlin (Android Native)
 ```kotlin
 import android.app.Application
-import apputilx.Utils
+import com.mohamedzaitoon.android.core.AppUtilX
 
 class ExampleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        Utils.initialize(this)
+        AppUtilX.initialize(this)
     }
 }
 ```
 
-#### Flutter (Android Host `MyApp.kt`)
-```kotlin
-import android.app.Application
-import apputilx.Utils
+---
 
-class MyApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        Utils.initialize(this)
-    }
-}
+## 🚀 Category Usage Examples (AndroidX Style)
+
+```kotlin
+import com.mohamedzaitoon.android.core.net.Network
+import com.mohamedzaitoon.android.core.hardware.Audio
+import com.mohamedzaitoon.android.core.hardware.Vibration
+import com.mohamedzaitoon.android.core.content.Clipboard
+import com.mohamedzaitoon.android.core.hardware.Device
+import com.mohamedzaitoon.android.core.hardware.Battery
+
+// Network checks
+val isOnline = Network.isConnected
+val transport = Network.activeTransport()
+
+// Audio & Haptics
+Audio.playClickSound()
+Vibration.vibrate(200)
+
+// Clipboard
+Clipboard.copyText("Hello AppUtilX")
+
+// Device & Battery Info
+val device = Device.deviceName()
+val battery = Battery.getBatteryLevel()
 ```
 
 ---

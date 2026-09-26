@@ -8,7 +8,7 @@ flutter {
 }
 
 android {
-    namespace = "com.example.flutter_example"
+    namespace = "com.mohamedzaitoon.android.apps.exampleflutter"
     compileSdk = 35
 
     compileOptions {
@@ -17,11 +17,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.flutter_example"
+        applicationId = "com.mohamedzaitoon.android.apps.exampleflutter"
         minSdk = 28
         targetSdk = 35
-        versionCode = 154
-        versionName = "1.5.0-beta01"
+        versionCode = 155
+        versionName = "1.5.0-beta02"
     }
 
     signingConfigs {
@@ -65,7 +65,7 @@ kotlin {
 dependencies {
     implementation(files("libs/apputilx.aar"))
     implementation("androidx.core:core-ktx:1.15.0")
-    implementation("androidx.appcompat:appcompat:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.browser:browser:1.8.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
