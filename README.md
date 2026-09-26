@@ -6,9 +6,9 @@
 
 # AppUtilX
 
-> Enterprise-grade, clean Android & Flutter utility library under a unified package namespace.
+> Enterprise-grade, AndroidX-style Android & Flutter utility library under `com.mohamedzaitoon.apputilx.core.*`.
 
-AppUtilX provides clean Android category helpers — Network, Audio, Vibration, Display, Biometrics, Secure Intents, Clipboard, Notifications, File Management, Device/Battery info, and Cryptography — directly under `com.mohamedzaitoon.android.core.*`.
+AppUtilX provides clean, modular Android category helpers — Network, Audio, Vibration, Display, Biometrics, Secure Intents, Clipboard, Notifications, File Management, Device/Battery info, and Cryptography — under `com.mohamedzaitoon.apputilx.core.*`.
 
 🌐 **Documentation:** [apputilx.mohamedzaitoon.com](https://apputilx.mohamedzaitoon.com)  
 📖 **العربية:** [README.ar.md](README.ar.md)
@@ -41,7 +41,7 @@ repositories {
 
 ```kotlin
 import android.app.Application
-import com.mohamedzaitoon.android.core.AppUtilX
+import com.mohamedzaitoon.apputilx.core.AppUtilX
 
 class ExampleApplication : Application() {
     override fun onCreate() {
@@ -53,15 +53,15 @@ class ExampleApplication : Application() {
 
 ---
 
-## 🚀 Category Usage Examples (Unified Package)
+## 🚀 Category Usage Examples (AndroidX Style)
 
 ```kotlin
-import com.mohamedzaitoon.android.core.Network
-import com.mohamedzaitoon.android.core.Audio
-import com.mohamedzaitoon.android.core.Vibration
-import com.mohamedzaitoon.android.core.Clipboard
-import com.mohamedzaitoon.android.core.Device
-import com.mohamedzaitoon.android.core.Battery
+import com.mohamedzaitoon.apputilx.core.net.Network
+import com.mohamedzaitoon.apputilx.core.hardware.Audio
+import com.mohamedzaitoon.apputilx.core.hardware.Vibration
+import com.mohamedzaitoon.apputilx.core.content.Clipboard
+import com.mohamedzaitoon.apputilx.core.hardware.Device
+import com.mohamedzaitoon.apputilx.core.hardware.Battery
 
 // Network checks
 val isOnline = Network.isConnected

@@ -10,7 +10,7 @@ plugins {
 }
 
 configure<LibraryExtension> {
-    namespace = "com.mohamedzaitoon.android.core"
+    namespace = "com.mohamedzaitoon.apputilx.core"
 
     compileSdk = 35
     buildToolsVersion = libs.versions.buildTools.get()

@@ -8,7 +8,7 @@ flutter {
 }
 
 android {
-    namespace = "com.mohamedzaitoon.android.apps.exampleflutter"
+    namespace = "com.mohamedzaitoon.apputilx.apps.exampleflutter"
     compileSdk = 35
 
     compileOptions {
@@ -17,7 +17,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.mohamedzaitoon.android.apps.exampleflutter"
+        applicationId = "com.mohamedzaitoon.apputilx.apps.exampleflutter"
         minSdk = 28
         targetSdk = 35
         versionCode = 155
