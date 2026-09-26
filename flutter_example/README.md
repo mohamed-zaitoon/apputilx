@@ -1,13 +1,13 @@
 # AppUtilX Flutter Integration Example
 
-This example demonstrates how to integrate the **AppUtilX** Android library (v1.5.0-beta02) into a Flutter application using a native Kotlin `MethodChannel` bridge.
+This example demonstrates how to integrate the **AppUtilX** Android library (v1.5.0-beta03) into a Flutter application using a native Kotlin `MethodChannel` bridge.
 
 ---
 
 ## 🚀 Setup Instructions
 
 ### 1. Android Application Class (`MyApp.kt`)
-In `android/app/src/main/kotlin/com/mohamedzaitoon/android/apps/exampleflutter/MyApp.kt`:
+In `android/app/src/main/kotlin/com/mohamedzaitoon/apputilx/apps/exampleflutter/MyApp.kt`:
 
 ```kotlin
 package com.mohamedzaitoon.apputilx.apps.exampleflutter
@@ -24,7 +24,7 @@ class MyApp : Application() {
 ```
 
 ### 2. MethodChannel Handler (`MainActivity.kt`)
-In `android/app/src/main/kotlin/com/mohamedzaitoon/android/apps/exampleflutter/MainActivity.kt`:
+In `android/app/src/main/kotlin/com/mohamedzaitoon/apputilx/apps/exampleflutter/MainActivity.kt`:
 
 ```kotlin
 package com.mohamedzaitoon.apputilx.apps.exampleflutter

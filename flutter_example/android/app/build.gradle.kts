@@ -20,8 +20,8 @@ android {
         applicationId = "com.mohamedzaitoon.apputilx.apps.exampleflutter"
         minSdk = 28
         targetSdk = 35
-        versionCode = 155
-        versionName = "1.5.0-beta02"
+        versionCode = 156
+        versionName = "1.5.0-beta03"
     }
 
     signingConfigs {
@@ -45,8 +45,8 @@ android {
             )
         }
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
