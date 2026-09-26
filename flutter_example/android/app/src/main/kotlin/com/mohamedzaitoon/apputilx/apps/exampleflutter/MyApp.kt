@@ -1,7 +1,7 @@
 package com.mohamedzaitoon.apputilx.apps.exampleflutter
 
 import android.app.Application
-import com.mohamedzaitoon.apputilx.core.AppUtilX
+import com.mohamedzaitoon.apputilx.AppUtilX
 
 class MyApp : Application() {
     override fun onCreate() {

@@ -49,29 +49,29 @@ import com.mohamedzaitoon.apputilx.apps.examplekotlin.theme.ThemeMode
 import com.mohamedzaitoon.apputilx.apps.examplekotlin.theme.glassAppBackground
 import com.mohamedzaitoon.apputilx.apps.examplekotlin.theme.glassContainer
 import com.mohamedzaitoon.apputilx.apps.examplekotlin.theme.resolveDarkMode
-import com.mohamedzaitoon.apputilx.core.AppUtilX
-import com.mohamedzaitoon.apputilx.core.app.AppInfo
-import com.mohamedzaitoon.apputilx.core.app.AppState
-import com.mohamedzaitoon.apputilx.core.app.Notification
-import com.mohamedzaitoon.apputilx.core.app.Permission
-import com.mohamedzaitoon.apputilx.core.app.Signature
-import com.mohamedzaitoon.apputilx.core.content.Clipboard
-import com.mohamedzaitoon.apputilx.core.content.Intent
-import com.mohamedzaitoon.apputilx.core.hardware.Audio
-import com.mohamedzaitoon.apputilx.core.hardware.Battery
-import com.mohamedzaitoon.apputilx.core.hardware.Biometric
-import com.mohamedzaitoon.apputilx.core.hardware.Device
-import com.mohamedzaitoon.apputilx.core.hardware.Display
-import com.mohamedzaitoon.apputilx.core.hardware.Vibration
-import com.mohamedzaitoon.apputilx.core.io.Storage
-import com.mohamedzaitoon.apputilx.core.io.File as AppFile
-import com.mohamedzaitoon.apputilx.core.net.Network
-import com.mohamedzaitoon.apputilx.core.security.Encryption
-import com.mohamedzaitoon.apputilx.core.util.Time
-import com.mohamedzaitoon.apputilx.core.util.Validation
-import com.mohamedzaitoon.apputilx.core.view.Browser
-import com.mohamedzaitoon.apputilx.core.view.Keyboard
-import com.mohamedzaitoon.apputilx.core.view.Screen
+import com.mohamedzaitoon.apputilx.AppUtilX
+import com.mohamedzaitoon.apputilx.app.AppInfo
+import com.mohamedzaitoon.apputilx.app.AppState
+import com.mohamedzaitoon.apputilx.app.Notification
+import com.mohamedzaitoon.apputilx.app.Permission
+import com.mohamedzaitoon.apputilx.app.Signature
+import com.mohamedzaitoon.apputilx.content.Clipboard
+import com.mohamedzaitoon.apputilx.content.Intent
+import com.mohamedzaitoon.apputilx.hardware.Audio
+import com.mohamedzaitoon.apputilx.hardware.Battery
+import com.mohamedzaitoon.apputilx.hardware.Biometric
+import com.mohamedzaitoon.apputilx.hardware.Device
+import com.mohamedzaitoon.apputilx.hardware.Display
+import com.mohamedzaitoon.apputilx.hardware.Vibration
+import com.mohamedzaitoon.apputilx.io.Storage
+import com.mohamedzaitoon.apputilx.io.File as AppFile
+import com.mohamedzaitoon.apputilx.net.Network
+import com.mohamedzaitoon.apputilx.security.Encryption
+import com.mohamedzaitoon.apputilx.util.Time
+import com.mohamedzaitoon.apputilx.util.Validation
+import com.mohamedzaitoon.apputilx.view.Browser
+import com.mohamedzaitoon.apputilx.view.Keyboard
+import com.mohamedzaitoon.apputilx.view.Screen
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.kmp.basic.Button as MiuixButton
 import top.yukonga.miuix.kmp.basic.Card as MiuixCard
@@ -409,9 +409,9 @@ private fun Material3HomeScreen(
                     }
                 }
                 M3Item(stringResource(R.string.action_logger)) {
-                    com.mohamedzaitoon.apputilx.core.AppUtilX.log("Demo", "Info log triggered")
-                    com.mohamedzaitoon.apputilx.core.AppUtilX.logWarning("Demo", "Warning log triggered")
-                    com.mohamedzaitoon.apputilx.core.AppUtilX.logError("Demo", "Error log triggered")
+                    com.mohamedzaitoon.apputilx.AppUtilX.log("Demo", "Info log triggered")
+                    com.mohamedzaitoon.apputilx.AppUtilX.logWarning("Demo", "Warning log triggered")
+                    com.mohamedzaitoon.apputilx.AppUtilX.logError("Demo", "Error log triggered")
                 }
             }
 
@@ -914,9 +914,9 @@ private fun MiuixHomeScreen(
                 MiuixArrowPreference(
                     title = stringResource(R.string.action_logger),
                     onClick = {
-                        com.mohamedzaitoon.apputilx.core.AppUtilX.log("Demo", "Info log triggered")
-                        com.mohamedzaitoon.apputilx.core.AppUtilX.logWarning("Demo", "Warning log triggered")
-                        com.mohamedzaitoon.apputilx.core.AppUtilX.logError("Demo", "Error log triggered")
+                        com.mohamedzaitoon.apputilx.AppUtilX.log("Demo", "Info log triggered")
+                        com.mohamedzaitoon.apputilx.AppUtilX.logWarning("Demo", "Warning log triggered")
+                        com.mohamedzaitoon.apputilx.AppUtilX.logError("Demo", "Error log triggered")
                     }
                 )
             }

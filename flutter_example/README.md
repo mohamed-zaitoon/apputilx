@@ -10,10 +10,10 @@ This example demonstrates how to integrate the **AppUtilX** Android library (v1.
 In `android/app/src/main/kotlin/com/mohamedzaitoon/android/apps/exampleflutter/MyApp.kt`:
 
 ```kotlin
-package com.mohamedzaitoon.android.apps.exampleflutter
+package com.mohamedzaitoon.apputilx.apps.exampleflutter
 
 import android.app.Application
-import com.mohamedzaitoon.android.core.AppUtilX
+import com.mohamedzaitoon.apputilx.AppUtilX
 
 class MyApp : Application() {
     override fun onCreate() {
@@ -27,13 +27,13 @@ class MyApp : Application() {
 In `android/app/src/main/kotlin/com/mohamedzaitoon/android/apps/exampleflutter/MainActivity.kt`:
 
 ```kotlin
-package com.mohamedzaitoon.android.apps.exampleflutter
+package com.mohamedzaitoon.apputilx.apps.exampleflutter
 
-import com.mohamedzaitoon.android.core.AppUtilX
-import com.mohamedzaitoon.android.core.net.Network
-import com.mohamedzaitoon.android.core.content.Clipboard
-import com.mohamedzaitoon.android.core.hardware.Vibration
-import com.mohamedzaitoon.android.core.hardware.Audio
+import com.mohamedzaitoon.apputilx.AppUtilX
+import com.mohamedzaitoon.apputilx.net.Network
+import com.mohamedzaitoon.apputilx.content.Clipboard
+import com.mohamedzaitoon.apputilx.hardware.Vibration
+import com.mohamedzaitoon.apputilx.hardware.Audio
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
