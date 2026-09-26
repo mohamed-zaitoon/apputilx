@@ -1,8 +1,8 @@
-package com.mohamedzaitoon.android.core.hardware
+package com.mohamedzaitoon.android.core
 
 import android.content.Context
 import android.content.res.Configuration
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object Display {
 

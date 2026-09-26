@@ -1,11 +1,11 @@
-package com.mohamedzaitoon.android.core.app
+package com.mohamedzaitoon.android.core
 
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object Permission {
 

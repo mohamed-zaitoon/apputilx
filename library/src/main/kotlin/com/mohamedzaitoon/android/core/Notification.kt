@@ -1,4 +1,4 @@
-package com.mohamedzaitoon.android.core.app
+package com.mohamedzaitoon.android.core
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -13,7 +13,7 @@ import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object Notification {
 

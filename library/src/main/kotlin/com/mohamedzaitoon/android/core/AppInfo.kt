@@ -1,10 +1,10 @@
-package com.mohamedzaitoon.android.core.app
+package com.mohamedzaitoon.android.core
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object AppInfo {
 

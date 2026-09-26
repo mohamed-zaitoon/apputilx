@@ -1,11 +1,11 @@
-package com.mohamedzaitoon.android.core.content
+package com.mohamedzaitoon.android.core
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import com.mohamedzaitoon.android.core.AppUtilX
-import com.mohamedzaitoon.android.core.view.Browser
+
+
 
 object Intent {
 

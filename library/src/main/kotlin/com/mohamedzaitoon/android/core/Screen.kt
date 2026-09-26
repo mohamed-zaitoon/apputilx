@@ -1,10 +1,10 @@
-package com.mohamedzaitoon.android.core.view
+package com.mohamedzaitoon.android.core
 
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.view.WindowManager
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object Screen {
 

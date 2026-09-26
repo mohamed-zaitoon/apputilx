@@ -1,4 +1,4 @@
-package com.mohamedzaitoon.android.core.hardware
+package com.mohamedzaitoon.android.core
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,7 +6,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 @SuppressLint("MissingPermission", "NewApi", "InlinedApi")
 object Vibration {

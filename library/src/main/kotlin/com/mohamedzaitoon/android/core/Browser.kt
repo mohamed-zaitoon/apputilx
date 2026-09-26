@@ -1,4 +1,4 @@
-package com.mohamedzaitoon.android.core.view
+package com.mohamedzaitoon.android.core
 
 import android.R
 import android.content.Context
@@ -7,7 +7,7 @@ import android.net.Uri
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object Browser {
 

@@ -39,7 +39,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterFragmentActivity() {
-    private val channel = "apputilx/demo"
+    private val channel = "apputilx/core"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -72,7 +72,7 @@ In `lib/main.dart`:
 ```dart
 import 'package:flutter/services.dart';
 
-const _channel = MethodChannel('apputilx/demo');
+const _channel = MethodChannel('apputilx/core');
 
 // Check connectivity
 final isOnline = await _channel.invokeMethod<bool>('isConnected');

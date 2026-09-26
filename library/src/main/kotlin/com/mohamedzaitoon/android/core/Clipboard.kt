@@ -1,9 +1,9 @@
-package com.mohamedzaitoon.android.core.content
+package com.mohamedzaitoon.android.core
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object Clipboard {
 

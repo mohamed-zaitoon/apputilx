@@ -1,33 +1,33 @@
 package com.mohamedzaitoon.android.apps.exampleflutter
 
+import com.mohamedzaitoon.android.core.AppInfo
 import com.mohamedzaitoon.android.core.AppUtilX
-import com.mohamedzaitoon.android.core.app.AppInfo
-import com.mohamedzaitoon.android.core.app.AppState
-import com.mohamedzaitoon.android.core.app.Notification
-import com.mohamedzaitoon.android.core.app.Signature
-import com.mohamedzaitoon.android.core.content.Clipboard
-import com.mohamedzaitoon.android.core.content.Intent
-import com.mohamedzaitoon.android.core.hardware.Audio
-import com.mohamedzaitoon.android.core.hardware.Battery
-import com.mohamedzaitoon.android.core.hardware.Biometric
-import com.mohamedzaitoon.android.core.hardware.Device
-import com.mohamedzaitoon.android.core.hardware.Display
-import com.mohamedzaitoon.android.core.hardware.Vibration
-import com.mohamedzaitoon.android.core.io.Storage
-import com.mohamedzaitoon.android.core.io.File as AppFile
-import com.mohamedzaitoon.android.core.net.Network
-import com.mohamedzaitoon.android.core.security.Encryption
-import com.mohamedzaitoon.android.core.util.Time
-import com.mohamedzaitoon.android.core.util.Validation
-import com.mohamedzaitoon.android.core.view.Browser
-import com.mohamedzaitoon.android.core.view.Keyboard
-import com.mohamedzaitoon.android.core.view.Screen
+import com.mohamedzaitoon.android.core.AppState
+import com.mohamedzaitoon.android.core.Audio
+import com.mohamedzaitoon.android.core.Battery
+import com.mohamedzaitoon.android.core.Biometric
+import com.mohamedzaitoon.android.core.Browser
+import com.mohamedzaitoon.android.core.Clipboard
+import com.mohamedzaitoon.android.core.Device
+import com.mohamedzaitoon.android.core.Display
+import com.mohamedzaitoon.android.core.Encryption
+import com.mohamedzaitoon.android.core.File as AppFile
+import com.mohamedzaitoon.android.core.Intent
+import com.mohamedzaitoon.android.core.Keyboard
+import com.mohamedzaitoon.android.core.Network
+import com.mohamedzaitoon.android.core.Notification
+import com.mohamedzaitoon.android.core.Screen
+import com.mohamedzaitoon.android.core.Signature
+import com.mohamedzaitoon.android.core.Storage
+import com.mohamedzaitoon.android.core.Time
+import com.mohamedzaitoon.android.core.Validation
+import com.mohamedzaitoon.android.core.Vibration
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterFragmentActivity() {
-    private val channel = "apputilx/demo"
+    private val channel = "apputilx/core"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

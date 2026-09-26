@@ -1,4 +1,4 @@
-package com.mohamedzaitoon.android.core.net
+package com.mohamedzaitoon.android.core
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,7 +9,7 @@ import android.net.NetworkRequest
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.mohamedzaitoon.android.core.AppUtilX
+
 import java.net.Inet4Address
 import java.net.NetworkInterface
 

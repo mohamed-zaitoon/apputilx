@@ -1,7 +1,7 @@
-package com.mohamedzaitoon.android.core.io
+package com.mohamedzaitoon.android.core
 
 import android.content.Context
-import com.mohamedzaitoon.android.core.AppUtilX
+
 import java.io.File
 
 object File {

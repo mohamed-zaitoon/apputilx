@@ -6,9 +6,9 @@
 
 # AppUtilX (باللغة العربية)
 
-> مكتبة أدوات وأدوات مساعدة خفيفة وموحدة مبنية طبقاً لمعايير تقسيم وحزم AndroidX لمشاريع أندرويد و فلاتر.
+> مكتبة أدوات وأدوات مساعدة خفيفة وموحدة لمشاريع أندرويد وفلاتر بداخل باكيج موحد ونظيف.
 
-تجمع مكتبة **AppUtilX** جميع المهام المكررة في تطوير أندرويد — مثل فحص الشبكة، الاهتزاز الفعلي، الصوتيات والشاشة، المصادقة بالبصمة، المقاصد الآمنة (Intents)، الحافظة، الإشعارات، إدارة الملفات، ومعلومات الجهاز والبطارية — مقسمة بداخل حزم برمجية نظيفة تحت `com.mohamedzaitoon.android.core.*`.
+تجمع مكتبة **AppUtilX** جميع المهام المكررة في تطوير أندرويد — مثل فحص الشبكة، الاهتزاز الفعلي، الصوتيات والشاشة، المصادقة بالبصمة، المقاصد الآمنة (Intents)، الحافظة، الإشعارات، إدارة الملفات، ومعلومات الجهاز والبطارية — مقسمة بداخل باكيج موحد ونظيف تحت `com.mohamedzaitoon.android.core.*`.
 
 🌐 **الموقع والتوثيق التفاعلي:** [apputilx.mohamedzaitoon.com](https://apputilx.mohamedzaitoon.com)  
 📖 **English Version:** [README.md](README.md)
@@ -59,12 +59,12 @@ class ExampleApplication : Application() {
 ## 🚀 أمثلة الاستخدام المباشر لقطاعات المكتبة
 
 ```kotlin
-import com.mohamedzaitoon.android.core.net.Network
-import com.mohamedzaitoon.android.core.hardware.Audio
-import com.mohamedzaitoon.android.core.hardware.Vibration
-import com.mohamedzaitoon.android.core.content.Clipboard
-import com.mohamedzaitoon.android.core.hardware.Device
-import com.mohamedzaitoon.android.core.hardware.Battery
+import com.mohamedzaitoon.android.core.Network
+import com.mohamedzaitoon.android.core.Audio
+import com.mohamedzaitoon.android.core.Vibration
+import com.mohamedzaitoon.android.core.Clipboard
+import com.mohamedzaitoon.android.core.Device
+import com.mohamedzaitoon.android.core.Battery
 
 // فحص الاتصال بالإنترنت
 val isOnline = Network.isConnected

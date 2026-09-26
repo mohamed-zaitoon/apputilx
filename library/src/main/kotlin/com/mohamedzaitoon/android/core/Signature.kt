@@ -1,10 +1,10 @@
-package com.mohamedzaitoon.android.core.app
+package com.mohamedzaitoon.android.core
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import com.mohamedzaitoon.android.core.AppUtilX
+
 import java.security.MessageDigest
 import java.util.Locale
 

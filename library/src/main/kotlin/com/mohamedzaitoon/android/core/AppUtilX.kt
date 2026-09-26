@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import com.mohamedzaitoon.android.core.net.Network
 
 object AppUtilX {
 

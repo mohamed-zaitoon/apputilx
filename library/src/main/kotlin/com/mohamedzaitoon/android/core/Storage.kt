@@ -1,9 +1,9 @@
-package com.mohamedzaitoon.android.core.io
+package com.mohamedzaitoon.android.core
 
 import android.content.Context
 import android.os.Environment
 import android.os.StatFs
-import com.mohamedzaitoon.android.core.AppUtilX
+
 import java.io.File
 import java.util.Locale
 

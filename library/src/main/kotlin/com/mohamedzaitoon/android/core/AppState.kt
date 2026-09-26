@@ -1,9 +1,9 @@
-package com.mohamedzaitoon.android.core.app
+package com.mohamedzaitoon.android.core
 
 import android.app.ActivityManager
 import android.content.Context
 import android.os.PowerManager
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object AppState {
 

@@ -1,4 +1,4 @@
-package com.mohamedzaitoon.android.core.security
+package com.mohamedzaitoon.android.core
 
 import android.util.Base64
 import java.security.MessageDigest

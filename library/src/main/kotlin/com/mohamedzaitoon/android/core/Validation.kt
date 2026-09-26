@@ -1,4 +1,4 @@
-package com.mohamedzaitoon.android.core.util
+package com.mohamedzaitoon.android.core
 
 import android.util.Patterns
 

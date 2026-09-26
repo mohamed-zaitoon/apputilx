@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-const _channel = MethodChannel('apputilx/demo');
+const _channel = MethodChannel('apputilx/core');
 
 Future<T?> _invoke<T>(String method, [Map<String, dynamic>? args]) async {
   if (!Platform.isAndroid) return null;

@@ -1,11 +1,11 @@
-package com.mohamedzaitoon.android.core.hardware
+package com.mohamedzaitoon.android.core
 
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.PowerManager
-import com.mohamedzaitoon.android.core.AppUtilX
+
 
 object Battery {
 
