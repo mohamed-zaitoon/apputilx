@@ -34,6 +34,16 @@ object File {
         }
     }
 
+    fun readLines(fileName: String, context: Context = AppUtilX.ctx()): List<String>? {
+        return try {
+            val file = getFile(context, fileName)
+            if (!file.exists()) return null
+            file.readLines()
+        } catch (_: Exception) {
+            null
+        }
+    }
+
     fun writeBytes(fileName: String, bytes: ByteArray, context: Context = AppUtilX.ctx()): Boolean {
         return try {
             getFile(context, fileName).writeBytes(bytes)
@@ -69,6 +79,24 @@ object File {
     fun size(fileName: String, context: Context = AppUtilX.ctx()): Long {
         val file = getFile(context, fileName)
         return if (file.exists()) file.length() else 0L
+    }
+
+    fun getExtension(fileName: String): String {
+        val lastDot = fileName.lastIndexOf('.')
+        return if (lastDot != -1 && lastDot < fileName.length - 1) {
+            fileName.substring(lastDot + 1).lowercase()
+        } else ""
+    }
+
+    fun getMimeType(fileName: String): String {
+        return when (getExtension(fileName)) {
+            "jpg", "jpeg" -> "image/jpeg"
+            "png" -> "image/png"
+            "pdf" -> "application/pdf"
+            "txt" -> "text/plain"
+            "json" -> "application/json"
+            else -> "*/*"
+        }
     }
 
     fun list(context: Context = AppUtilX.ctx()): List<String> {

@@ -1,8 +1,10 @@
 package com.mohamedzaitoon.apputilx.hardware
 
+import android.app.ActivityManager
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
+import android.os.SystemClock
 import com.mohamedzaitoon.apputilx.AppUtilX
 import java.util.Locale
 
@@ -21,6 +23,22 @@ object Device {
             .joinToString(" ")
             .trim()
     }
+
+    fun getTotalRam(context: Context = AppUtilX.ctx()): Long {
+        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager ?: return 0L
+        val memoryInfo = ActivityManager.MemoryInfo()
+        am.getMemoryInfo(memoryInfo)
+        return memoryInfo.totalMem
+    }
+
+    fun getFreeRam(context: Context = AppUtilX.ctx()): Long {
+        val am = context.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager ?: return 0L
+        val memoryInfo = ActivityManager.MemoryInfo()
+        am.getMemoryInfo(memoryInfo)
+        return memoryInfo.availMem
+    }
+
+    fun getUptimeMillis(): Long = SystemClock.elapsedRealtime()
 
     fun getDeviceLanguage(context: Context = AppUtilX.ctx()): String {
         return context.resources.configuration.locales.get(0).language

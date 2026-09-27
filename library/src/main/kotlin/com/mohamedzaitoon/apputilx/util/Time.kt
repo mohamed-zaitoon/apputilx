@@ -48,6 +48,51 @@ object Time {
             c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)
     }
 
+    fun isYesterday(millis: Long): Boolean {
+        val c1 = Calendar.getInstance().apply { timeInMillis = millis }
+        val c2 = Calendar.getInstance().apply { timeInMillis = now() - TimeUnit.DAYS.toMillis(1) }
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
+            c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)
+    }
+
+    fun isTomorrow(millis: Long): Boolean {
+        val c1 = Calendar.getInstance().apply { timeInMillis = millis }
+        val c2 = Calendar.getInstance().apply { timeInMillis = now() + TimeUnit.DAYS.toMillis(1) }
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
+            c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)
+    }
+
+    fun startOfDay(millis: Long = now()): Long {
+        return Calendar.getInstance().apply {
+            timeInMillis = millis
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+    }
+
+    fun endOfDay(millis: Long = now()): Long {
+        return Calendar.getInstance().apply {
+            timeInMillis = millis
+            set(Calendar.HOUR_OF_DAY, 23)
+            set(Calendar.MINUTE, 59)
+            set(Calendar.SECOND, 59)
+            set(Calendar.MILLISECOND, 999)
+        }.timeInMillis
+    }
+
+    fun isLeapYear(year: Int): Boolean {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
+    }
+
+    fun getDaysInMonth(year: Int, month: Int): Int {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month - 1)
+        return cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+    }
+
     fun formatDuration(seconds: Long): String {
         val hrs = seconds / 3600
         val mins = (seconds % 3600) / 60

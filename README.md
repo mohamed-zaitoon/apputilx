@@ -21,7 +21,7 @@ AppUtilX provides clean Android category helpers — Network, Audio, Vibration, 
 
 ```toml
 [versions]
-apputilx = "1.5.0-beta03"
+apputilx = "1.5.0-beta04"
 
 [libraries]
 apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }

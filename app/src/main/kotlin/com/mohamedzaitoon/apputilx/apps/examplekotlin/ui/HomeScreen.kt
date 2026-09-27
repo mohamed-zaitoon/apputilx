@@ -338,9 +338,13 @@ private fun Material3HomeScreen(
                     val emailValid = Validation.isValidEmail("test@example.com")
                     val phoneValid = Validation.isValidPhone("201234567890")
                     val urlValid = Validation.isValidUrl("https://example.com")
+                    val cardValid = Validation.isValidCreditCard("4532015112830366")
+                    val hexValid = Validation.isValidHexColor("#FF0000")
+                    val jsonValid = Validation.isValidJson("{\"app\": \"AppUtilX\"}")
                     onShowResult(
                         "Validation",
-                        "Email_Valid=$emailValid\nPhone_Valid=$phoneValid\nUrl_Valid=$urlValid"
+                        "Email_Valid=$emailValid\nPhone_Valid=$phoneValid\nUrl_Valid=$urlValid\n" +
+                            "Card_Valid=$cardValid\nHexColor_Valid=$hexValid\nJson_Valid=$jsonValid"
                     )
                 }
                 M3Item(stringResource(R.string.action_storage)) {
@@ -373,9 +377,16 @@ private fun Material3HomeScreen(
                 }
                 M3Item(stringResource(R.string.action_sha256)) {
                     val text = inputText.ifBlank { "password" }
+                    val secret = "myKey123"
+                    val encrypted = Encryption.aesEncrypt(text, secret)
+                    val decrypted = Encryption.aesDecrypt(encrypted, secret)
                     onShowResult(
                         "Crypto",
-                        "SHA256=${Encryption.sha256(text)}\n\nSHA512=${Encryption.sha512(text)}"
+                        "SHA1=${Encryption.sha1(text)}\n" +
+                            "SHA256=${Encryption.sha256(text)}\n" +
+                            "SHA512=${Encryption.sha512(text)}\n\n" +
+                            "AES_Encrypted=$encrypted\n" +
+                            "AES_Decrypted=$decrypted"
                     )
                 }
                 M3Item(stringResource(R.string.action_base64)) {

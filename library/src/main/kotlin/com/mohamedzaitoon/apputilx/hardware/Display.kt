@@ -21,4 +21,17 @@ object Display {
     fun getScreenHeightDp(context: Context = AppUtilX.ctx()): Int {
         return context.resources.configuration.screenHeightDp
     }
+
+    fun getScreenDensity(context: Context = AppUtilX.ctx()): Float {
+        return context.resources.displayMetrics.density
+    }
+
+    fun dpToPx(dp: Float, context: Context = AppUtilX.ctx()): Float {
+        return dp * getScreenDensity(context)
+    }
+
+    fun pxToDp(px: Float, context: Context = AppUtilX.ctx()): Float {
+        val density = getScreenDensity(context)
+        return if (density > 0) px / density else px
+    }
 }

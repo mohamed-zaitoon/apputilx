@@ -46,7 +46,7 @@ afterEvaluate {
             create<MavenPublication>("release") {
                 groupId = "com.github.mohamed-zaitoon"
                 artifactId = "apputilx"
-                version = "1.5.0-beta03"
+                version = "1.5.0-beta04"
                 from(components["release"])
             }
         }
@@ -61,4 +61,7 @@ dependencies {
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     api("androidx.biometric:biometric:1.2.0-alpha05")
     api("androidx.lifecycle:lifecycle-process:2.8.7")
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20231013")
 }
