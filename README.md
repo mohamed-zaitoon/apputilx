@@ -4,11 +4,11 @@
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-orange)
 
-# AppUtilX
+# Android Helper
 
 > Enterprise-grade, clean Android & Flutter utility library under `com.mohamedzaitoon.apputilx.*`.
 
-AppUtilX provides clean Android category helpers — Network, Audio, Vibration, Display, Biometrics, Secure Intents, Clipboard, Notifications, File Management, Device/Battery info, and Cryptography — under `com.mohamedzaitoon.apputilx.*`.
+Android Helper provides clean Android category helpers — Network, Audio, Vibration, Display, Biometrics, Secure Intents, Clipboard, Notifications, File Management, Device/Battery info, and Cryptography.
 
 🌐 **Documentation:** [apputilx.mohamedzaitoon.com](https://apputilx.mohamedzaitoon.com)  
 📖 **العربية:** [README.ar.md](README.ar.md)
@@ -21,10 +21,10 @@ AppUtilX provides clean Android category helpers — Network, Audio, Vibration, 
 
 ```toml
 [versions]
-apputilx = "1.5.0-beta04"
+androidHelper = "1.5.0-beta04"
 
 [libraries]
-apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }
+android-helper = { group = "com.github.mohamed-zaitoon", name = "android-helper", version.ref = "androidHelper" }
 ```
 
 ### 2. Add Repository (settings.gradle.kts)
@@ -72,7 +72,7 @@ Audio.playClickSound()
 Vibration.vibrate(200)
 
 // Clipboard
-Clipboard.copyText("Hello AppUtilX")
+Clipboard.copyText("Hello Android Helper")
 
 // Device & Battery Info
 val device = Device.deviceName()

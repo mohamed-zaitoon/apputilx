@@ -1,6 +1,6 @@
-# AppUtilX Flutter Integration Example
+# Android Helper Flutter Integration Example
 
-This example demonstrates how to integrate the **AppUtilX** Android library (v1.5.0-beta04) into a Flutter application using a native Kotlin `MethodChannel` bridge.
+This example demonstrates how to integrate the **Android Helper** library (v1.5.0-beta04) into a Flutter application using a native Kotlin `MethodChannel` bridge.
 
 ---
 
@@ -78,7 +78,7 @@ const _channel = MethodChannel('apputilx/core');
 final isOnline = await _channel.invokeMethod<bool>('isConnected');
 
 // Copy text & play tactile sound
-await _channel.invokeMethod('copyText', {'text': 'Hello AppUtilX'});
+await _channel.invokeMethod('copyText', {'text': 'Hello Android Helper'});
 await _channel.invokeMethod('vibrate', {'ms': 200});
 ```
 

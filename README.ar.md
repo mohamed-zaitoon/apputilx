@@ -4,11 +4,11 @@
 ![Platform](https://img.shields.io/badge/Platform-Android-green)
 ![Release](https://img.shields.io/badge/Release-orange)
 
-# AppUtilX (باللغة العربية)
+# Android Helper (مكتبة أندرويد هيلبر)
 
 > مكتبة أدوات وأدوات مساعدة خفيفة وموحدة لمشاريع أندرويد وفلاتر بداخل حزم برمجية نظيفة تحت `com.mohamedzaitoon.apputilx.*`.
 
-تجمع مكتبة **AppUtilX** جميع المهام المكررة في تطوير أندرويد — مثل فحص الشبكة، الاهتزاز الفعلي، الصوتيات والشاشة، المصادقة بالبصمة، المقاصد الآمنة (Intents)، الحافظة، الإشعارات، إدارة الملفات، ومعلومات الجهاز والبطارية — بداخل حزم معمارية نظيفة.
+تجمع مكتبة **Android Helper** جميع المهام المكررة في تطوير أندرويد — مثل فحص الشبكة، الاهتزاز الفعلي، الصوتيات والشاشة، المصادقة بالبصمة، المقاصد الآمنة (Intents)، الحافظة، الإشعارات، إدارة الملفات، ومعلومات الجهاز والبطارية.
 
 🌐 **الموقع والتوثيق التفاعلي:** [apputilx.mohamedzaitoon.com](https://apputilx.mohamedzaitoon.com)  
 📖 **English Version:** [README.md](README.md)
@@ -22,10 +22,10 @@
 ```kotlin
 // إضافة الإصدار في gradle/libs.versions.toml
 [versions]
-apputilx = "1.5.0-beta04"
+androidHelper = "1.5.0-beta04"
 
 [libraries]
-apputilx = { group = "com.github.mohamed-zaitoon", name = "apputilx", version.ref = "apputilx" }
+android-helper = { group = "com.github.mohamed-zaitoon", name = "android-helper", version.ref = "androidHelper" }
 
 // إضافة المستودع في settings.gradle.kts
 repositories {
@@ -36,7 +36,7 @@ repositories {
 
 // إضافة التبعية في app/build.gradle.kts
 dependencies {
-    implementation(libs.apputilx)
+    implementation(libs.android.helper)
 }
 ```
 
@@ -75,7 +75,7 @@ Audio.playClickSound()
 Vibration.vibrate(200)
 
 // النسخ للحافظة
-Clipboard.copyText("مرحباً بك مع AppUtilX")
+Clipboard.copyText("مرحباً بك مع Android Helper")
 
 // معلومات الجهاز والبطارية
 val device = Device.deviceName()
